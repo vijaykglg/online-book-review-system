@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>About Us</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="w3-main">
+        <!-- Images of Me -->
+        <div class="w3-row-padding w3-padding-16" id="about">
+            <div class="w3-col m6">
+                <img src="../static/images/books/books.jpg" th:src="@{/images/books/books.jpg}" style="width:45%;" class="w3-round"/><br><br>
+            </div>
+            <div class="w3-col m6">
+                <img src="../static/images/books/books.jpg" th:src="@{/images/books/books.jpg}" style="width:45%;" class="w3-round"/><br><br>
+            </div>
+            <!--<div class="w3-col m6">
+                <img src="../static/images/books/about-1.jpg" th:src="@{/images/books/about-1.jpg}" style="width:45%;" class="w3-round"/><br><br>
+            </div>
+            <div class="w3-col m6">
+                <img src="../static/images/books/about-2.png" th:src="@{/images/books/about-2.png}" style="width:45%;" class="w3-round"/><br><br>
+            </div>-->
+        </div>
+
+        <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+            <h4><b>About Us</b></h4>
+            <p>Here you can search for books and wish to buy based on the ratings and reviews. All types of books are available like Spritual, Education, Technical, Comic, Childrens etc..</p>
+            <hr>
+
+            <h4>Technical Skills</h4>
+            <!-- Progress bars / Skills -->
+            <p>Photography</p>
+            <div class="w3-grey">
+                <div class="w3-container w3-dark-grey w3-padding w3-center" style="width:95%">95%</div>
+            </div>
+            <p>Web Design</p>
+            <div class="w3-grey">
+                <div class="w3-container w3-dark-grey w3-padding w3-center" style="width:85%">85%</div>
+            </div>
+            <p>Photoshop</p>
+            <div class="w3-grey">
+                <div class="w3-container w3-dark-grey w3-padding w3-center" style="width:80%">80%</div>
+            </div>
+            <hr>
+
+            <h4>How much I charge</h4>
+            <!-- Pricing Tables -->
+            <div class="w3-row-padding" style="margin:0 -16px">
+                <div class="w3-third w3-margin-bottom">
+                    <ul class="w3-ul w3-border w3-white w3-center w3-opacity w3-hover-opacity-off">
+                        <li class="w3-black w3-xlarge w3-padding-32">Basic</li>
+                        <li class="w3-padding-16">Web Design</li>
+                        <li class="w3-padding-16">Photography</li>
+                        <li class="w3-padding-16">1GB Storage</li>
+                        <li class="w3-padding-16">Mail Support</li>
+                        <li class="w3-padding-16">
+                            <h2>$ 10</h2>
+                            <span class="w3-opacity">per month</span>
+                        </li>
+                        <li class="w3-light-grey w3-padding-24">
+                            <button class="w3-button w3-teal w3-padding-large w3-hover-black">Subscribe</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="w3-third w3-margin-bottom">
+                    <ul class="w3-ul w3-border w3-white w3-center w3-opacity w3-hover-opacity-off">
+                        <li class="w3-teal w3-xlarge w3-padding-32">Pro</li>
+                        <li class="w3-padding-16">Web Design</li>
+                        <li class="w3-padding-16">Photography</li>
+                        <li class="w3-padding-16">50GB Storage</li>
+                        <li class="w3-padding-16">Endless Support</li>
+                        <li class="w3-padding-16">
+                            <h2>$ 25</h2>
+                            <span class="w3-opacity">per month</span>
+                        </li>
+                        <li class="w3-light-grey w3-padding-24">
+                            <button class="w3-button w3-teal w3-padding-large w3-hover-black">Subscribe</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="w3-third">
+                    <ul class="w3-ul w3-border w3-white w3-center w3-opacity w3-hover-opacity-off">
+                        <li class="w3-black w3-xlarge w3-padding-32">Premium</li>
+                        <li class="w3-padding-16">Web Design</li>
+                        <li class="w3-padding-16">Photography</li>
+                        <li class="w3-padding-16">Unlimited Storage</li>
+                        <li class="w3-padding-16">Endless Support</li>
+                        <li class="w3-padding-16">
+                            <h2>$ 25</h2>
+                            <span class="w3-opacity">per month</span>
+                        </li>
+                        <li class="w3-light-grey w3-padding-24">
+                            <button class="w3-button w3-teal w3-padding-large w3-hover-black">Subscribe</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

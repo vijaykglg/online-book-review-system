@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Sign In Here</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="w3-main">
+        <!-- Sign In Section -->
+        <div class="w3-container w3-padding-large w3-hover-white">
+            <h4 id="signin"><b>Sign In</b></h4>
+
+            <hr class="w3-opacity">
+
+            <form th:action="@{/login}" method="post">
+                <div class="w3-section">
+                    <label> User Name : </label><input class="w3-input w3-border" type="text" name="username" required/>
+                </div>
+                <div class="w3-section">
+                    <label> Password : </label><input class="w3-input w3-border" type="password" name="password" required/>
+                </div>
+
+                <button class="w3-button w3-teal w3-padding-large w3-hover-black">Sign In</button>
+
+            </form>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
