@@ -1,8 +1,9 @@
 package com.vijay.sfcp.obrs.config;
 /*
-Project : springboot-security-webapp
+Project : online-book-review-system
+IDE     : IntelliJ IDEA
 User    : Vijay Gupta
-Date    : May 2020
+Date    : 30 May 2020
 */
 
 import org.h2.server.web.WebServlet;

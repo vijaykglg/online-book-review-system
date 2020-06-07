@@ -10,9 +10,16 @@
 <div layout:fragment="content">
     <section class="w3-main">
         <!-- Sign In Section -->
-        <div class="w3-container w3-padding-large w3-hover-white">
+        <div class="w3-container w3-padding-large">
             <h4 id="signin"><b>Sign In</b></h4>
-
+            <div th:if="${param.error}">
+                <label class="ui-state-error-text w3-text-red">Invalid username or password.</label>
+            </div>
+            <div th:if="${param.logout}">
+                <label>
+                    You have been logged out.
+                </label>
+            </div>
             <hr class="w3-opacity">
 
             <form th:action="@{/login}" method="post">

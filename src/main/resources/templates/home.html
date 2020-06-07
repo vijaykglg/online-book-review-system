@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Welcome User</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="w3-main">
+        <!-- Header -->
+        <header id="books">
+            <a href="#"><img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" style="width:10%" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"/></a>
+            <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+            <div class="w3-container">
+                <h1><b>Books</b></h1>
+                <div class="w3-section w3-bottombar w3-padding-16">
+                    <span class="w3-margin-right">Filter Tags : <i class="fa fa-tags fa-fw w3-margin-left"></i></span>
+                    <button class="w3-button w3-black">ALL<i class="fa fa-tags fa-fw w3-margin-left"></i></button>
+                    <button class="w3-button w3-white"><i class="fa fa-tag fa-fw w3-margin-left"></i>Spritual</button>
+                    <button class="w3-button w3-white w3-hide-small"><i class="fa fa-tag fa-fw w3-margin-left"></i></i>Technical</button>
+                    <button class="w3-button w3-white w3-hide-small"><i class="fa fa-tag fa-fw w3-margin-left"></i></i>Education</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- First Photo Grid-->
+        <div class="w3-row-padding">
+            <div class="w3-third w3-container w3-margin-bottom">
+                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
+                <div class="w3-container w3-white">
+                    <p><b>John Thompson</b></p>
+                    <p>Hands-On Microservices with Kubernetes</p>
+                </div>
+            </div>
+            <div class="w3-third w3-container w3-margin-bottom">
+                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
+                <div class="w3-container w3-white">
+                    <p><b>John Thompson</b></p>
+                    <p>Continuous Delivery with Docker and Jenkins, Second Edition</p>
+                </div>
+            </div>
+            <div class="w3-third w3-container">
+                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
+                <div class="w3-container w3-white">
+                    <p><b>John Thompson</b></p>
+                    <p>C# 8.0 and .NET Core 3.0 – Modern Cross-Platform Development</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Photo Grid-->
+        <div class="w3-row-padding">
+            <div class="w3-third w3-container w3-margin-bottom">
+                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
+                <div class="w3-container w3-white">
+                    <p><b>John Thompson</b></p>
+                    <p>ASP.NET Core 3 and React</p>
+                </div>
+            </div>
+            <div class="w3-third w3-container w3-margin-bottom">
+                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
+                <div class="w3-container w3-white">
+                    <p><b>John Thompson</b></p>
+                    <p>Hands-On Cloud Administration in Azure.</p>
+                </div>
+            </div>
+            <div class="w3-third w3-container">
+                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
+                <div class="w3-container w3-white">
+                    <p><b>John Thompson</b></p>
+                    <p>Mastering Windows PowerShell Scripting</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="w3-center w3-padding-32">
+            <div class="w3-bar">
+                <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
+                <a href="#" class="w3-bar-item w3-black w3-button">1</a>
+                <a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
+                <a href="#" class="w3-bar-item w3-button w3-hover-black">3</a>
+                <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
+                <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

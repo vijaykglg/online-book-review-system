@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Book</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="w3-main">
+        <div>
+            <button class="btn btn-success nBtn">Add Book</button>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table table-striped table-responsive-md">
+                        <thead>
+                        <tr>
+                            <th>ISBN</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Release Date</th>
+                            <th>Author</th>
+                            <th>Publisher</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="book : ${bookResult}">
+                            <td th:text="${book.isbn}"></td>
+                            <td th:text="${book.title}"></td>
+                            <td th:text="${book.category.name}"></td>
+                            <td th:text="${book.releaseDate}"></td>
+                            <td th:text="${book.author.name}"></td>
+                            <td>
+                                <div th:each="publisher : ${book.publishers}">
+                                    <div th:text="${publisher.name}">1</div>
+                                </div>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger delBtn" th:href="@{delete/(id=${book.id})}">Delete</a>
+                                <a class="btn btn-primary eBtn" th:href="@{findOne/(id=${book.id})}">Edit</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- books pagination - Pagination Bar -->
+                    <nav aria-label="Pagination" th:if="${page.totalPages gt 0}">
+                        <ul class="pagination justify-content-end font-weight-medium">
+                            <li class="page-item" th:classappend="${page.first}?'disabled':''">
+                                <span th:if='${page.first}'>← First</span>
+                                <a class="page-link svg-icon" th:if='${not page.first}' th:href='@{/book/(page=0,size=${page.size})}'>← First</a>
+                            </li>
+                            <li class="page-item" th:classappend="${page.number eq 0} ? 'disabled'">
+                                <span th:if='${not page.hasPrevious()}'>Previous</span>
+                                <a class="page-link svg-icon" th:if='${page.hasPrevious()}' th:href='@{/book/(page=${page.number-1},size=${page.size})}' aria-label="Previous" title='Go to previous page' rel="tooltip">Previous</a>
+                            </li>
+                            <li th:each="i : ${#numbers.sequence(0, page.totalPages-1, 1)}" class="page-item" th:classappend="${i eq page.number} ? 'active'" >
+                                <a class="page-link" th:href="@{/book/(page=${i},size=${page.size})}" th:text="${i}" th:title="${'Page '+ i}" rel="tooltip"></a>
+                            </li>
+                            <li class="page-item disabled" th:if="${page.number + 10 < page.totalPages}">
+                                <a class="page-link svg-icon" href="#">
+                                    <span data-feather="more-horizontal" width="20" height="20">...</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:classappend="${page.number + 1 eq page.totalPages} ? 'disabled':''">
+                                <a class="page-link svg-icon" th:href="@{/book/(page=${page.number+1},size=${page.size})}" aria-label="Next" title="Next Page" rel="tooltip">
+                                    Next
+                                </a>
+                            </li>
+                            <li class="page-item" th:classappend="${page.last}? 'disabled' : ''">
+                                <span th:if='${page.last}'>Last →</span>
+                                <a class="page-link svg-icon" th:if='${not page.last}' th:href='@{/book/(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="myForm">
+                <form action="#" method="post" th:action="@{/book/save}">
+                    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
+                         id="exampleModal" role="dialog"
+                         tabindex="-1">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Update or
+                                        Create</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal"
+                                            type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input class="form-control" id="id" name="id" type="text" value="" hidden/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="isbn">ISBN:</label>
+                                        <input class="form-control" id="isbn" name="isbn" type="text" value=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="title">Title:</label>
+                                        <input class="form-control" id="title" name="title" type="text" value=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="category">Category:</label>
+                                        <select th:field="*{category}" id="category" name="category" class="form-control">
+                                            <option value="0" selected="selected">---Select Category---</option>
+                                            <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"/>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="author">Author:</label>
+                                        <select th:field="*{author}" id="author" name="author" class="form-control">
+                                            <option value="0" selected="selected">---Select Author---</option>
+                                            <option th:each="author : ${authorList}" th:value="${author.id}" th:text="${author.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal"
+                                            type="button">Close
+                                    </button>
+                                    <input class="btn btn-primary" type="submit" value="save"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Delete Record</h5>
+                            <button aria-label="Close" class="close" data-dismiss="modal"
+                                    type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="alert alert-danger">
+                                Are you sure you want to delete this Book?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal"
+                                    type="button">Close
+                            </button>
+                            <a class="btn btn-danger" href="" id="delRef">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<th:block layout:fragment="script">
+    <script type="application/javascript" th:src="@{/js/book.js}" src="../static/js/book.js"></script>
+</th:block>
+</body>
+</html>

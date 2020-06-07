@@ -3,112 +3,129 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Online Book review System</title>
-    <meta name="description" content=""/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Online Book review System</title>
+  <meta name="description" content="Online Book review System"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">-->
 
-    <script>
-        // Script to open and close sidebar
-        function w3_open() {
-            document.getElementById("mySidebar").style.display = "block";
-            document.getElementById("myOverlay").style.display = "block";
-        }
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
+  <link rel="stylesheet" href="/webjars/w3-css/w3.css" />
+  <link rel="stylesheet" href="/webjars/font-awesome/css/all.min.css"/>
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 
-        function w3_close() {
-            document.getElementById("mySidebar").style.display = "none";
-            document.getElementById("myOverlay").style.display = "none";
-        }
-    </script>
+ <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+-->
+  <script type="application/javascript" th:src="@{/webjars/jquery/jquery.min.js}" src="/webjars/jquery/jquery.min.js" ></script>
+  <script type="application/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" src="/webjars/bootstrap/js/bootstrap.min.js" ></script>
+
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+  </script>
 </head>
 <body class="w3-light-grey w3-content" style="max-width:100%">
+<div class="w3-black w3-center w3-padding-16 w3-text-white" style="max-width:100%;">
+  <p th:if="${message}" th:text="${message}" class="text-success"></p>
+  <div class="col-sm-10">
+            <span sec:authorize="isAuthenticated()">
+                <i class="fa fa-user-check fa-fw w3-margin-right"></i>Welcome <span sec:authentication="name"></span>
+                <span sec:authorize="isAuthenticated()" class="w3-display-right"><a href="#" th:href="@{/logout}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">SIGN OUT<i class="fa fa-sign-out-alt fa-fw w3-margin-left"></i></a></span>
+            </span>
+  </div>
+</div>
 
 <!-- Main Navigation -->
 <nav class="navbar navbar-expand-md navbar-dark w3-light-gray w3-animate-left">
-    <div class="w3-container">
-        <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
-            <i class="fa fa-remove"></i>
-        </a>
-<!--        <img src="../static/images/books/about-1.jpg" th:src="@{/images/books/about-1.jpg}" style="width:45%;" class="w3-round"/><br><br>-->
-        <img src="../static/images/books/books.jpg" th:src="@{/images/books/books.jpg}" style="width:45%;" class="w3-round"/><br><br>
-        <h4><b>Online Book Review System</b></h4>
-        <p class="w3-text-grey">Designed by Vijay Gupta</p>
-    </div>
+  <div class="w3-container">
+    <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+      <i class="fa fa-remove"></i>
+    </a>
+    <!--        <img src="../static/images/books/about-1.jpg" th:src="@{/images/books/about-1.jpg}" style="width:45%;" class="w3-round"/><br><br>-->
+    <img src="../static/images/books/books.jpg" th:src="@{/images/books/books.jpg}" alt="logo" style="width:45%;" class="w3-round"/><br><br>
+    <h4><b>Online Book Review System</b></h4>
+    <p class="w3-text-grey">Designed by Vijay Gupta</p>
+  </div>
 
-    <div class="w3-bar-item w3-card w3-display-right w3-white" >
-        <a href="#" th:href="@{/}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw w3-margin-right"></i>HOME</a>
-        <a href="#" th:href="@{/about}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a>
-        <a href="#" th:href="@{/searchBooks}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw w3-margin-right"></i>SEARCH BOOKS</a>
-        <a href="#" th:href="@{/signup}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-registered fa-fw w3-margin-right"></i>SIGN UP</a>
-        <a href="#" th:href="@{/login}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-in fa-fw w3-margin-right"></i>SIGN IN</a>
-<!--        <a href="#" th:href="@{/logout}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw w3-margin-right"></i>SIGN OUT</a>-->
-        <a href="#" th:href="@{/contact}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
-
-    </div>
+  <div class="w3-bar-item w3-card w3-display-right w3-white" >
+    <a href="#" th:href="@{/}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw w3-margin-right"></i>HOME</a>
+    <a href="#" th:href="@{/about}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-info-circle fa-fw w3-margin-right"></i>ABOUT</a>
+    <a href="#" th:href="@{/searchBooks}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw w3-margin-right"></i>SEARCH BOOKS</a>
+    <a href="#" th:href="@{/publisher/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_ADMIN')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-person-booth fa-fw w3-margin-right"></i>PUBLISHER</a>
+    <a href="#" th:href="@{/user/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_ADMIN')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw w3-margin-right"></i>USER</a>
+    <a href="#" th:href="@{/book/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_PUBLISHER')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-book fa-fw w3-margin-right"></i>BOOK</a>
+    <a href="#" th:href="@{/author/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_PUBLISHER')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user-circle fa-fw w3-margin-right"></i>AUTHOR</a>
+    <a href="#" th:href="@{/category/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_PUBLISHER')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-tags fa-fw w3-margin-right"></i>CATEGORY</a>
+    <a href="#" th:href="@{/user/registration}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-registered fa-fw w3-margin-right"></i>SIGN UP</a>
+    <a href="#" th:href="@{/login}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-in-alt fa-fw w3-margin-right"></i>SIGN IN</a>
+    <a href="#" th:href="@{/contact}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
+  </div>
 </nav>
-<div class="bar w3-padding-24 w3-white" style="max-width:100%;">
-        <div class="col-sm-10 w3-t">
-            <span sec:authorize="isAuthenticated()">
-                Welcome <span sec:authentication="name"></span>
-                <span sec:authorize="isAuthenticated()" class="w3-display-right"><a href="#" th:href="@{/logout}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">SIGN OUT<i class="fa fa-sign-out fa-fw w3-margin-left"></i></a></span>
-            </span>
-        </div>
-</div>
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
+<div class="bar w3-padding-16 w3-white" style="max-width:100%;"></div>
+
 <!-- Content Section -->
-<section layout:fragment="content" class="w3-main">
-    <p>This is filled by the content template.</p>
-</section>
+<div layout:fragment="content" class="w3-main">
+  <p>This is filled by the content template.</p>
+</div>
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-32 w3-dark-grey">
-    <div class="w3-row-padding">
-        <div class="w3-third">
-            <h3>Online Book Review System</h3>
-            <p>This site is designed by Vijay Gupta.</p>
-        </div>
-
-        <div class="w3-third">
-            <h3>New Arrivals</h3>
-            <ul class="w3-ul w3-hoverable">
-                <li class="w3-padding-16">
-                    <img src="../static/images/books/new-arrival-1.jpg" th:src="@{/images/books/new-arrival-1.jpg}" class="w3-left w3-margin-right" style="width:10%">
-                    <span class="w3-large">New Arrival</span><br>
-                    <span>Go Get It!!</span>
-                </li>
-                <li class="w3-padding-16">
-                    <img src="../static/images/books/new-arrival-2.jpg" th:src="@{/images/books/new-arrival-2.jpg}" class="w3-left w3-margin-right" style="width:10%">
-                    <span class="w3-large">New Arrival</span><br>
-                    <span>Go Get It!!</span>
-                </li>
-            </ul>
-        </div>
-        <div class="w3-third">
-            <h3>Trending</h3>
-            <ul class="w3-ul w3-hoverable">
-                <li class="w3-padding-16">
-                    <img src="../static/images/books/new-arrival-4.jpg" th:src="@{/images/books/new-arrival-4.jpg}" class="w3-left w3-margin-right" style="width:10%">
-                    <span class="w3-large">Trending</span><br>
-                    <span>Go Get It!!</span>
-                </li>
-                <li class="w3-padding-16">
-                    <img src="../static/images/books/new-arrival-6.jpg" th:src="@{/images/books/new-arrival-6.jpg}" class="w3-left w3-margin-right" style="width:10%">
-                    <span class="w3-large">Trending</span><br>
-                    <span>Go Get It!!</span>
-                </li>
-            </ul>
-        </div>
+  <div class="w3-row-padding">
+    <div class="w3-third">
+      <h3>Online Book Review System</h3>
+      <p>This site is designed by Vijay Gupta.</p>
     </div>
+
+    <div class="w3-third">
+      <h3>New Arrivals</h3>
+      <ul class="w3-ul w3-hoverable">
+        <li class="w3-padding-16">
+          <img src="../static/images/books/new-arrival-1.jpg" th:src="@{/images/books/new-arrival-1.jpg}" class="w3-left w3-margin-right" style="width:10%">
+          <span class="w3-large">New Arrival</span><br>
+          <span>Go Get It!!</span>
+        </li>
+        <li class="w3-padding-16">
+          <img src="../static/images/books/new-arrival-2.jpg" th:src="@{/images/books/new-arrival-2.jpg}" class="w3-left w3-margin-right" style="width:10%">
+          <span class="w3-large">New Arrival</span><br>
+          <span>Go Get It!!</span>
+        </li>
+      </ul>
+    </div>
+    <div class="w3-third">
+      <h3>Trending</h3>
+      <ul class="w3-ul w3-hoverable">
+        <li class="w3-padding-16">
+          <img src="../static/images/books/new-arrival-4.jpg" th:src="@{/images/books/new-arrival-4.jpg}" class="w3-left w3-margin-right" style="width:10%">
+          <span class="w3-large">Trending</span><br>
+          <span>Go Get It!!</span>
+        </li>
+        <li class="w3-padding-16">
+          <img src="../static/images/books/new-arrival-6.jpg" th:src="@{/images/books/new-arrival-6.jpg}" class="w3-left w3-margin-right" style="width:10%">
+          <span class="w3-large">Trending</span><br>
+          <span>Go Get It!!</span>
+        </li>
+      </ul>
+    </div>
+  </div>
 </footer>
 
-<div class="w3-black w3-center w3-padding-24 w3-text-white">
+<div class="w3-black w3-center w3-padding-16 w3-text-white">
     <span>
             Copyright <i class="fa fa-copyright fa-fw w3-margin-right"></i>2020 Vijay Gupta - All Rights Reserved
             You may use, distribute and modify this code under the
@@ -119,7 +136,6 @@
 </div>
 
 <!-- Optional Section -->
-<th:block layout:fragment="optional" />
-
+<th:block layout:fragment="script"></th:block>
 </body>
 </html>
