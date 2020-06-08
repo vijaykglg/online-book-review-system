@@ -30,8 +30,8 @@ public class Book extends AbstractEntityClass implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "release_date",nullable = false,updatable = false)
-    private String releaseDate;
+    /*@Column(name = "release_date",nullable = false,updatable = false)
+    private String releaseDate;*/
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "published_by", joinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"), inverseJoinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "id"))
@@ -42,7 +42,7 @@ public class Book extends AbstractEntityClass implements Serializable {
     private Author author;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
     //bi-directional many-to-one association to Review
@@ -52,7 +52,16 @@ public class Book extends AbstractEntityClass implements Serializable {
     public Book() {
     }
 
-    public Book(String isbn, String title, String releaseDate, Set<Publisher> publishers, Author author, Category category, Set<Review> reviews) {
+    public Book(String isbn, String title, Set<Publisher> publishers, Author author, Category category, Set<Review> reviews) {
+        this.isbn = isbn;
+        this.title = title;
+        this.publishers = publishers;
+        this.author = author;
+        this.category = category;
+        this.reviews = reviews;
+    }
+
+    /*public Book(String isbn, String title, String releaseDate, Set<Publisher> publishers, Author author, Category category, Set<Review> reviews) {
         this.isbn = isbn;
         this.title = title;
         this.releaseDate = releaseDate;
@@ -60,7 +69,7 @@ public class Book extends AbstractEntityClass implements Serializable {
         this.author = author;
         this.category = category;
         this.reviews = reviews;
-    }
+    }*/
 
     public String getIsbn() {
         return isbn;
@@ -78,13 +87,13 @@ public class Book extends AbstractEntityClass implements Serializable {
         this.title = title;
     }
 
-    public String getReleaseDate() {
+    /*public String getReleaseDate() {
         return releaseDate;
     }
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
-    }
+    }*/
 
     public Set<Publisher> getPublishers() {
         return publishers;
@@ -143,7 +152,7 @@ public class Book extends AbstractEntityClass implements Serializable {
         return "Book{" +
                 "isbn=" + isbn +
                 ", title='" + title + '\'' +
-                ", releaseDate='" + releaseDate + '\'' +
+                //", releaseDate='" + releaseDate + '\'' +
                 ", publishers=" + publishers +
                 ", author=" + author +
                 ", category=" + category +

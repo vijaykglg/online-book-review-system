@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -70,11 +71,13 @@ public class BookController {
         List<Category> categoryList = (List<Category>) this.categoryService.findAll();
         model.addAttribute("categoryList", categoryList);
 
+        model.addAttribute("book", new Book());
         return "book";
     }
 
     @PostMapping("/save")
-    public String save(Book book) {
+    public String save(@ModelAttribute("book") Book book,@Valid String author,@Valid String category) {
+        System.out.println("book = " + book.toString() + ", author = " + author + ", category = " + category);
         this.bookService.saveOrUpdate(book);
         return "redirect:/book/";
     }

@@ -66,7 +66,10 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin().loginPage("/login")
                     //.formLogin().loginPage("/login").successHandler(customSuccessHandler)
                 .and()
-                    .logout().permitAll();
+                    .logout().permitAll()
+                .and()
+                    .exceptionHandling().accessDeniedPage("/error/403");
+
 
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();

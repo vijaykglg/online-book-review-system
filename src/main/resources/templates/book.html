@@ -29,7 +29,7 @@
                             <td th:text="${book.isbn}"></td>
                             <td th:text="${book.title}"></td>
                             <td th:text="${book.category.name}"></td>
-                            <td th:text="${book.releaseDate}"></td>
+<!--                            <td th:text="${book.releaseDate}"></td>-->
                             <td th:text="${book.author.name}"></td>
                             <td>
                                 <div th:each="publisher : ${book.publishers}">
@@ -54,7 +54,7 @@
                                 <span th:if='${not page.hasPrevious()}'>Previous</span>
                                 <a class="page-link svg-icon" th:if='${page.hasPrevious()}' th:href='@{/book/(page=${page.number-1},size=${page.size})}' aria-label="Previous" title='Go to previous page' rel="tooltip">Previous</a>
                             </li>
-                            <li th:each="i : ${#numbers.sequence(0, page.totalPages-1, 1)}" class="page-item" th:classappend="${i eq page.number} ? 'active'" >
+                            <li th:each="i : ${#numbers.sequence(page.number, page.totalPages > 10 + page.number ? page.number + 10 : page.totalPages, 1)}" class="page-item" th:classappend="${i eq page.number} ? 'active'" >
                                 <a class="page-link" th:href="@{/book/(page=${i},size=${page.size})}" th:text="${i}" th:title="${'Page '+ i}" rel="tooltip"></a>
                             </li>
                             <li class="page-item disabled" th:if="${page.number + 10 < page.totalPages}">
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="myForm">
-                <form action="#" method="post" th:action="@{/book/save}">
+                <form action="#" method="post" th:action="@{/book/save}"  th:object="${book}">
                     <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
                          id="exampleModal" role="dialog"
                          tabindex="-1">
@@ -105,14 +105,14 @@
                                     <div class="form-group">
                                         <label class="col-form-label" for="category">Category:</label>
                                         <select th:field="*{category}" id="category" name="category" class="form-control">
-                                            <option value="0" selected="selected">---Select Category---</option>
+                                            <option value="0"  disabled="disabled" selected="selected">---Select Category---</option>
                                             <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"/>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label" for="author">Author:</label>
                                         <select th:field="*{author}" id="author" name="author" class="form-control">
-                                            <option value="0" selected="selected">---Select Author---</option>
+                                            <option value="0"  disabled="disabled" selected="selected">---Select Author---</option>
                                             <option th:each="author : ${authorList}" th:value="${author.id}" th:text="${author.name}"></option>
                                         </select>
                                     </div>
