@@ -10,31 +10,37 @@
 <div layout:fragment="content">
     <section class="w3-main">
         <div class="container">
-            <button class="btn btn-success nBtn">Add Publisher</button>
+            <p th:if="${message}" th:text="${message}" class="text-success"></p>
+            <a class="btn btn-success nBtn" th:href="@{/user/registration/(role=publisher)}">Add Publisher</a>
             <div class="card">
                 <div class="card-block">
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                            <th>Publisher Name</th>
-                            <th>Description</th>
-                        </tr>
+                            <tr>
+                                <th>Login Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="publisher : ${publisherList}">
-                            <td th:text="${publisher.name}"></td>
-                            <td th:text="${publisher.description}"></td>
-                            <td>
-                                <a class="btn btn-danger delBtn" th:href="@{delete/(id=${publisher.id})}">Delete</a>
-                                <a class="btn btn-primary eBtn" th:href="@{findOne/(id=${publisher.id})}">Edit</a>
-                            </td>
-                        </tr>
+                            <tr th:each="user : ${userList}">
+                                <td th:text="${user.userName}"></td>
+                                <td th:text="${user.firstName + ' ' + user.lastName}"></td>
+                                <td th:text="${user.email}"></td>
+                                <td th:text="${user.active}"></td>
+                                <td>
+                                    <a class="btn btn-danger delBtn" th:href="@{delete/(id=${user.id})}">Delete</a>
+<!--                                    <a class="btn btn-primary eBtn" th:href="@{findOne/(id=${user.id})}">Edit</a>-->
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="myForm">
+            <!--<div class="myForm">
                 <form action="#" method="post" th:action="@{/publisher/save}">
                     <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
                          id="exampleModal" role="dialog"
@@ -72,7 +78,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div>-->
 
             <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal"
                  role="dialog" tabindex="-1">

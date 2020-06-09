@@ -13,7 +13,9 @@ import java.util.List;
 public interface UserService extends CRUDService<User> {
 //    List<?> findAllWithRole();
 
-    User registerNewUser(User user);
+    User registerNewUser(User user, String role);
 
     User findByUsername(String username);
+
+    List<?> findUsersByRoles(String role);
 }

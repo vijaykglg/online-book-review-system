@@ -39,7 +39,7 @@
 </head>
 <body class="w3-light-grey w3-content" style="max-width:100%">
 <div class=" w3-bar w3-black w3-padding-16 w3-text-white" style="max-width:100%;">
-  <p th:if="${message}" th:text="${message}" class="text-success"></p>
+<!--  <p th:if="${message}" th:text="${message}" class="text-success"></p>-->
   <div class="col-sm-10">
             <span sec:authorize="isAuthenticated()">
                 <i class="fa fa-user-check fa-fw w3-margin-right"></i>Welcome <span sec:authentication="name"></span>
@@ -64,13 +64,13 @@
     <a href="#" th:href="@{/}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw w3-margin-right"></i>HOME</a>
     <a href="#" th:href="@{/about}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-info-circle fa-fw w3-margin-right"></i>ABOUT</a>
     <a href="#" th:href="@{/searchBooks}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw w3-margin-right"></i>SEARCH BOOKS</a>
-    <a href="#" th:href="@{/publisher/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_ADMIN')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-person-booth fa-fw w3-margin-right"></i>PUBLISHER</a>
-    <a href="#" th:href="@{/user/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_ADMIN')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw w3-margin-right"></i>USER</a>
+    <a href="#" th:href="@{/user/byRole/(role=publisher)}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_ADMIN')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-person-booth fa-fw w3-margin-right"></i>PUBLISHER</a>
+    <a href="#" th:href="@{/user/byRole/(role=user)}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_ADMIN')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw w3-margin-right"></i>USER</a>
     <a href="#" th:href="@{/book/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_PUBLISHER')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-book fa-fw w3-margin-right"></i>BOOK</a>
     <a href="#" th:href="@{/author/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_PUBLISHER')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user-circle fa-fw w3-margin-right"></i>AUTHOR</a>
     <a href="#" th:href="@{/category/}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_PUBLISHER')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-tags fa-fw w3-margin-right"></i>CATEGORY</a>
-    <a href="#" th:href="@{/user/registration}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-registered fa-fw w3-margin-right"></i>SIGN UP</a>
-    <a href="#" th:href="@{/login}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-in-alt fa-fw w3-margin-right"></i>SIGN IN</a>
+    <a href="#" th:href="@{/user/registration/(role=user)}" onclick="w3_close()" sec:authorize="!isAuthenticated()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-registered fa-fw w3-margin-right"></i>SIGN UP</a>
+    <a href="#" th:href="@{/login}" onclick="w3_close()" sec:authorize="!isAuthenticated()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-in-alt fa-fw w3-margin-right"></i>SIGN IN</a>
     <a href="#" th:href="@{/contact}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
   </div>
 </nav>

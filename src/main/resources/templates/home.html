@@ -9,6 +9,7 @@
 
 <div layout:fragment="content">
     <section class="w3-main">
+        <p th:if="${message}" th:text="${message}" class="text-success"></p>
         <!-- Header -->
         <header id="books">
             <a href="#"><img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" style="width:10%" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"/></a>

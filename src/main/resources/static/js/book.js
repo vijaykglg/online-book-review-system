@@ -1,29 +1,28 @@
 $(document).ready(function () {
     $('.nBtn, .table .eBtn').on('click', function (event) {
         event.preventDefault();
-        var href = $(this).attr('href');//Get the action to be called from HTML's href tag
-        var text = $(this).text(); //return New or Edit
+        const href = $(this).attr('href');//Get the action to be called from HTML's href tag
+        const text = $(this).text(); //return New or Edit
 
         if (text === 'Edit') {
             $.get(href, function (book, status) {
                 $('.myForm #id').val(book.id);
-                $('.myForm #isbn').val(book.isbn);
+                $('.myForm #isbn').val(book.isbn).attr('disabled', 'disabled');
                 $('.myForm #title').val(book.title);
-                alert("JSON = "+book.toString())
-                alert("category Id = "+book.category.id);
-                alert("author Id = "+book.author.id);
+
+                $('.myForm #releaseDate').attr('type','text');
+                $('.myForm #releaseDate').val(book.releaseDate).attr('disabled', 'disabled');
 
                 $('.myForm #category option[value="'+book.category.id+'"]').attr("selected",true);
                 $('.myForm #author option[value="'+book.author.id+'"]').attr("selected",true);
-               /* $('.myForm #author option:selected').val(book.author.id);
-                $('#category option[value="'+category+'"]').attr("selected",true);
-                $("#category option[value='9']").attr("selected","selected");*/
+                $('.myForm #author').attr("selected",true).attr('disabled', 'disabled');
             });
 
             $(".myForm #exampleModal").modal("show");
         } else {
             $('.myForm #isbn').val('');
             $('.myForm #title').val('');
+            $('.myForm #releaseDate').val('');
             $('.myForm #exampleModal').modal();
         }
     });

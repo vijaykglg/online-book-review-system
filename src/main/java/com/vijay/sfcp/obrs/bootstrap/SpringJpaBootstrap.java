@@ -115,6 +115,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         user3.setFirstName("publisherFirstName");
         user3.setLastName("PublisherLastname");
         user3.setEmail("pqr@test.com");
+        user3.setDescription("XYZ Publications");
         userService.saveOrUpdate(user3);
         System.out.println("Saved user3 " + user3.getUserName());
     }
@@ -337,14 +338,14 @@ public class SpringJpaBootstrap implements CommandLineRunner {
             Book book = new Book();
             book.setIsbn(String.valueOf(random.nextInt()));
             book.setTitle("BOOK_ABC"+i);
-            //book.setReleaseDate("16/03/2020");
+            book.setReleaseDate("16/03/2020");
             bookService.saveOrUpdate(book);
         }
         for (int i = 0; i < 100; i++) {
             Book book = new Book();
             book.setIsbn(String.valueOf(random.nextInt()));
             book.setTitle("BOOK_XYZ"+i);
-            //book.setReleaseDate("16/03/2020");
+            book.setReleaseDate("16/03/2020");
             bookService.saveOrUpdate(book);
         }
 

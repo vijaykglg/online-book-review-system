@@ -10,12 +10,11 @@ import com.vijay.sfcp.obrs.error.exceptions.AlreadyExistsException;
 import com.vijay.sfcp.obrs.error.exceptions.NotFoundException;
 import com.vijay.sfcp.obrs.user.entity.User;
 import com.vijay.sfcp.obrs.user.service.UserService;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,22 +33,60 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String showRegistrationPage(Model model) {
+    public String showRegistrationPage(@RequestParam("role") String role,Model model) {
+        String viewName = "register";
+        if(!StringUtils.isEmpty(role)){
+            if(role.equalsIgnoreCase("user"))
+                role = "ROLE_USER";
+            else if (role.equalsIgnoreCase("publisher")) {
+                role = "ROLE_PUBLISHER";
+                viewName = "addPublisher";
+            }
+            else if (role.equalsIgnoreCase("admin"))
+                role = "ROLE_ADMIN";
+            else
+                role = "ROLE_USER";
+        }else{
+            role = "ROLE_USER";
+        }
+
         User user = new User();
         model.addAttribute("user", user);
-        return "register";
+        return viewName;
     }
 
     @PostMapping("/registration")
-    public String saveUser(@Valid User user, BindingResult bindingResult, Model model) throws AlreadyExistsException {
-        System.out.println("UserWebController.saveUser - user = " + user.toString());
+    public String saveUser(@RequestParam("role") String role,@Valid User user, BindingResult bindingResult, Model model) throws AlreadyExistsException {
+        String viewNameSuccess = "home";
+        String viewNameError = "register";
+        String message = "Welcome, You have successfully registered with Online Book review System. Please Login to continue.";
+        System.out.println("UserWebController.saveUser - user = " + user.toString()+" role = "+role);
+
+        if(!StringUtils.isEmpty(role)){
+            if(role.equalsIgnoreCase("user"))
+                role = "ROLE_USER";
+            else if (role.equalsIgnoreCase("publisher")) {
+                viewNameSuccess = "redirect:/user/byRole/?role="+role;
+                viewNameError = "addPublisher";
+                message = "Publisher added successfully with temporary password which you can share it with Publisher.";
+                role = "ROLE_PUBLISHER";
+            }
+            else if (role.equalsIgnoreCase("admin"))
+                role = "ROLE_ADMIN";
+            else
+                role = "ROLE_USER";
+        }else{
+            role = "ROLE_USER";
+        }
+
         if (bindingResult.hasErrors()) {
             System.err.println("UserWebController.saveUser -  bindingResult = " + bindingResult.getAllErrors().toString());
-            return "register";
+            return viewNameError;
         }
-        this.userService.registerNewUser(user);
-        model.addAttribute("message","Welcome, You have successfully registered with Online Book review System. Please Login to continue.");
-        return "home";
+
+        this.userService.registerNewUser(user, role);
+        model.addAttribute("message",message);
+        return viewNameSuccess;
     }
 
     @GetMapping("/update/{id}")
@@ -79,6 +116,18 @@ public class UserController {
         return "redirect:/users";// redirect the url
     }
 
+    @GetMapping("/byRole/delete")
+    public String delete(@RequestParam("id") Integer id) {
+        this.userService.deleteById(id);
+        return "redirect:/user/byRole/?role=publisher";
+    }
+
+    @GetMapping("/findOne")
+    @ResponseBody
+    public User getPublisher(Integer id) {
+        return this.userService.findById(id);
+    }
+
     @PostMapping("/updateUser")
     public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) throws AlreadyExistsException, NotFoundException {
         System.out.println("UserWebController.updateUser - user = " + user.toString());
@@ -104,5 +153,28 @@ public class UserController {
         modelAndView.addObject("user", new User());
         System.out.println("UserController.handleError - view = register , errorMessage = "+ex.getErrorMessage());
         return modelAndView;
+    }
+
+    @GetMapping("/byRole")
+    public String findUsersByRoles(@RequestParam("role") String role,Model model) {
+        String viewName = "user";
+        System.out.println("role = " + role);
+        if(!StringUtils.isEmpty(role)){
+            if(role.equalsIgnoreCase("user"))
+                role = "ROLE_USER";
+            else if (role.equalsIgnoreCase("publisher")) {
+                role = "ROLE_PUBLISHER";
+                viewName = "publisher";
+            }
+            else if (role.equalsIgnoreCase("admin"))
+                role = "ROLE_ADMIN";
+            else
+                role = "ROLE_USER";
+        }else{
+            role = "ROLE_USER";
+        }
+        List<User> userList = (List<User>) this.userService.findUsersByRoles(role);
+        model.addAttribute("userList", userList);
+        return viewName;
     }
 }

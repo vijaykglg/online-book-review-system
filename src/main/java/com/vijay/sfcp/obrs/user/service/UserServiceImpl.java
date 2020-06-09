@@ -9,7 +9,6 @@ import com.vijay.sfcp.obrs.error.exceptions.AlreadyExistsException;
 import com.vijay.sfcp.obrs.error.exceptions.NotFoundException;
 import com.vijay.sfcp.obrs.role.entity.Role;
 import com.vijay.sfcp.obrs.role.repository.RoleRepository;
-import com.vijay.sfcp.obrs.user.dto.UserRoleDTO;
 import com.vijay.sfcp.obrs.user.entity.User;
 import com.vijay.sfcp.obrs.user.repository.UserRepository;
 import com.vijay.sfcp.obrs.common.service.security.EncryptionService;
@@ -88,7 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User registerNewUser(final User user) {
+    public User registerNewUser(final User user, String role) {
         if (existsByEmail(user.getEmail())) {
             throw new AlreadyExistsException("There is an account with this email address: " + user.getEmail());
         }
@@ -98,10 +97,10 @@ public class UserServiceImpl implements UserService {
         if(user.getPassword() != null){
             user.setEncryptedPassword(encryptionService.encryptString(user.getPassword()));
         }
-        Role userRole = roleRepository.findByRole("ROLE_USER");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        Role byRole = this.roleRepository.findByRole(role);
+        user.setRoles(new HashSet<Role>(Arrays.asList(byRole)));
 
-        return userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     @Override
@@ -115,5 +114,14 @@ public class UserServiceImpl implements UserService {
 
     private boolean existsByUsername(final String userName) {
         return this.userRepository.findByUserName(userName) != null;
+    }
+
+    @Override
+    public List<?> findUsersByRoles(String role){
+        List<User> users = new ArrayList<>();
+//        Role publisherRole = roleRepository.findByRole("ROLE_PUBLISHER");
+        Role byRole = this.roleRepository.findByRole(role);
+        this.userRepository.findUsersByRolesIn(new HashSet<Role>(Arrays.asList(byRole))).forEach(users::add); //fun with Java 8
+        return users;
     }
 }

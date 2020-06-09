@@ -6,6 +6,7 @@ User    : Vijay Gupta
 Date    : 30 May 2020
 */
 
+import com.vijay.sfcp.obrs.role.entity.Role;
 import com.vijay.sfcp.obrs.user.dto.UserRoleDTO;
 import com.vijay.sfcp.obrs.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -20,6 +22,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUserName(String userName);
 
     User findByEmail(String email);
+
+    List<User> findUsersByRolesIn(HashSet<Role> roles);
 
     @Override
     void delete(User user);

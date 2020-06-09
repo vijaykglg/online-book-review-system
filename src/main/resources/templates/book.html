@@ -28,9 +28,9 @@
                         <tr th:each="book : ${bookResult}">
                             <td th:text="${book.isbn}"></td>
                             <td th:text="${book.title}"></td>
-                            <td th:text="${book.category.name}"></td>
-<!--                            <td th:text="${book.releaseDate}"></td>-->
-                            <td th:text="${book.author.name}"></td>
+                            <td th:text="${book?.category?.name}"></td>
+                            <td th:text="${book.releaseDate}"></td>
+                            <td th:text="${book?.author?.name}"></td>
                             <td>
                                 <div th:each="publisher : ${book.publishers}">
                                     <div th:text="${publisher.name}">1</div>
@@ -103,16 +103,20 @@
                                         <input class="form-control" id="title" name="title" type="text" value=""/>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-form-label" for="releaseDate">Release Date:</label>
+                                        <input class="form-control" id="releaseDate" name="releaseDate" type="date" value=""/>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-form-label" for="category">Category:</label>
                                         <select th:field="*{category}" id="category" name="category" class="form-control">
-                                            <option value="0"  disabled="disabled" selected="selected">---Select Category---</option>
+                                            <option value="0" selected="selected">---Select Category---</option>
                                             <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"/>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label" for="author">Author:</label>
                                         <select th:field="*{author}" id="author" name="author" class="form-control">
-                                            <option value="0"  disabled="disabled" selected="selected">---Select Author---</option>
+                                            <option value="0" selected="selected">---Select Author---</option>
                                             <option th:each="author : ${authorList}" th:value="${author.id}" th:text="${author.name}"></option>
                                         </select>
                                     </div>

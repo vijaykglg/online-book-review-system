@@ -6,6 +6,7 @@ User    : Vijay Gupta
 Date    : 30 May 2020
 */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vijay.sfcp.obrs.common.entity.AbstractEntityClass;
 import com.vijay.sfcp.obrs.review.entity.Review;
 import com.vijay.sfcp.obrs.role.entity.Role;
@@ -38,9 +39,15 @@ public class User extends AbstractEntityClass  implements Serializable {
     @Column(name = "user_name")
     private String userName;
 
+    @Column(name = "description")
+    private String description;
+
     @Transient
     @Size(min = 4, max = 20, message = "Password must be between 4 and 20 characters")
+    @JsonIgnore
     private String password;
+
+    @JsonIgnore
     private String encryptedPassword;
 
     @NotEmpty(message = "*Please provide an email")
@@ -63,6 +70,7 @@ public class User extends AbstractEntityClass  implements Serializable {
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
             orphanRemoval = true
     )
     private List<Review> review = new ArrayList<>();
@@ -89,6 +97,14 @@ public class User extends AbstractEntityClass  implements Serializable {
 
     public void setUserName(String username) {
         this.userName = username;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPassword() {
@@ -179,13 +195,14 @@ public class User extends AbstractEntityClass  implements Serializable {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
+                ", description='" + description + '\'' +
                 ", password='" + password + '\'' +
                 ", encryptedPassword='" + encryptedPassword + '\'' +
                 ", email='" + email + '\'' +
                 ", active=" + active +
-                ", roles=" + roles +
                 ", failedLoginAttempts=" + failedLoginAttempts +
-                ", reviews=" + review +
+                ", roles=" + roles +
+                ", review=" + review +
                 '}';
     }
 }

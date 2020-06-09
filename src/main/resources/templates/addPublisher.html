@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Publisher</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="w3-main">
+        <div class="container">
+            <!-- Sign Up Section -->
+            <p th:if="${errorMessage}" th:text="${errorMessage}" class="ui-state-error-text w3-text-red"></p>
+
+            <div class="w3-container w3-padding-large w3-border">
+                <div class="portlet-title">
+                    <div class="w3-text-black">
+                        <i class="fa fa-user fa-fw w3-margin-right"></i>
+                        <span class="caption-subject" style="position:relative;top:2px">Add Publisher Details Below</span>
+                    </div>
+                </div>
+                <hr class="w3-opacity">
+                <div class="portlet-body form">
+                    <form id="signupForm" th:action="@{/user/registration/(role=publisher)}" th:object="${user}" method="post">
+                        <div class="form-body">
+                            <div class="form-group" th:classappend="${#fields.hasErrors('description')} ? 'has-error' : ''">
+                                <label>Publication Name</label>
+                                <div th:classappend="${#fields.hasErrors('description')} ? 'input-icon right' : ''" class="w3-text-red">
+                                    <i th:if="${#fields.hasErrors('description')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid user name" data-container="body"></i>
+                                    <input type="text" class="form-control" maxlength="32" th:field="*{description}" placeholder="Between 5 and 32 characters" required="true"/>
+                                    <span th:if="${#fields.hasErrors('description')}" class="w3-text-red" th:errors="*{description}"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" th:classappend="${#fields.hasErrors('firstName')} ? 'has-error' : ''">
+                                <label>First Name</label>
+                                <div th:classappend="${#fields.hasErrors('firstName')} ? 'input-icon right' : ''" class="w3-text-red">
+                                    <i th:if="${#fields.hasErrors('firstName')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+                                    <input type="text" class="form-control" maxlength="32" th:field="*{firstName}" placeholder="Between 1 and 32 characters" required="true"/>
+                                    <span th:if="${#fields.hasErrors('firstName')}" class="w3-text-red" th:errors="*{firstName}"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" th:classappend="${#fields.hasErrors('lastName')} ? 'has-error' : ''">
+                                <label>Last Name</label>
+                                <div th:classappend="${#fields.hasErrors('lastName')} ? 'input-icon right' : ''" class="w3-text-red">
+                                    <i th:if="${#fields.hasErrors('lastName')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid last name" data-container="body"></i>
+                                    <input type="text" class="form-control" maxlength="32" th:field="*{lastName}" placeholder="Between 1 and 32 characters" required="true"/>
+                                    <span th:if="${#fields.hasErrors('lastName')}" class="w3-text-red" th:errors="*{lastName}"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" th:classappend="${#fields.hasErrors('userName')} ? 'has-error' : ''">
+                                <label>User Name</label>
+                                <div th:classappend="${#fields.hasErrors('userName')} ? 'input-icon right' : ''" class="w3-text-red">
+                                    <i th:if="${#fields.hasErrors('userName')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid user name" data-container="body"></i>
+                                    <input type="text" class="form-control" maxlength="32" th:field="*{userName}" placeholder="Between 5 and 32 characters" required="true"/>
+                                    <span th:if="${#fields.hasErrors('userName')}" class="w3-text-red" th:errors="*{userName}"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? 'has-error' : ''">
+                                <label>Password</label>
+                                <div th:classappend="${#fields.hasErrors('password')} ? 'input-icon right' : ''" class="w3-text-red">
+                                    <i th:if="${#fields.hasErrors('password')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid password" data-container="body"></i>
+                                    <input type="password" class="form-control" maxlength="20" th:field="*{password}" placeholder="Between 2 and 20 characters" required="true"/>
+                                    <span th:if="${#fields.hasErrors('password')}" class="w3-text-red" th:errors="*{password}"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? 'has-error' : ''">
+                                <label>Email</label>
+                                <div th:classappend="${#fields.hasErrors('email')} ? 'input-icon right' : ''" class="w3-text-red">
+                                    <i th:if="${#fields.hasErrors('email')}" class="fa fa-exclamation tooltips" data-original-title="Email address is invalid" data-container="body"></i>
+                                    <input type="text" class="form-control" maxlength="64" th:field="*{email}" placeholder="For example: joe@xyz.com" required="true"/>
+                                    <span th:if="${#fields.hasErrors('email')}" class="w3-text-red" th:errors="*{email}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="w3-button w3-teal w3-padding-large w3-hover-black">Register Publisher</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
