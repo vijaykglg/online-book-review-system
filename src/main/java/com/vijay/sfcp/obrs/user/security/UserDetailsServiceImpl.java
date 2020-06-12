@@ -1,4 +1,4 @@
-package com.vijay.sfcp.obrs.common.service.security;
+package com.vijay.sfcp.obrs.user.security;
 /*
 Project : online-book-review-system
 IDE     : IntelliJ IDEA
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserService userService;
-    private Converter<User, UserDetails> userUserDetailsConverter;
+    private Converter<User, UserDetails> userToUserDetailsConverter;
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -29,12 +29,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     @Qualifier(value = "userToUserDetails")
-    public void setUserUserDetailsConverter(Converter<User, UserDetails> userUserDetailsConverter) {
-        this.userUserDetailsConverter = userUserDetailsConverter;
+    public void setUserUserDetailsConverter(Converter<User, UserDetails> userToUserDetailsConverter) {
+        this.userToUserDetailsConverter = userToUserDetailsConverter;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userUserDetailsConverter.convert(userService.findByUsername(username));
+        return userToUserDetailsConverter.convert(userService.findByUsername(username));
     }
+
+
 }

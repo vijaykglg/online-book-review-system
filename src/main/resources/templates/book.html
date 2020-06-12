@@ -33,7 +33,7 @@
                             <td th:text="${book?.author?.name}"></td>
                             <td>
                                 <div th:each="publisher : ${book.publishers}">
-                                    <div th:text="${publisher.name}">1</div>
+                                    <div th:text="${publisher.firstName + ' ' + publisher.lastName}">1</div>
                                 </div>
                             </td>
                             <td>

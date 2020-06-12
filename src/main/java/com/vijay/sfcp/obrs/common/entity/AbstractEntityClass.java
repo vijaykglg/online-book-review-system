@@ -12,6 +12,7 @@ import java.util.Date;
 public class AbstractEntityClass implements EntityObject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     Integer id;
 
     /*@Version

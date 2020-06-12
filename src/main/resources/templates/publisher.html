@@ -17,6 +17,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th>Publication</th>
                                 <th>Login Id</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -26,13 +27,19 @@
                         </thead>
                         <tbody>
                             <tr th:each="user : ${userList}">
+                                <td th:text="${user.description}"></td>
                                 <td th:text="${user.userName}"></td>
                                 <td th:text="${user.firstName + ' ' + user.lastName}"></td>
                                 <td th:text="${user.email}"></td>
                                 <td th:text="${user.active}"></td>
                                 <td>
-                                    <a class="btn btn-danger delBtn" th:href="@{delete/(id=${user.id})}">Delete</a>
-<!--                                    <a class="btn btn-primary eBtn" th:href="@{findOne/(id=${user.id})}">Edit</a>-->
+                                    <a class="btn btn-danger delBtn" th:href="@{/user/delete/(id=${user.id})}">Delete</a>
+                                    <span th:if='${user.active == true}'>
+                                        <a class="btn btn-primary actDeactBtn" th:href="@{/user/actDeact/(role=user,actDeact=deact,id=${user.id})}">Deactivate</a>
+                                    </span>
+                                    <span th:if='${user.active == false}'>
+                                        <a class="btn btn-primary actDeactBtn" th:href="@{/user/actDeact/(role=user,actDeact=act,id=${user.id})}">Activate</a>
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
@@ -40,45 +47,32 @@
                 </div>
             </div>
 
-            <!--<div class="myForm">
-                <form action="#" method="post" th:action="@{/publisher/save}">
-                    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
-                         id="exampleModal" role="dialog"
-                         tabindex="-1">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Update or
-                                        Create</h5>
-                                    <button aria-label="Close" class="close" data-dismiss="modal"
-                                            type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <input class="form-control" id="id" name="id" type="text" value="" hidden/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="name">Publisher Name:</label>
-                                        <input class="form-control" id="name" name="name" type="text" value=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="description">Description:</label>
-                                        <input class="form-control" id="description" name="description" type="text" value=""/>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" data-dismiss="modal"
-                                            type="button">Close
-                                    </button>
-                                    <input class="btn btn-primary" type="submit" value="save"/>
-                                </div>
-                            </div>
+            <div aria-hidden="true" aria-labelledby="actDeactivateModelLabel" class="modal fade" id="actDeactivateModel"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="actDeactivateModelLabel">Activate/Deactivate Publisher</h5>
+                            <button aria-label="Close" class="close" data-dismiss="modal"
+                                    type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="alert alert-danger"  id="alertMessage">
+                                Are you sure you want to deactivate this Publisher?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal"
+                                    type="button">Close
+                            </button>
+                            <a class="btn btn-danger" href="" id="actDeactivateRef">Deactivate</a>
                         </div>
                     </div>
-                </form>
-            </div>-->
+                </div>
+            </div>
+
 
             <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal"
                  role="dialog" tabindex="-1">

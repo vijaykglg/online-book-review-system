@@ -11,7 +11,7 @@ import com.vijay.sfcp.obrs.role.entity.Role;
 import com.vijay.sfcp.obrs.role.repository.RoleRepository;
 import com.vijay.sfcp.obrs.user.entity.User;
 import com.vijay.sfcp.obrs.user.repository.UserRepository;
-import com.vijay.sfcp.obrs.common.service.security.EncryptionService;
+import com.vijay.sfcp.obrs.user.security.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -106,6 +106,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return this.userRepository.findByUserName(username);
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return this.userRepository.existsById(id);
     }
 
     private boolean existsByEmail(final String email) {

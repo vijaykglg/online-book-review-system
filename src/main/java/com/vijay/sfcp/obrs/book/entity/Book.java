@@ -11,6 +11,7 @@ import com.vijay.sfcp.obrs.category.entity.Category;
 import com.vijay.sfcp.obrs.common.entity.AbstractEntityClass;
 import com.vijay.sfcp.obrs.publisher.entity.Publisher;
 import com.vijay.sfcp.obrs.review.entity.Review;
+import com.vijay.sfcp.obrs.user.entity.User;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -24,24 +25,24 @@ import java.util.Set;
 public class Book extends AbstractEntityClass implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "isbn", unique = true,nullable = false,updatable = false)
+    @Column(name = "isbn", unique = true, nullable = false, updatable = false)
     String isbn;
 
     @Column(name = "title")
     private String title;
 
-    @Column(name = "release_date",nullable = false,updatable = false)
+    @Column(name = "release_date", nullable = false, updatable = false)
     private String releaseDate;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "published_by", joinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"), inverseJoinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "id"))
-    private Set<Publisher> publishers = new HashSet<>();
+    @JoinTable(name = "published_by", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "id"))
+    private Set<User> publishers = new HashSet<User>();
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "author_id",updatable = false)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", updatable = false)
     private Author author;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
@@ -61,7 +62,7 @@ public class Book extends AbstractEntityClass implements Serializable {
         this.reviews = reviews;
     }*/
 
-    public Book(String isbn, String title, String releaseDate, Set<Publisher> publishers, Author author, Category category, Set<Review> reviews) {
+    public Book(String isbn, String title, String releaseDate, Set<User> publishers, Author author, Category category, Set<Review> reviews) {
         this.isbn = isbn;
         this.title = title;
         this.releaseDate = releaseDate;
@@ -95,11 +96,11 @@ public class Book extends AbstractEntityClass implements Serializable {
         this.releaseDate = releaseDate;
     }
 
-    public Set<Publisher> getPublishers() {
+    public Set<User> getPublishers() {
         return publishers;
     }
 
-    public void setPublishers(Set<Publisher> publishers) {
+    public void setPublishers(Set<User> publishers) {
         this.publishers = publishers;
     }
 
@@ -137,7 +138,7 @@ public class Book extends AbstractEntityClass implements Serializable {
         review.setBook(null);
     }
 
-    public void addPublisher(Publisher publisher) {
+    public void addPublisher(User publisher) {
         this.publishers.add(publisher);
         publisher.getBooks().add(this);
     }

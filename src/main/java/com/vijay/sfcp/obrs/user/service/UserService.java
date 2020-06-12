@@ -17,5 +17,7 @@ public interface UserService extends CRUDService<User> {
 
     User findByUsername(String username);
 
+    boolean existsById(Integer id);
+
     List<?> findUsersByRoles(String role);
 }

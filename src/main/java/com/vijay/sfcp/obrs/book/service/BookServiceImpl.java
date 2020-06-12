@@ -9,12 +9,14 @@ Date    : 31 May 2020
 import com.vijay.sfcp.obrs.book.entity.Book;
 import com.vijay.sfcp.obrs.book.repository.BookRepository;
 import com.vijay.sfcp.obrs.error.exceptions.NotFoundException;
+import com.vijay.sfcp.obrs.user.entity.User;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -35,7 +37,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findById(Integer id) {
-        return this.bookRepository.findById(id).orElseThrow(()-> new NotFoundException("Book Not Found"));
+        return this.bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book Not Found"));
     }
 
     @Override
@@ -52,4 +54,10 @@ public class BookServiceImpl implements BookService {
     public Page<Book> findAllPageWise(Pageable pageable) {
         return this.bookRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Book> findAllByPublishers(Pageable pageable, User publisher) {
+        return this.bookRepository.findBooksByPublishersIs(pageable, publisher);
+    }
+
 }

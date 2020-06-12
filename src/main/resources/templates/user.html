@@ -10,7 +10,7 @@
 <div layout:fragment="content">
     <section class="w3-main">
         <div class="container">
-            <p class="caption-subject" style="position:relative;top:2px">Users</p>
+            <p class="modal-title" style="position:relative;top:2px">Users</p>
             <div class="card">
                 <div class="card-block">
                     <table class="table table-striped table-bordered">
@@ -21,6 +21,7 @@
                             <th>Last Name</th>
                             <th>Active</th>
                             <th>Role</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -34,13 +35,76 @@
                                     <div th:text="${role.role}">1</div>
                                 </div>
                             </td>
+                            <td>
+                                <span th:if='${user.active == true}'>
+                                    <a class="btn btn-primary actDeactBtn" th:href="@{/user/actDeact/(role=user,actDeact=deact,id=${user.id})}">Deactivate</a>
+                                </span>
+                                <span th:if='${user.active == false}'>
+                                    <a class="btn btn-primary actDeactBtn" th:href="@{/user/actDeact/(role=user,actDeact=act,id=${user.id})}">Activate</a>
+                                </span>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            <div aria-hidden="true" aria-labelledby="actDeactivateModelLabel" class="modal fade" id="actDeactivateModel"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="actDeactivateModelLabel">Deactivate User</h5>
+                            <button aria-label="Close" class="close" data-dismiss="modal"
+                                    type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="alert alert-danger " id="alertMessage">
+                                Are you sure you want to deactivate this User?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal"
+                                    type="button">Close
+                            </button>
+                            <a class="btn btn-danger" href="" id="actDeactivateRef">Deactivate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Delete Record</h5>
+                            <button aria-label="Close" class="close" data-dismiss="modal"
+                                    type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="alert alert-danger">
+                                Are you sure you want to delete this User?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal"
+                                    type="button">Close
+                            </button>
+                            <a class="btn btn-danger" href="" id="delRef">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
+
+<th:block layout:fragment="script">
+    <script type="application/javascript" th:src="@{/js/user.js}" src="../static/js/user.js"></script>
+</th:block>
+
 </body>
 </html>

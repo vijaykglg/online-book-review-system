@@ -1,4 +1,4 @@
-package com.vijay.sfcp.obrs.common.service.security;
+package com.vijay.sfcp.obrs.user.security;
 /*
 Project : online-book-review-system
 IDE     : IntelliJ IDEA

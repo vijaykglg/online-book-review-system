@@ -30,3 +30,14 @@ And the last thing your application should have is Facebook like box on your web
 #### Disadvantages
 
 - The only disadvantage is if the customer receives a book that is not in proper condition or has some kind of defect then there incurs an additional charge of posting it back.
+
+## Team
+[![Vijay Kumar Gupta](https://avatars2.githubusercontent.com/u/57914226?s=400&u=711ef43ea909d33b585b75b406fa9a8189415a6b&v=4)](https://github.com/vijaykglg)
+
+## License
+
+Online Book review System © Vijay Gupta
+
+## Version
+
+* Version 1.0-SNAPSHOT

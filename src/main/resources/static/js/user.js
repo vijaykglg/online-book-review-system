@@ -1,4 +1,11 @@
 $(document).ready(function () {
+/*    $('.table .deactBtn').on('click', function (event) {
+        event.preventDefault();
+        const href = $(this).attr('href');
+        $('#deactivateModel #deactivateRef').attr('href', href);
+        $('#deactivateModel').modal();
+    });*/
+
     $('.table .actDeactBtn').on('click', function (event) {
         event.preventDefault();
         const href = $(this).attr('href');
@@ -9,14 +16,14 @@ $(document).ready(function () {
         var alertBtn = "";
         var alertlabel = "";
         if (text === 'Activate') {
-            alertMessage = "Are you sure you want to activate this Publisher?";
+            alertMessage = "Are you sure you want to activate this User?";
             alertBtn = "Activate";
-            alertlabel = "Activate Publisher";
+            alertlabel = "Activate User";
         }
         else{
-            alertMessage = "Are you sure you want to deactivate this Publisher?";
+            alertMessage = "Are you sure you want to deactivate this User?";
             alertBtn = "Deactivate";
-            alertlabel = "Deactivate Publisher";
+            alertlabel = "Deactivate User";
         }
 
         $('#actDeactivateModel #alertMessage').text(alertMessage);
@@ -26,12 +33,5 @@ $(document).ready(function () {
 
         $.post(post[0], post[1], function(i) {
         });
-    });
-
-    $('.table .delBtn').on('click', function (event) {
-        event.preventDefault();
-        const href = $(this).attr('href');
-        $('#myModal #delRef').attr('href', href);
-        $('#myModal').modal();
     });
 });

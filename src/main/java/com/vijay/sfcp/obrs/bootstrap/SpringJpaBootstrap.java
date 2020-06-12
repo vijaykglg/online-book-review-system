@@ -8,8 +8,6 @@ import com.vijay.sfcp.obrs.category.entity.Category;
 import com.vijay.sfcp.obrs.category.service.CategoryService;
 import com.vijay.sfcp.obrs.publisher.entity.Publisher;
 import com.vijay.sfcp.obrs.publisher.service.PublisherService;
-import com.vijay.sfcp.obrs.review.entity.Review;
-import com.vijay.sfcp.obrs.review.entity.ReviewPK;
 import com.vijay.sfcp.obrs.review.service.ReviewService;
 import com.vijay.sfcp.obrs.role.entity.Role;
 import com.vijay.sfcp.obrs.role.service.RoleService;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -76,7 +73,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         loadRoles();
         loadCategory();
         loadAuthors();
-        loadPublisher();
+        //loadPublisher();
         loadBooks();
         //loadReviews();
 
@@ -85,7 +82,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         assignUsersToPublisherRole();
         assignAuthorToBook();
         assignCategoryToBook();
-        //assignPublisherToBook();
+        assignPublisherToBook();
         /*assignReviewsToUser();
         assignReviewsToBook();*/
     }
@@ -97,6 +94,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         user1.setFirstName("UserFirstName");
         user1.setLastName("UserLastname");
         user1.setEmail("abc@test.com");
+        user1.setDescription("user");
         userService.saveOrUpdate(user1);
         System.out.println("Saved User1 " + user1.getUserName());
 
@@ -106,6 +104,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         user2.setFirstName("AdminFirstName");
         user2.setLastName("AdminLastname");
         user2.setEmail("xyz@test.com");
+        user2.setDescription("admin");
         userService.saveOrUpdate(user2);
         System.out.println("Saved User2 " + user2.getUserName());
 
@@ -118,6 +117,16 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         user3.setDescription("XYZ Publications");
         userService.saveOrUpdate(user3);
         System.out.println("Saved user3 " + user3.getUserName());
+
+        User user4 = new User();
+        user4.setUserName("publisher1");
+        user4.setPassword("publisher");
+        user4.setFirstName("VK");
+        user4.setLastName("G");
+        user4.setEmail("abc@test.com");
+        user4.setDescription("ABC Publications");
+        userService.saveOrUpdate(user4);
+        System.out.println("Saved user4 " + user4.getUserName());
     }
 
     private void loadRoles() {
@@ -337,22 +346,22 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         for (int i = 0; i < 100; i++) {
             Book book = new Book();
             book.setIsbn(String.valueOf(random.nextInt()));
-            book.setTitle("BOOK_ABC"+i);
+            book.setTitle("BOOK_ABC" + i);
             book.setReleaseDate("16/03/2020");
             bookService.saveOrUpdate(book);
         }
         for (int i = 0; i < 100; i++) {
             Book book = new Book();
             book.setIsbn(String.valueOf(random.nextInt()));
-            book.setTitle("BOOK_XYZ"+i);
+            book.setTitle("BOOK_XYZ" + i);
             book.setReleaseDate("16/03/2020");
             bookService.saveOrUpdate(book);
         }
 
-        /*List<Publisher> publishers = (List<Publisher>) publisherService.findAll();
+        /*List<User> publishers = (List<User>) userService.findAll();
         List<Book> books = (List<Book>) bookService.findAll();
         publishers.forEach(publisher -> {
-            if (publisher.getName().contains("ABC")) {
+            if (publisher.getDescription().contains("ABC")) {
                 books.forEach(book -> {
                     if (book.getTitle().contains("ABC")) {
                         book.addPublisher(publisher);
@@ -360,7 +369,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
                 });
             }
 
-            if (publisher.getName().contains("XYZ")) {
+            if (publisher.getDescription().contains("XYZ")) {
                 books.forEach(book -> {
                     if (book.getTitle().contains("XYZ")) {
                         book.addPublisher(publisher);
@@ -494,23 +503,24 @@ public class SpringJpaBootstrap implements CommandLineRunner {
     }
 
     private void assignPublisherToBook() {
-        List<Publisher> publishers = (List<Publisher>) publisherService.findAll();
+        List<User> publishers = (List<User>) userService.findAll();
         List<Book> books = (List<Book>) bookService.findAll();
 
+        publishers.forEach(publisher -> System.out.println(publisher.toString()));
         publishers.forEach(publisher -> {
-            if (publisher.getName().contains("ABC")) {
+            if (publisher.getDescription().contains("ABC")) {
                 books.forEach(book -> {
                     if (book.getTitle().contains("ABC")) {
-                        book.setPublishers(new HashSet<>((Arrays.asList(publisher))));
+                        book.setPublishers(new HashSet<User>((Arrays.asList(publisher))));
                         bookService.saveOrUpdate(book);
                     }
                 });
             }
 
-            if (publisher.getName().contains("XYZ")) {
+            if (publisher.getDescription().contains("XYZ")) {
                 books.forEach(book -> {
                     if (book.getTitle().contains("XYZ")) {
-                        book.setPublishers(new HashSet<>((Arrays.asList(publisher))));
+                        book.setPublishers(new HashSet<User>((Arrays.asList(publisher))));
                         bookService.saveOrUpdate(book);
                     }
                 });

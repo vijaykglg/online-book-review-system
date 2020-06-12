@@ -7,6 +7,7 @@ Date    : 30 May 2020
 */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vijay.sfcp.obrs.book.entity.Book;
 import com.vijay.sfcp.obrs.common.entity.AbstractEntityClass;
 import com.vijay.sfcp.obrs.review.entity.Review;
 import com.vijay.sfcp.obrs.role.entity.Role;
@@ -65,6 +66,8 @@ public class User extends AbstractEntityClass  implements Serializable {
     //     inverseJoinColumns = @joinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(mappedBy = "publishers")//mappedBy = "publishers" refers to the 'publishers' property in Book Class
+    private Set<Book> books;
 
     //bi-directional many-to-one association to Review
     @OneToMany(
@@ -165,6 +168,14 @@ public class User extends AbstractEntityClass  implements Serializable {
 
     public void setFailedLoginAttempts(Integer failedLoginAttempts) {
         this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     public List<Review> getReview() {

@@ -8,9 +8,12 @@ Date    : 30 May 2020
 
 import com.vijay.sfcp.obrs.error.exceptions.AlreadyExistsException;
 import com.vijay.sfcp.obrs.error.exceptions.NotFoundException;
+import com.vijay.sfcp.obrs.user.dto.PasswordChangeRequest;
 import com.vijay.sfcp.obrs.user.entity.User;
 import com.vijay.sfcp.obrs.user.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -20,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -56,7 +60,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String saveUser(@RequestParam("role") String role,@Valid User user, BindingResult bindingResult, Model model) throws AlreadyExistsException {
+    public String registerNewUser(@RequestParam("role") String role,@Valid User user, BindingResult bindingResult, Model model) throws AlreadyExistsException {
         String viewNameSuccess = "home";
         String viewNameError = "register";
         String message = "Welcome, You have successfully registered with Online Book review System. Please Login to continue.";
@@ -176,5 +180,66 @@ public class UserController {
         List<User> userList = (List<User>) this.userService.findUsersByRoles(role);
         model.addAttribute("userList", userList);
         return viewName;
+    }
+
+    @PostMapping("/actDeact")
+    public String actDeact(@RequestParam("role") String role,@RequestParam("actDeact") String actDeact,Integer id) throws NotFoundException {
+        System.out.println("UserController.actDeact - role = " + role + ", actDeact = " + actDeact + ", id = " + id);
+        if(this.userService.existsById(id)){
+            User userById = this.userService.findById(id);
+            if(!StringUtils.isEmpty(actDeact)){
+                if(actDeact.equalsIgnoreCase("act"))
+                    userById.setActive(true);
+                else
+                    userById.setActive(false);
+            }
+            this.userService.saveOrUpdate(userById);
+        }else{
+            throw new NotFoundException("User not Found");
+        }
+        return "redirect:/user/byRole/?role="+role;
+    }
+
+    /**
+     * Get a user by its username.
+     *
+     * @param userName The username.
+     * @return The user.
+     */
+    @GetMapping("/byUserName/")
+    public User getUserByUsername(@RequestParam("userName") String userName) {
+        User user = this.userService.findByUsername(userName);
+
+        if (user == null) {
+            throw new NotFoundException();
+        }
+
+        return user;
+    }
+
+    /**
+     * Get the current user.
+     *
+     * @param principal The logged in user.
+     * @return The current user.
+     */
+    @GetMapping("/me")
+    public User getMe(Principal principal) {
+        return getUserByUsername(principal.getName());
+    }
+
+    /**
+     * Change the password of the logged in user.
+     *
+     * @param principal The logged in user.
+     * @param password  The new raw password.
+     */
+    @PostMapping("/me/password")
+    public String changePassword(Principal principal, @RequestBody @Valid PasswordChangeRequest password,Model model) {
+        User user = this.userService.findByUsername(principal.getName());
+        user.setPassword(password.getPassword());
+        this.userService.saveOrUpdate(user);
+        model.addAttribute("message","password Rest Success");
+        return "passwordReset";
     }
 }

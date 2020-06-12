@@ -6,7 +6,7 @@ User    : Vijay Gupta
 Date    : 30 May 2020
 */
 import com.vijay.sfcp.obrs.user.entity.User;
-import com.vijay.sfcp.obrs.common.service.security.UserDetailsImpl;
+import com.vijay.sfcp.obrs.user.security.UserDetailsImpl;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
