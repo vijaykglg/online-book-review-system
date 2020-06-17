@@ -31,6 +31,33 @@ And the last thing your application should have is Facebook like box on your web
 
 - The only disadvantage is if the customer receives a book that is not in proper condition or has some kind of defect then there incurs an additional charge of posting it back.
 
+## Application features
+
+### Consumer features
+
+* Search for a book based on different parameters like title, author, publisher, etc.
+* Advanced search
+* Filter search results
+* Get details about a book, including its reviews and ratings.
+* Buy a book.
+* Get books similar to a particular given book.
+* Get books bought by a user who bought a given book.
+
+### Admin features
+
+* Addition of books to database.
+* Get statistics of the book store.
+* Moderation of various activities.
+
+## Implementation
+
+* Spring is used in backend.
+* H2 databases used for storing and managing data.
+* Thymeleaf used for frontend.
+* For testing purpose, data was scraped from various online sources including Amazon Online Book Store.
+
+
+
 ## Team
 [![Vijay Kumar Gupta](https://avatars2.githubusercontent.com/u/57914226?s=400&u=711ef43ea909d33b585b75b406fa9a8189415a6b&v=4)](https://github.com/vijaykglg)
 

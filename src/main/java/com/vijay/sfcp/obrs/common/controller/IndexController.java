@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
     @GetMapping("/")
     public String homePage() {
-        return "index";
+        return "redirect:/book/byCategory?category=all";
     }
 
     @GetMapping("/contact")

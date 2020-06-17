@@ -15,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -56,8 +54,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<Book> findAllByPublishers(Pageable pageable, User publisher) {
-        return this.bookRepository.findBooksByPublishersIs(pageable, publisher);
+    public Page<Book> findAllByPublishers(User publisher, Pageable pageable) {
+        return this.bookRepository.findBooksByPublishers(pageable, publisher);
     }
 
+    @Override
+    public Page<Book> findAllByCategory(String category, Pageable pageable) {
+        return this.bookRepository.findAllByCategoryName(category, pageable);
+    }
 }

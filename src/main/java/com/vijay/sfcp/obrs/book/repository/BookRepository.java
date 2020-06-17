@@ -28,15 +28,8 @@ public interface BookRepository extends JpaRepository<Book,Integer> {
     @Query("FROM #{#entityName} b WHERE b.category.id = ?1 ORDER BY b.isbn ASC")
     Page<Book> findAllByCategoryId(Integer id,Pageable pageable);
 
-    @Query("FROM #{#entityName} b WHERE b.category.name LIKE %?1% ORDER BY b.isbn ASC")
+//    @Query("FROM #{#entityName} b WHERE b.category.name LIKE %?1% ORDER BY b.isbn ASC")
     Page<Book> findAllByCategoryName(String name,Pageable pageable);
 
-
-
-    Page<Book> findAllByPublishersIn(Pageable pageable, HashSet<User> publishers);
-    Page<Book> findBooksByPublishersIn(Pageable pageable, HashSet<User> publishers);
-    Page<Book> findBooksByPublishersIs(Pageable pageable, User publishers);
-    Page<Book> findAllByPublishersIs(Pageable pageable, User publishers);
-
-
+    Page<Book> findBooksByPublishers(Pageable pageable, User publishers);
 }

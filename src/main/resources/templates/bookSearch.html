@@ -3,46 +3,28 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Welcome User</title>
+    <title>Book Search</title>
 </head>
 <body>
 
 <div layout:fragment="content">
     <section class="w3-main">
-        <!--<div class="da ai">
-            <figure class="db da ai paragraph-image">
-                <div class="dc dd de df ai">
-                    <div class="dl r de dm">
-                        <div class="dn do r">
-                            <div class="dg dh s t u di ai av dj dk">
-                                <img class="s t u di ai dp dq bc td" src="../static/image/background.jpeg" width="100%" height="70%" role="presentation" th:src="@{/images/background.jpeg}">
-                            </div>
+        <div>
+            <div class="myForm">
+                <h1>Search Books</h1>
+                <form action="#" method="get" th:action="@{/book/search}">
+                    <div class="input-group">
+                        <input type="text" class="form-control-sm" placeholder="Search" id="searchKey" name="searchKey" th:value="${searchKey}">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search fa-fw w3-margin-right"></i></button>
                         </div>
                     </div>
-                </div>
-            </figure>
-        </div>-->
-        <div>
-            <div class="card w3-light-gray position: relative; z-index: 1;">
+                </form>
+            </div>
+            <div class="bar w3-padding-16 w3-light-gray" style="max-width:100%;"></div>
+            <div>
                 <div class="card-block">
                     <p th:if="${message}" th:text="${message}" class="text-success"></p>
-                    <!-- Header -->
-                    <header id="books">
-                        <a href="#"><img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" style="width:10%" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"/></a>
-                        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" ><i class="fa fa-bars"></i></span>
-                        <div class="w3-container">
-                            <h1><b>Books</b></h1>
-                            <div class="w3-section w3-bottombar w3-padding-16">
-                                <span class="w3-margin-right">Filter Tags : <i class="fa fa-tags fa-fw w3-margin-left"></i></span>
-                                <a href="#" th:href="@{/book/}" class="w3-button w3-white">All<i class="fa fa-tag fa-fw w3-margin-left"></i></a>
-                                <span th:each="category : ${categoryList}">
-                                    <a href="#" th:href="@{/book/byCategory/(category=${category.name})}" class="w3-button w3-white tagBtn"><i class="fa fa-tag fa-fw w3-margin-left"></i><span th:text="${category.description}">1</span></a>
-                                </span>
-
-                            </div>
-                        </div>
-                    </header>
-
                     <div th:with="expr_result = ${bookResult.size() > 0}">
                         <div th:if="${expr_result}">
                             <div class="w3-row-padding">
@@ -61,14 +43,14 @@
                                 <ul class="pagination justify-content-end font-weight-medium">
                                     <li class="page-item" th:classappend="${page.first}?'disabled':''">
                                         <span th:if='${page.first}'>← First</span>
-                                        <a class="page-link svg-icon" th:if='${not page.first}' th:href='@{/book/(page=0,size=${page.size})}'>← First</a>
+                                        <a class="page-link svg-icon" th:if='${not page.first}' th:href='@{/book/search(searchKey=${searchKey},page=0,size=${page.size})}'>← First</a>
                                     </li>
                                     <li class="page-item" th:classappend="${page.number eq 0} ? 'disabled'">
                                         <span th:if='${not page.hasPrevious()}'>Previous</span>
-                                        <a class="page-link svg-icon" th:if='${page.hasPrevious()}' th:href='@{/book/(page=${page.number-1},size=${page.size})}' aria-label="Previous" title='Go to previous page' rel="tooltip">Previous</a>
+                                        <a class="page-link svg-icon" th:if='${page.hasPrevious()}' th:href='@{/book/search(searchKey=${searchKey},page=${page.number-1},size=${page.size})}' aria-label="Previous" title='Go to previous page' rel="tooltip">Previous</a>
                                     </li>
                                     <li th:each="i : ${#numbers.sequence(page.number, page.totalPages > 6 + page.number ? page.number + 6 : page.totalPages-1, 1)}" class="page-item" th:classappend="${i eq page.number} ? 'active'" >
-                                        <a class="page-link" th:href="@{/book/(page=${i},size=${page.size})}" th:text="${i}" th:title="${'Page '+ i}" rel="tooltip"></a>
+                                        <a class="page-link" th:href="@{/book/search(searchKey=${searchKey},page=${i},size=${page.size})}" th:text="${i}" th:title="${'Page '+ i}" rel="tooltip"></a>
                                     </li>
                                     <li class="page-item disabled" th:if="${page.number + 6 < page.totalPages}">
                                         <a class="page-link svg-icon" href="#">
@@ -76,20 +58,20 @@
                                         </a>
                                     </li>
                                     <li class="page-item" th:classappend="${page.number + 1 eq page.totalPages} ? 'disabled':''">
-                                        <a class="page-link svg-icon" th:href="@{/book/(page=${page.number+1},size=${page.size})}" aria-label="Next" title="Next Page" rel="tooltip">
+                                        <a class="page-link svg-icon" th:href="@{/book/search(searchKey=${searchKey},page=${page.number+1},size=${page.size})}" aria-label="Next" title="Next Page" rel="tooltip">
                                             Next
                                         </a>
                                     </li>
                                     <li class="page-item" th:classappend="${page.last}? 'disabled' : ''">
                                         <span th:if='${page.last}'>Last →</span>
-                                        <a class="page-link svg-icon" th:if='${not page.last}' th:href='@{/book/(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
+                                        <a class="page-link svg-icon" th:if='${not page.last}' th:href='@{/book/search(searchKey=${searchKey},page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
                                     </li>
                                 </ul>
                             </nav>
                         </div>
-                        <div th:unless="${expr_result}">
-                            <h1 class="w3-text-black"><b>Right Now No Books Are Available For This Category..</b></h1>
-                        </div>
+                       <!-- <div th:unless="${expr_result}">
+                            <h2 class="w3-text-black"><b>Right Now No Books Are Available For This Key..</b></h2>
+                        </div>-->
                     </div>
                 </div>
             </div>

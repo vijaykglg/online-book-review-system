@@ -12,11 +12,10 @@ import com.vijay.sfcp.obrs.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-
 public interface BookService extends CRUDService<Book> {
     Page<Book> findAllPageWise(Pageable pageable);
 
-    Page<Book> findAllByPublishers(Pageable pageable, User publisher);
+    Page<Book> findAllByPublishers(User publisher, Pageable pageable);
+
+    Page<Book> findAllByCategory(String category, Pageable pageable);
 }

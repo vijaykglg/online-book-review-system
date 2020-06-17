@@ -63,7 +63,7 @@
   <div class="w3-bar-item w3-card w3-display-right w3-white" >
     <a href="#" th:href="@{/}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw w3-margin-right"></i>HOME</a>
     <a href="#" th:href="@{/about}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-info-circle fa-fw w3-margin-right"></i>ABOUT</a>
-    <a href="#" th:href="@{/searchBooks}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw w3-margin-right"></i>SEARCH BOOKS</a>
+    <a href="#" th:href="@{/book/searchPage}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-search fa-fw w3-margin-right"></i>SEARCH BOOKS</a>
     <a href="#" th:href="@{/user/byRole/(role=publisher)}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_ADMIN')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-person-booth fa-fw w3-margin-right"></i>PUBLISHER</a>
     <a href="#" th:href="@{/user/byRole/(role=user)}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_ADMIN')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw w3-margin-right"></i>USER</a>
     <a href="#" th:href="@{/book/byPublisher}" onclick="w3_close()" sec:authorize="hasAuthority('ROLE_PUBLISHER')" class="w3-bar-item w3-button w3-padding"><i class="fa fa-book fa-fw w3-margin-right"></i>BOOK</a>
@@ -91,7 +91,9 @@
       <h3>Online Book Review System</h3>
       <p>This site is designed by Vijay Gupta.</p>
     </div>
-
+    <div class="w3-hover-text-white">
+        <a href="http://fb.me/OnlineBookReviewSystem" data-content="http://fb.me/OnlineBookReviewSystem" data-type="external"><i class="fa fa-facebook w3-hover-opacity"></i></a>
+    </div>
     <div class="w3-third">
       <h3>New Arrivals</h3>
       <ul class="w3-ul w3-hoverable">

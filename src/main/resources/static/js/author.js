@@ -2,8 +2,8 @@ $(document).ready(function () {
 
     $('.nBtn, .table .eBtn').on('click', function (event) {
         event.preventDefault();
-        var href = $(this).attr('href');//Get the action to be called from HTML's href tag
-        var text = $(this).text(); //return New or Edit
+        const href = $(this).attr('href');//Get the action to be called from HTML's href tag
+        const text = $(this).text(); //return New or Edit
 
         if (text === 'Edit') {
             $.get(href, function (author, status) {
@@ -21,7 +21,7 @@ $(document).ready(function () {
 
     $('.table .delBtn').on('click', function (event) {
         event.preventDefault();
-        var href = $(this).attr('href');
+        const href = $(this).attr('href');
         $('#myModal #delRef').attr('href', href);
         $('#myModal').modal();
     });

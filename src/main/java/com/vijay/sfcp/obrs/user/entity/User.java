@@ -66,8 +66,8 @@ public class User extends AbstractEntityClass  implements Serializable {
     //     inverseJoinColumns = @joinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "publishers")//mappedBy = "publishers" refers to the 'publishers' property in Book Class
-    private Set<Book> books;
+    @ManyToMany(mappedBy = "publishers", fetch = FetchType.LAZY)//mappedBy = "publishers" refers to the 'publishers' property in Book Class
+    private Set<Book> books = new HashSet<>();
 
     //bi-directional many-to-one association to Review
     @OneToMany(
@@ -82,8 +82,8 @@ public class User extends AbstractEntityClass  implements Serializable {
         return firstName;
     }
 
-    public void setFirstName(String firstname) {
-        this.firstName = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
