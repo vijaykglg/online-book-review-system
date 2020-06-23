@@ -6,9 +6,6 @@ User    : Vijay Gupta
 Date    : 31 May 2020
 */
 
-import com.vijay.sfcp.obrs.book.entity.Book;
-import com.vijay.sfcp.obrs.user.entity.User;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -18,50 +15,32 @@ public class Review {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private ReviewPK id;
+    private ReviewId id;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date dateCreated;
+    private Date lastUpdated;
 
-    private BigDecimal rating;
+    private Integer rating;
 
     @Column(name = "review_text")
     private String reviewText;
 
-    //bi-directional many-to-one association to Book
-    @ManyToOne
-    @JoinColumn(name = "isbn", insertable = false, updatable = false)
-    private Book book;
-
-    //bi-directional many-to-one association to User
-    @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
-    private User user;
-
     public Review() {
     }
 
-    public ReviewPK getId() {
+    public ReviewId getId() {
         return this.id;
     }
 
-    public void setId(ReviewPK id) {
+    public void setId(ReviewId id) {
         this.id = id;
     }
 
-    public Date getDate() {
-        return this.date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public BigDecimal getRating() {
+    public Integer getRating() {
         return this.rating;
     }
 
-    public void setRating(BigDecimal rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
@@ -73,19 +52,31 @@ public class Review {
         this.reviewText = reviewText;
     }
 
-    public Book getBook() {
-        return this.book;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public Date getLastUpdated() {
+        return lastUpdated;
     }
 
-    public User getUser() {
-        return this.user;
+    @PreUpdate
+    @PrePersist
+    public void updateTimeStamps() {
+        lastUpdated = new Date();
+        if (dateCreated == null) {
+            dateCreated = new Date();
+        }
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", dateCreated=" + dateCreated +
+                ", lastUpdated=" + lastUpdated +
+                ", rating=" + rating +
+                ", reviewText='" + reviewText + '\'' +
+                '}';
     }
 }

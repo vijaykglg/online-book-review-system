@@ -50,7 +50,7 @@ public class BookSearchController {
     }
 
     @GetMapping("/search")
-    public String searchBooks(@RequestParam(defaultValue = "all") String searchKey, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "6") Integer size,Model model) {
+    public String searchBooks(@RequestParam(defaultValue = "all") String searchKey, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size,Model model) {
 
         System.out.println("BookSearchController.searchBooks - searchKey = "+searchKey+" page = " + page + ", size = " + size);
         System.out.println("BookSearchController.searchBooks - ");

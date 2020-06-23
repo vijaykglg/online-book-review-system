@@ -13,16 +13,16 @@ import com.vijay.sfcp.obrs.review.entity.Review;
 import com.vijay.sfcp.obrs.role.entity.Role;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "user")
-public class User extends AbstractEntityClass  implements Serializable {
+public class User extends AbstractEntityClass implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotEmpty(message = "*Please provide your first name")
@@ -66,17 +66,18 @@ public class User extends AbstractEntityClass  implements Serializable {
     //     inverseJoinColumns = @joinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "publishers", fetch = FetchType.LAZY)//mappedBy = "publishers" refers to the 'publishers' property in Book Class
+    @ManyToMany(mappedBy = "publishers", fetch = FetchType.LAZY)
+//mappedBy = "publishers" refers to the 'publishers' property in Book Class
     private Set<Book> books = new HashSet<>();
 
-    //bi-directional many-to-one association to Review
+    /*//bi-directional many-to-one association to Review
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             orphanRemoval = true
     )
-    private List<Review> review = new ArrayList<>();
+    private Set<Review> reviews = new HashSet<>();*/
 
     public String getFirstName() {
         return firstName;
@@ -178,27 +179,36 @@ public class User extends AbstractEntityClass  implements Serializable {
         this.books = books;
     }
 
-    public List<Review> getReview() {
-        return this.review;
+   /* public Set<Review> getReviews() {
+        return this.reviews;
     }
 
-    public void setReview(List<Review> reviews) {
-        this.review = reviews;
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
-    public Review addReview(Review review) {
-        getReview().add(review);
-        review.setUser(this);
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        if (!(review.getUser() == this)) {
+            review.setUser(this);
+        }
+        *//*
+         *//**//* getReview().add(review);
+        review.setUser(this);*//**//*
 
-        return review;
+        return review;*//*
     }
 
-    public Review removeReview(Review review) {
-        getReview().remove(review);
+    public void removeReview(Review review) {
+
+        this.roles.remove(review);
         review.setUser(null);
 
-        return review;
-    }
+        *//*  *//**//*getReview().remove(review);
+        review.setUser(null);*//**//*
+
+        return review;*//*
+    }*/
 
     @Override
     public String toString() {
@@ -213,7 +223,7 @@ public class User extends AbstractEntityClass  implements Serializable {
                 ", active=" + active +
                 ", failedLoginAttempts=" + failedLoginAttempts +
                 ", roles=" + roles +
-                ", review=" + review +
+//                ", review=" + reviews +
                 '}';
     }
 }

@@ -62,4 +62,14 @@ public class BookServiceImpl implements BookService {
     public Page<Book> findAllByCategory(String category, Pageable pageable) {
         return this.bookRepository.findAllByCategoryName(category, pageable);
     }
+
+    @Override
+    public Page<Book> findAllByAuthor(String author, Pageable pageable) {
+        return this.bookRepository.findAllByAuthorName(author,pageable);
+    }
+
+    @Override
+    public Page<Book> findAllByAuthor(Integer authorId, Pageable pageable) {
+        return this.bookRepository.findAllByAuthorId(authorId,pageable);
+    }
 }

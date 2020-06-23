@@ -6,8 +6,9 @@ import com.vijay.sfcp.obrs.book.entity.Book;
 import com.vijay.sfcp.obrs.book.service.BookService;
 import com.vijay.sfcp.obrs.category.entity.Category;
 import com.vijay.sfcp.obrs.category.service.CategoryService;
-import com.vijay.sfcp.obrs.publisher.entity.Publisher;
 import com.vijay.sfcp.obrs.publisher.service.PublisherService;
+import com.vijay.sfcp.obrs.review.entity.Review;
+import com.vijay.sfcp.obrs.review.entity.ReviewId;
 import com.vijay.sfcp.obrs.review.service.ReviewService;
 import com.vijay.sfcp.obrs.role.entity.Role;
 import com.vijay.sfcp.obrs.role.service.RoleService;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -73,9 +75,8 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         loadRoles();
         loadCategory();
         loadAuthors();
-        //loadPublisher();
         loadBooks();
-        //loadReviews();
+        loadReviews();
 
         assignUsersToUserRole();
         assignUsersToAdminRole();
@@ -83,8 +84,9 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         assignAuthorToBook();
         assignCategoryToBook();
         assignPublisherToBook();
-        /*assignReviewsToUser();
-        assignReviewsToBook();*/
+       /* assignReviewsToUser();
+        assignBookToReview();
+        assignUserToReview();*/
     }
 
     private void loadUsers() {
@@ -95,6 +97,66 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         user1.setLastName("UserLastname");
         user1.setEmail("abc@test.com");
         user1.setDescription("user");
+        userService.saveOrUpdate(user1);
+        System.out.println("Saved User1 " + user1.getUserName());
+
+        user1 = new User();
+        user1.setUserName("user1");
+        user1.setPassword("user1");
+        user1.setFirstName("UserFirstName1");
+        user1.setLastName("UserLastname1");
+        user1.setEmail("abc1@test.com");
+        user1.setDescription("user1");
+        userService.saveOrUpdate(user1);
+        System.out.println("Saved User1 " + user1.getUserName());
+
+        user1 = new User();
+        user1.setUserName("user2");
+        user1.setPassword("user2");
+        user1.setFirstName("UserFirstName2");
+        user1.setLastName("UserLastname2");
+        user1.setEmail("abc2@test.com");
+        user1.setDescription("user2");
+        userService.saveOrUpdate(user1);
+        System.out.println("Saved User1 " + user1.getUserName());
+
+        user1 = new User();
+        user1.setUserName("user3");
+        user1.setPassword("user3");
+        user1.setFirstName("UserFirstName3");
+        user1.setLastName("UserLastname3");
+        user1.setEmail("abc3@test.com");
+        user1.setDescription("user3");
+        userService.saveOrUpdate(user1);
+        System.out.println("Saved User1 " + user1.getUserName());
+
+        user1 = new User();
+        user1.setUserName("user4");
+        user1.setPassword("user4");
+        user1.setFirstName("UserFirstName4");
+        user1.setLastName("UserLastname4");
+        user1.setEmail("abc4@test.com");
+        user1.setDescription("user4");
+        userService.saveOrUpdate(user1);
+        System.out.println("Saved User1 " + user1.getUserName());
+
+        user1 = new User();
+        user1.setUserName("user5");
+        user1.setPassword("user5");
+        user1.setFirstName("UserFirstName5");
+        user1.setLastName("UserLastname5");
+        user1.setEmail("abc5@test.com");
+        user1.setDescription("user5");
+        userService.saveOrUpdate(user1);
+        System.out.println("Saved User1 " + user1.getUserName());
+
+        user1 = new User();
+        user1.setUserName("user6");
+        user1.setPassword("user6");
+        user1.setFirstName("UserFirstName6");
+        user1.setLastName("UserLastname6");
+        user1.setEmail("abc6@test.com");
+        user1.setDescription("user6");
         userService.saveOrUpdate(user1);
         System.out.println("Saved User1 " + user1.getUserName());
 
@@ -144,19 +206,6 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         publisherRole.setRole("ROLE_PUBLISHER");
         roleService.saveOrUpdate(publisherRole);
         System.out.println("Saved role " + publisherRole.getRole());
-    }
-
-    private void loadPublisher() {
-        Publisher publisher = new Publisher();
-        publisher.setName("XYZ PUBLICATION");
-        publisher.setDescription("TOP In the City");
-        publisherService.saveOrUpdate(publisher);
-
-        publisher = new Publisher();
-        publisher.setName("ABC PUBLICATION");
-        publisher.setDescription("TOP In the India");
-        publisherService.saveOrUpdate(publisher);
-        System.out.println("Saved Publisher ");
     }
 
     private void loadCategory() {
@@ -221,124 +270,23 @@ public class SpringJpaBootstrap implements CommandLineRunner {
     }
 
     private void loadReviews() {
-
         List<Book> books = (List<Book>) bookService.findAll();
         List<User> users = (List<User>) userService.findAll();
-        List<Role> roles = (List<Role>) roleService.findAll();
 
-        /*roles.forEach(role -> {
-            if (role.getRole().equalsIgnoreCase("ROLE_USER")) {
-                System.out.println("SpringJpaBootstrap.loadReviews - ROLE is USER");
-                users.forEach(user -> {
-                         books.forEach(book -> {
-                            Review review = new Review();
-                            review.setRating(new BigDecimal("5.3"));
-                            review.setReviewText("Review by User");
-                            review.setId(new ReviewPK(user.getId(),book.getIsbn()));
-                            reviewService.saveOrUpdate(review);
-
-                           *//* book.addReview(review);
-                            user.addReview(review);*//*
-                        });
-                });
-            }
-        });*/
-        System.out.println("SpringJpaBootstrap.loadReviews - Saved Review");
-        /*users.forEach(user -> {
-            if(user.getRoles().contains("USER"))
-            {
-                books.forEach(book -> {
+        users.forEach(user -> {
+            books.forEach(book -> {
+                if(book.getTitle().contains("ABC")){
                     Review review = new Review();
-                    review.setRating(new BigDecimal("5.3"));
-                    review.setReviewText("Review by User");
-                    review.setId(new ReviewPK(book.getIsbn(),user.getId()));
+                    review.setRating(user.getId());
+                    review.setReviewText("Review by " + user.getUserName());
+                    review.setId(new ReviewId(book, user));
+
                     reviewService.saveOrUpdate(review);
-
-                    book.addReview(review);
-                    user.addReview(review);
-                });
-            }
-        });*/
-
-/*
-        Review review = new Review();
-        review.setRating(new BigDecimal("5.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("7.0"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("8.9"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("2.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("4.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("1.5"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("9.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("10.0"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("6.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("3.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("2.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("1.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());
-
-        review = new Review();
-        review.setRating(new BigDecimal("7.3"));
-        review.setReviewText("Review by User");
-        reviewService.saveOrUpdate(review);
-        System.out.println("Saved Review " + review.getRating());*/
-
+                    System.out.println("reviewService updated");
+                }
+            });
+        });
+        System.out.println("Saved Reviews");
     }
 
     private void loadBooks() {
@@ -348,6 +296,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
             book.setIsbn(String.valueOf(random.nextInt()));
             book.setTitle("BOOK_ABC" + i);
             book.setReleaseDate("16/03/2020");
+            book.setDescription("Some quick example text to build on the card title and make up the bulk of the card's content.");
             bookService.saveOrUpdate(book);
         }
         for (int i = 0; i < 10; i++) {
@@ -355,28 +304,9 @@ public class SpringJpaBootstrap implements CommandLineRunner {
             book.setIsbn(String.valueOf(random.nextInt()));
             book.setTitle("BOOK_XYZ" + i);
             book.setReleaseDate("16/03/2020");
+            book.setDescription("Some quick example text to build on the card title and make up the bulk of the card's content.");
             bookService.saveOrUpdate(book);
         }
-
-        /*List<User> publishers = (List<User>) userService.findAll();
-        List<Book> books = (List<Book>) bookService.findAll();
-        publishers.forEach(publisher -> {
-            if (publisher.getDescription().contains("ABC")) {
-                books.forEach(book -> {
-                    if (book.getTitle().contains("ABC")) {
-                        book.addPublisher(publisher);
-                    }
-                });
-            }
-
-            if (publisher.getDescription().contains("XYZ")) {
-                books.forEach(book -> {
-                    if (book.getTitle().contains("XYZ")) {
-                        book.addPublisher(publisher);
-                    }
-                });
-            }
-        });*/
         System.out.println("Saved Books ");
     }
 
@@ -386,7 +316,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         roles.forEach(role -> {
             if (role.getRole().equalsIgnoreCase("ROLE_USER")) {
                 users.forEach(user -> {
-                    if (user.getUserName().equals("user")) {
+                    if (user.getUserName().contains("user")) {
                         user.addRole(role);
                         userService.saveOrUpdate(user);
                     }
@@ -425,33 +355,6 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         });
     }
 
-    /*private void assignReviewsToUser() {
-        List<Review> reviews = (List<Review>) reviewService.listAll();
-        List<User> users = (List<User>) userService.findAll();
-
-        users.forEach(user -> {
-            if(user.getRoles().contains("USER"))
-            {
-                reviews.forEach(review -> {
-                    user.addReview(review);
-                    userService.saveOrUpdate(user);
-                });
-            }
-        });
-    }
-
-    private void assignReviewsToBook() {
-        List<Review> reviews = (List<Review>) reviewService.listAll();
-        List<Book> books = (List<Book>) bookService.findAll();
-
-        books.forEach(book -> {
-            reviews.forEach(review -> {
-                book.addReview(review);
-                bookService.saveOrUpdate(book);
-            });
-        });
-    }
-*/
     private void assignCategoryToBook() {
         List<Category> categories = (List<Category>) categoryService.findAll();
         List<Book> books = (List<Book>) bookService.findAll();
@@ -478,6 +381,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
     }
 
     private void assignAuthorToBook() {
+        System.out.println("SpringJpaBootstrap.assignAuthorToBook");
         List<Author> authors = (List<Author>) authorService.findAll();
         List<Book> books = (List<Book>) bookService.findAll();
 
@@ -500,6 +404,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
                 });
             }
         });
+        System.out.println("Assigned Authors to Book");
     }
 
     private void assignPublisherToBook() {
@@ -527,4 +432,74 @@ public class SpringJpaBootstrap implements CommandLineRunner {
             }
         });
     }
+
+    /*private void assignReviewsToUser() {
+        List<User> users = (List<User>) userService.findAll();
+        List<Review> reviews = reviewService.findAll();
+
+        reviews.forEach(review -> {
+            users.forEach(user -> {
+                if (user.getRoles().contains("ROLE_USER")) {
+                    user.addReview(review);
+                    userService.saveOrUpdate(user);
+                }
+            });
+        });
+        System.out.println("assignReviewsToUser");
+    }
+
+    private void assignBookToReview() {
+        System.out.println("SpringJpaBootstrap.assignBookToReview");
+        List<Review> reviews = (List<Review>) reviewService.findAll();
+        List<Book> books = (List<Book>) bookService.findAll();
+
+
+        reviews.forEach(review -> {
+            if (review.getRating().compareTo(BigDecimal.valueOf(3.0)) >0) {
+                books.forEach(book -> {
+                    if (book.getTitle().contains("ABC")) {
+                        book.addReview(review);
+                        bookService.saveOrUpdate(book);
+                    }
+                });
+            }
+
+            if (review.getRating().compareTo(BigDecimal.valueOf(5.0)) >0) {
+                books.forEach(book -> {
+                    if (book.getTitle().contains("XYZ")) {
+                        book.addReview(review);
+                        bookService.saveOrUpdate(book);
+                    }
+                });
+            }
+        });
+        System.out.println("Assigned Book to Review");
+    }
+
+    private void assignUserToReview() {
+        System.out.println("SpringJpaBootstrap.assignBookToReview");
+        List<Review> reviews = (List<Review>) reviewService.findAll();
+        List<User> users = (List<User>) userService.findAll();
+
+        reviews.forEach(review -> {
+            if (review.getRating().compareTo(BigDecimal.valueOf(3.0)) >0) {
+                users.forEach(user -> {
+                    if (user.getUserName().equalsIgnoreCase("user")) {
+                        user.addReview(review);
+                        userService.saveOrUpdate(user);
+                    }
+                });
+            }
+
+            if (review.getRating().compareTo(BigDecimal.valueOf(5.0)) >0) {
+                users.forEach(user -> {
+                    if (user.getUserName().equalsIgnoreCase("user")) {
+                        user.addReview(review);
+                        userService.saveOrUpdate(user);
+                    }
+                });
+            }
+        });
+        System.out.println("Assigned User to Review");
+    }*/
 }

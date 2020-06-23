@@ -46,6 +46,7 @@
                 <span sec:authorize="isAuthenticated()" class="w3-display-right"><a href="#" th:href="@{/logout}" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">SIGN OUT<i class="fa fa-sign-out-alt fa-fw w3-margin-left"></i></a></span>
             </span>
   </div>
+  <span id="isAuthenticated" th:text="${#authorization.expression('isAuthenticated()')} ? 'true' : 'false'" hidden></span>
 </div>
 
 <!-- Main Navigation -->

@@ -9,20 +9,23 @@ $(document).ready(function () {
                 $('.myForm #id').val(book.id);
                 $('.myForm #isbn').val(book.isbn).attr('disabled', 'disabled');
                 $('.myForm #title').val(book.title);
+                $('.myForm #description').val(book.description);
 
                 $('.myForm #releaseDate').attr('type','text');
                 $('.myForm #releaseDate').val(book.releaseDate).attr('disabled', 'disabled');
 
                 $('.myForm #category option[value="'+book.category.id+'"]').attr("selected",true);
                 $('.myForm #author option[value="'+book.author.id+'"]').attr("selected",true);
-                $('.myForm #author').attr("selected",true).attr('disabled', 'disabled');
+                // $('.myForm #author').attr("selected",true).attr('disabled', 'disabled');
             });
 
             $(".myForm #exampleModal").modal("show");
         } else {
             $('.myForm #isbn').val('');
             $('.myForm #title').val('');
+            $('.myForm #description').val('');
             $('.myForm #releaseDate').val('');
+
             $('.myForm #exampleModal').modal();
         }
     });

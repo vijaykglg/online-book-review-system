@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.SetJoin;
 
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -24,13 +23,12 @@ import static org.springframework.data.jpa.domain.Specification.where;
 public class BookSpecification extends BaseSpecification {
     @Override
     public Specification<Book> getFilter(String search) {
-
-        /*return where(titleContains(search))
-                .or(isbnContains(search));*/
+        
         return (root, query, cb) -> {
             query.distinct(true); //Important because of the join in the addressAttribute specifications
             return where(titleContains(search))
                     .or(isbnContains(search))
+                    .or(descriptionContains(search))
                     .or(authorNameContains(search))
                     .or(authorDescriptionContains(search))
                     .or(categoryNameContains(search))
@@ -49,6 +47,10 @@ public class BookSpecification extends BaseSpecification {
 
     private Specification<Book> isbnContains(String isbn) {
         return bookAttributeContains("isbn", isbn);
+    }
+
+    private Specification<Book> descriptionContains(String description) {
+        return bookAttributeContains("description", description);
     }
 
     private Specification<Book> bookAttributeContains(String attribute, String value) {

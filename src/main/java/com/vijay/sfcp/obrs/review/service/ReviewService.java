@@ -6,15 +6,24 @@ User    : Vijay Gupta
 Date    : 31 May 2020
 */
 
-import com.vijay.sfcp.obrs.common.service.CRUDService;
+import com.vijay.sfcp.obrs.book.entity.Book;
 import com.vijay.sfcp.obrs.review.entity.Review;
-import com.vijay.sfcp.obrs.review.entity.ReviewPK;
+import com.vijay.sfcp.obrs.review.entity.ReviewId;
+import com.vijay.sfcp.obrs.user.entity.User;
 
 import java.util.List;
 
 public interface ReviewService{
-    List<?> listAll();
-    Review getById(ReviewPK reviewPK);
+    List<Review> findAll();
+    Review findById(ReviewId reviewId);
     Review saveOrUpdate(Review domainObject);
-    void delete(ReviewPK reviewPK);
+    void delete(ReviewId reviewId);
+
+    List<Review> findReviewsByBook_Isbn(String isbn);
+
+    List<Review> findReviewsByBook_Title(String tile);
+
+    List<Review> findReviewsByBook(Book book);
+
+    List<Review> findAllById(Book book, User user);
 }

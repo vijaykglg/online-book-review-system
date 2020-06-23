@@ -18,4 +18,8 @@ public interface BookService extends CRUDService<Book> {
     Page<Book> findAllByPublishers(User publisher, Pageable pageable);
 
     Page<Book> findAllByCategory(String category, Pageable pageable);
+
+    Page<Book> findAllByAuthor(String category, Pageable pageable);
+
+    Page<Book> findAllByAuthor(Integer authorId, Pageable pageable);
 }

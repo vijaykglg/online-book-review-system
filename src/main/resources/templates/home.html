@@ -9,19 +9,6 @@
 
 <div layout:fragment="content">
     <section class="w3-main">
-        <!--<div class="da ai">
-            <figure class="db da ai paragraph-image">
-                <div class="dc dd de df ai">
-                    <div class="dl r de dm">
-                        <div class="dn do r">
-                            <div class="dg dh s t u di ai av dj dk">
-                                <img class="s t u di ai dp dq bc td" src="../static/image/background.jpeg" width="100%" height="70%" role="presentation" th:src="@{/images/background.jpeg}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </figure>
-        </div>-->
         <div>
             <div class="card w3-light-gray position: relative; z-index: 1;">
                 <div class="card-block">
@@ -45,13 +32,27 @@
 
                     <div th:with="expr_result = ${bookResult.size() > 0}">
                         <div th:if="${expr_result}">
-                            <div class="w3-row-padding">
+                            <div class="row row-cols-1 row-cols-md-5">
                                 <span th:each="book : ${bookResult}">
-                                    <div class="w3-third w3-container w3-margin-bottom">
-                                        <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
-                                        <div class="w3-container w3-white">
-                                            <p><b><span th:text="${book?.author?.name}"></span></b></p>
-                                            <p><span th:text="${book.title}"></span></p>
+                                    <div class="col mb-4">
+                                        <div class="card h-100">
+                                            <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" class="card-img-top" style="max-width: 22rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><span th:text="${book.title}"></span></h5>
+                                                <p class="card-text"><span  th:text="${book.description}"></span></p>
+                                            </div>
+                                            <!--<ul class="list-group list-group-flush">
+                                                <li class="list-group-item">ISBN:<span th:text="${book.isbn}"></span></li>
+                                                <li class="list-group-item">Category:<span th:text="${book?.category?.name}"></span></li>
+                                                <li class="list-group-item">Author:<span th:text="${book?.author?.name}"></span></li>
+                                            </ul>-->
+                                            <div class="card-body">
+                                                <a href="#" th:href="@{/book/byAuthor/(authorId=${book?.author?.id})}" class="card-link">Get All Books for this Author</a>
+                                                <a href="#" th:href="@{/book/bookDetail/(id=${book.id})}" class="card-link">Book Details</a>
+                                            </div>
+                                             <div class="card-footer">
+                                                <small class="text-muted">Released On <span th:text="${book.releaseDate}"></span></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </span>
@@ -88,7 +89,7 @@
                             </nav>
                         </div>
                         <div th:unless="${expr_result}">
-                            <h1 class="w3-text-black"><b>Right Now No Books Are Available For This Category..</b></h1>
+                            <h5 class="w3-text-black"><b>Right Now No Books Are Available For This Category..</b></h5>
                         </div>
                     </div>
                 </div>

@@ -18,24 +18,25 @@
                         <tr>
                             <th>ISBN</th>
                             <th>Title</th>
-                            <th>Category</th>
+                            <th>Description</th>
                             <th>Release Date</th>
+                            <th>Category</th>
                             <th>Author</th>
-                            <th>Publisher</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="book : ${bookResult}">
                             <td th:text="${book.isbn}"></td>
                             <td th:text="${book.title}"></td>
-                            <td th:text="${book?.category?.name}"></td>
+                            <td th:text="${book.description}"></td>
                             <td th:text="${book.releaseDate}"></td>
+                            <td th:text="${book?.category?.name}"></td>
                             <td th:text="${book?.author?.name}"></td>
-                            <td>
+<!--                            <td>
                                 <div th:each="publisher : ${book.publishers}">
                                     <div th:text="${publisher.firstName + ' ' + publisher.lastName}">1</div>
                                 </div>
-                            </td>
+                            </td>-->
                             <td>
                                 <a class="btn btn-danger delBtn" th:href="@{delete/(id=${book.id})}">Delete</a>
                                 <a class="btn btn-primary eBtn" th:href="@{findOne/(id=${book.id})}">Edit</a>
@@ -103,6 +104,10 @@
                                         <input class="form-control" id="title" name="title" type="text" value=""/>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-form-label" for="description">Description:</label>
+                                        <input class="form-control" id="description" name="description" type="text" value=""/>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-form-label" for="releaseDate">Release Date:</label>
                                         <input class="form-control" id="releaseDate" name="releaseDate" type="date" value=""/>
                                     </div>
@@ -120,6 +125,17 @@
                                             <option th:each="author : ${authorList}" th:value="${author.id}" th:text="${author.name}"></option>
                                         </select>
                                     </div>
+<!--                                    <a data-toggle="modal" href="#myModal2" class="btn btn-primary">Upload Book Image</a>-->
+                                    <!--<div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupFileAddon01">Upload Book Image</span>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="imageURL" name="imageURL" aria-describedby="inputGroupFileAddon01">
+                                            <label class="custom-file-label" for="imageURL">Choose file</label>
+                                            <a data-toggle="modal" href="#myModal2" class="btn btn-primary">Upload Book Image</a>
+                                        </div>
+                                    </div>-->
                                 </div>
                                 <div class="modal-footer">
                                     <button class="btn btn-secondary" data-dismiss="modal"
@@ -132,7 +148,35 @@
                     </div>
                 </form>
             </div>
-
+            <div class="uploadForm">
+                <form action="#" method="post" th:action="@{/file/uploadFile}" enctype="multipart/form-data">
+                    <div class="modal" id="myModal2" data-backdrop="static">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Upload Book Image</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div><div class="container"></div>
+                                <div class="modal-body">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupFileAddon01">Upload Book Image</span>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file" name="file" aria-describedby="inputGroupFileAddon01">
+                                            <label class="custom-file-label" for="file">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                                    <input class="btn btn-primary" type="submit" value="Upload"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal"
                  role="dialog" tabindex="-1">
                 <div class="modal-dialog" role="document">

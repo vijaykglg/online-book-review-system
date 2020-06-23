@@ -6,11 +6,11 @@ User    : Vijay Gupta
 Date    : 31 May 2020
 */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vijay.sfcp.obrs.author.entity.Author;
 import com.vijay.sfcp.obrs.category.entity.Category;
 import com.vijay.sfcp.obrs.common.entity.AbstractEntityClass;
 import com.vijay.sfcp.obrs.publisher.entity.Publisher;
-import com.vijay.sfcp.obrs.review.entity.Review;
 import com.vijay.sfcp.obrs.user.entity.User;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -31,45 +31,41 @@ public class Book extends AbstractEntityClass implements Serializable {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "release_date", nullable = false, updatable = false)
     private String releaseDate;
 
+    @Column(name = "image_url")
+    private String imageURL;
+
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "published_by", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "id"))
     private Set<User> publishers = new HashSet<User>();
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", updatable = false)
+    @JoinColumn(name = "author_id", referencedColumnName = "id"/*, updatable = false*/)
     private Author author;
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    //bi-directional many-to-one association to Review
-    @OneToMany(mappedBy = "book")
-    private Set<Review> reviews = new HashSet<>();
-
     public Book() {
     }
 
-    /*public Book(String isbn, String title, Set<Publisher> publishers, Author author, Category category, Set<Review> reviews) {
+    public Book(String isbn, String title, String description, String releaseDate, Set<User> publishers, Author author, Category category) {
         this.isbn = isbn;
         this.title = title;
-        this.publishers = publishers;
-        this.author = author;
-        this.category = category;
-        this.reviews = reviews;
-    }*/
-
-    public Book(String isbn, String title, String releaseDate, Set<User> publishers, Author author, Category category, Set<Review> reviews) {
-        this.isbn = isbn;
-        this.title = title;
+        this.description = description;
         this.releaseDate = releaseDate;
         this.publishers = publishers;
         this.author = author;
         this.category = category;
-        this.reviews = reviews;
     }
 
     public String getIsbn() {
@@ -86,6 +82,14 @@ public class Book extends AbstractEntityClass implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getReleaseDate() {
@@ -120,24 +124,6 @@ public class Book extends AbstractEntityClass implements Serializable {
         this.category = category;
     }
 
-    public Set<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public void addReview(Review review) {
-        this.reviews.add(review);
-        review.setBook(this);
-    }
-
-    public void removeReview(Review review) {
-        this.reviews.remove(review);
-        review.setBook(null);
-    }
-
     public void addPublisher(User publisher) {
         this.publishers.add(publisher);
         publisher.getBooks().add(this);
@@ -151,13 +137,14 @@ public class Book extends AbstractEntityClass implements Serializable {
     @Override
     public String toString() {
         return "Book{" +
-                "isbn=" + isbn +
+                "isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", publishers=" + publishers +
                 ", author=" + author +
                 ", category=" + category +
-                ", reviews=" + reviews +
+//                ", reviews=" + reviews +
                 '}';
     }
 }
