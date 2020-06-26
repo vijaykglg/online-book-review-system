@@ -5,6 +5,7 @@ IDE     : IntelliJ IDEA
 User    : Vijay Gupta
 Date    : 30 May 2020
 */
+import com.vijay.sfcp.obrs.common.utils.LogUtil;
 import com.vijay.sfcp.obrs.error.exceptions.AlreadyExistsException;
 import com.vijay.sfcp.obrs.error.exceptions.NotFoundException;
 import com.vijay.sfcp.obrs.role.entity.Role;
@@ -12,6 +13,8 @@ import com.vijay.sfcp.obrs.role.repository.RoleRepository;
 import com.vijay.sfcp.obrs.user.entity.User;
 import com.vijay.sfcp.obrs.user.repository.UserRepository;
 import com.vijay.sfcp.obrs.user.security.EncryptionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,8 @@ import java.util.*;
 @Service
 @Profile("springdatajpa")
 public class UserServiceImpl implements UserService {
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final String CLASS_NAME = this.getClass().getName();
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
@@ -78,10 +83,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteById(Integer id) {
         if (this.userRepository.existsById(id)) {
-            System.out.println("User exists for this user id");
+            LogUtil.logError(LOG,CLASS_NAME,"deleteById","User exists for this user id");
             this.userRepository.deleteById(id);
         } else {
-            System.err.println("User Not Found ");
+            LogUtil.logError(LOG,CLASS_NAME,"deleteById","User Not Found");
             throw new NotFoundException("User Not Found For This id -  " + id);
         }
     }
@@ -89,9 +94,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerNewUser(final User user, String role) {
         if (existsByEmail(user.getEmail())) {
+            LogUtil.logError(LOG,CLASS_NAME,"registerNewUser","There is an account with this email address: " + user.getEmail());
             throw new AlreadyExistsException("There is an account with this email address: " + user.getEmail());
         }
         if (existsByUsername(user.getUserName())) {
+            LogUtil.logError(LOG,CLASS_NAME,"registerNewUser","There is an account with this username: " + user.getUserName());
             throw new AlreadyExistsException("There is an account with this username: " + user.getUserName());
         }
         if(user.getPassword() != null){

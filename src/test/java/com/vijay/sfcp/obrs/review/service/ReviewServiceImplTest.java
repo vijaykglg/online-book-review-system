@@ -21,7 +21,7 @@ class ReviewServiceImplTest {
 
     @Test
     void testFindReviewsByBook_Title() {
-        List<Review> book_xyz7 = reviewService.findReviewsByBook_Isbn("BOOK_XYZ7");
-        book_xyz7.forEach(review -> System.out.println(review.getReviewText()));
+        /*List<Review> book_xyz7 = reviewService.findReviewsByBook("BOOK_XYZ7");
+        book_xyz7.forEach(review -> System.out.println(review.getReviewText()));*/
     }
 }

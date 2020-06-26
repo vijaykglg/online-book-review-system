@@ -36,10 +36,10 @@
                                 <span th:each="book : ${bookResult}">
                                     <div class="col mb-4">
                                         <div class="card h-100">
-                                            <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" class="card-img-top" style="max-width: 22rem;">
+                                            <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${book.bookImage}}" alt="book" class="card-img-top">
                                             <div class="card-body">
                                                 <h5 class="card-title"><span th:text="${book.title}"></span></h5>
-                                                <p class="card-text"><span  th:text="${book.description}"></span></p>
+                                                <p class="card-text"><span th:text="${book.description}"></span></p>
                                             </div>
                                             <!--<ul class="list-group list-group-flush">
                                                 <li class="list-group-item">ISBN:<span th:text="${book.isbn}"></span></li>

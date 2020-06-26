@@ -3,91 +3,103 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Welcome</title>
+    <title>Welcome User</title>
 </head>
 <body>
 
 <div layout:fragment="content">
     <section class="w3-main">
-        <!-- Header -->
-        <header id="books">
-            <a href="#"><img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" style="width:10%" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"/></a>
-            <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
-            <div class="w3-container">
-                <h1><b>Books</b></h1>
-                <div class="w3-section w3-bottombar w3-padding-16">
-                    <span class="w3-margin-right">Filter Tags : <i class="fa fa-tags fa-fw w3-margin-left"></i></span>
-                    <button class="w3-button w3-black">ALL<i class="fa fa-tags fa-fw w3-margin-left"></i></button>
-                    <button class="w3-button w3-white"><i class="fa fa-tag fa-fw w3-margin-left"></i>Spritual</button>
-                    <button class="w3-button w3-white w3-hide-small"><i class="fa fa-tag fa-fw w3-margin-left"></i></i>Technical</button>
-                    <button class="w3-button w3-white w3-hide-small"><i class="fa fa-tag fa-fw w3-margin-left"></i></i>Education</button>
-                </div>
-            </div>
-        </header>
+        <div>
+            <div class="card w3-light-gray position: relative; z-index: 1;">
+                <div class="card-block">
+                    <p th:if="${message}" th:text="${message}" class="text-success"></p>
+                    <!-- Header -->
+                    <header id="books">
+                        <a href="#"><img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" style="width:10%" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"/></a>
+                        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" ><i class="fa fa-bars"></i></span>
+                        <div class="w3-container">
+                            <h1><b>Books</b></h1>
+                            <div class="w3-section w3-bottombar w3-padding-16">
+                                <span class="w3-margin-right">Filter Tags : <i class="fa fa-tags fa-fw w3-margin-left"></i></span>
+                                <a href="#" th:href="@{/book/}" class="w3-button w3-white">All<i class="fa fa-tag fa-fw w3-margin-left"></i></a>
+                                <span th:each="category : ${categoryList}">
+                                    <a href="#" th:href="@{/book/byCategory/(category=${category.name})}" class="w3-button w3-white tagBtn"><i class="fa fa-tag fa-fw w3-margin-left"></i><span th:text="${category.description}">1</span></a>
+                                </span>
 
-        <!-- First Photo Grid-->
-        <div class="w3-row-padding">
-            <div class="w3-third w3-container w3-margin-bottom">
-                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
-                <div class="w3-container w3-white">
-                    <p><b>John Thompson</b></p>
-                    <p>Hands-On Microservices with Kubernetes</p>
-                </div>
-            </div>
-            <div class="w3-third w3-container w3-margin-bottom">
-                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
-                <div class="w3-container w3-white">
-                    <p><b>John Thompson</b></p>
-                    <p>Continuous Delivery with Docker and Jenkins, Second Edition</p>
-                </div>
-            </div>
-            <div class="w3-third w3-container">
-                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
-                <div class="w3-container w3-white">
-                    <p><b>John Thompson</b></p>
-                    <p>C# 8.0 and .NET Core 3.0 – Modern Cross-Platform Development</p>
-                </div>
-            </div>
-        </div>
+                            </div>
+                        </div>
+                    </header>
 
-        <!-- Second Photo Grid-->
-        <div class="w3-row-padding">
-            <div class="w3-third w3-container w3-margin-bottom">
-                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
-                <div class="w3-container w3-white">
-                    <p><b>John Thompson</b></p>
-                    <p>ASP.NET Core 3 and React</p>
+                    <div th:with="expr_result = ${bookResult.size() > 0}">
+                        <div th:if="${expr_result}">
+                            <div class="row row-cols-1 row-cols-md-5">
+                                <span th:each="book : ${bookResult}">
+                                    <div class="col mb-4">
+                                        <div class="card h-100">
+                                            <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${book.bookImage}}" alt="book" class="card-img-top">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><span th:text="${book.title}"></span></h5>
+                                                <p class="card-text"><span th:text="${book.description}"></span></p>
+                                            </div>
+                                            <!--<ul class="list-group list-group-flush">
+                                                <li class="list-group-item">ISBN:<span th:text="${book.isbn}"></span></li>
+                                                <li class="list-group-item">Category:<span th:text="${book?.category?.name}"></span></li>
+                                                <li class="list-group-item">Author:<span th:text="${book?.author?.name}"></span></li>
+                                            </ul>-->
+                                            <div class="card-body">
+                                                <a href="#" th:href="@{/book/byAuthor/(authorId=${book?.author?.id})}" class="card-link">Get All Books for this Author</a>
+                                                <a href="#" th:href="@{/book/bookDetail/(id=${book.id})}" class="card-link">Book Details</a>
+                                            </div>
+                                             <div class="card-footer">
+                                                <small class="text-muted">Released On <span th:text="${book.releaseDate}"></span></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                            <!-- books pagination - Pagination Bar -->
+                            <nav aria-label="Pagination" th:if="${page.totalPages gt 0}">
+                                <ul class="pagination justify-content-end font-weight-medium">
+                                    <li class="page-item" th:classappend="${page.first}?'disabled':''">
+                                        <span th:if='${page.first}'>← First</span>
+                                        <a class="page-link svg-icon" th:if='${not page.first}' th:href='@{/book/(page=0,size=${page.size})}'>← First</a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${page.number eq 0} ? 'disabled'">
+                                        <span th:if='${not page.hasPrevious()}'>Previous</span>
+                                        <a class="page-link svg-icon" th:if='${page.hasPrevious()}' th:href='@{/book/(page=${page.number-1},size=${page.size})}' aria-label="Previous" title='Go to previous page' rel="tooltip">Previous</a>
+                                    </li>
+                                    <li th:each="i : ${#numbers.sequence(page.number, page.totalPages > 6 + page.number ? page.number + 6 : page.totalPages-1, 1)}" class="page-item" th:classappend="${i eq page.number} ? 'active'" >
+                                        <a class="page-link" th:href="@{/book/(page=${i},size=${page.size})}" th:text="${i}" th:title="${'Page '+ i}" rel="tooltip"></a>
+                                    </li>
+                                    <li class="page-item disabled" th:if="${page.number + 6 < page.totalPages}">
+                                        <a class="page-link svg-icon" href="#">
+                                            <span data-feather="more-horizontal" width="20" height="20">...</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${page.number + 1 eq page.totalPages} ? 'disabled':''">
+                                        <a class="page-link svg-icon" th:href="@{/book/(page=${page.number+1},size=${page.size})}" aria-label="Next" title="Next Page" rel="tooltip">
+                                            Next
+                                        </a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${page.last}? 'disabled' : ''">
+                                        <span th:if='${page.last}'>Last →</span>
+                                        <a class="page-link svg-icon" th:if='${not page.last}' th:href='@{/book/(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div th:unless="${expr_result}">
+                            <h5 class="w3-text-black"><b>Right Now No Books Are Available For This Category..</b></h5>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="w3-third w3-container w3-margin-bottom">
-                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
-                <div class="w3-container w3-white">
-                    <p><b>John Thompson</b></p>
-                    <p>Hands-On Cloud Administration in Azure.</p>
-                </div>
-            </div>
-            <div class="w3-third w3-container">
-                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" style="width:10%" class="w3-hover-opacity">
-                <div class="w3-container w3-white">
-                    <p><b>John Thompson</b></p>
-                    <p>Mastering Windows PowerShell Scripting</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pagination -->
-        <div class="w3-center w3-padding-32">
-            <div class="w3-bar">
-                <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
-                <a href="#" class="w3-bar-item w3-black w3-button">1</a>
-                <a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
-                <a href="#" class="w3-bar-item w3-button w3-hover-black">3</a>
-                <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
-                <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
             </div>
         </div>
     </section>
 </div>
-
+<th:block layout:fragment="script">
+    <link rel="stylesheet" th:href="@{/css/background.css}" href="../static/css/background.css"/>
+    <script type="application/javascript" th:src="@{/js/home.js}" src="../static/js/home.js"></script>
+</th:block>
 </body>
 </html>

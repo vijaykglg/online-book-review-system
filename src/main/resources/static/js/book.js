@@ -10,6 +10,7 @@ $(document).ready(function () {
                 $('.myForm #isbn').val(book.isbn).attr('disabled', 'disabled');
                 $('.myForm #title').val(book.title);
                 $('.myForm #description').val(book.description);
+                $('.myForm #bookImage').val(book.bookImage);
 
                 $('.myForm #releaseDate').attr('type','text');
                 $('.myForm #releaseDate').val(book.releaseDate).attr('disabled', 'disabled');
@@ -25,6 +26,7 @@ $(document).ready(function () {
             $('.myForm #title').val('');
             $('.myForm #description').val('');
             $('.myForm #releaseDate').val('');
+            $('.myForm #bookImage').val('');
 
             $('.myForm #exampleModal').modal();
         }

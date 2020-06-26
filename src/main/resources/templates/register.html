@@ -20,7 +20,7 @@
             </div>
             <hr class="w3-opacity">
             <div class="portlet-body form">
-                <form id="signupForm" th:action="@{/user/registration}" th:object="${user}" method="post">
+                <form id="signupForm" th:action="@{/user/registration/(role=user)}" th:object="${user}" method="post">
                     <div class="form-body">
                         <div class="form-group" th:classappend="${#fields.hasErrors('firstName')} ? 'has-error' : ''">
                             <label>First Name</label>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button class="w3-button w3-teal w3-padding-large w3-hover-black">Sign Up</button>
+                        <button class="w3-button w3-blue w3-padding-large w3-hover-black">Sign Up</button>
                     </div>
                 </form>
             </div>

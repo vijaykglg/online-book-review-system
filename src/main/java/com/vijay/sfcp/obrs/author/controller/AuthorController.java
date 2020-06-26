@@ -7,7 +7,7 @@ Date    : 31 May 2020
 */
 
 import com.vijay.sfcp.obrs.author.entity.Author;
-import com.vijay.sfcp.obrs.author.services.AuthorService;
+import com.vijay.sfcp.obrs.author.service.AuthorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

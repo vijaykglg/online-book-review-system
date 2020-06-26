@@ -10,14 +10,14 @@
 
 <div layout:fragment="content">
     <section class="w3-main">
-        <div>
+        <div style="margin-top: 10px;">
             <div class="row">
                 <div class="col-sm-6" style="padding-left: 2%">
                     <div class="card mb-3">
                         <div class="row no-gutters">
 <!--                            <h3 class="heading">Book Highlight's</h3>-->
                             <div class="col-md-4">
-                                <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" class="card-img-top" style="max-width: 22rem;">
+                                <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${bookDetail.bookImage}}" alt="book" class="card-img-top">
                             </div>
                             <div class="col-md-8 w3-text-black">
                                 <div class="card-body">
@@ -118,6 +118,25 @@
                 <div class="col-sm-6">
                     <div class="row row-cols-1 row-cols-md-3">
                         <span th:each="review : ${reviews}">
+                            <div class="card w3-border-dark-gray mb-3" style="max-width: 18rem;">
+                                <div class="card-header bg-transparent w3-border-dark-gray">
+                                    <div>
+                                        <span class="fa fa-star" th:classappend="${review.rating ge 1.00} ? 'checked':''"></span>
+                                        <span class="fa fa-star" th:classappend="${review.rating ge 2.00} ? 'checked':''"></span>
+                                        <span class="fa fa-star" th:classappend="${review.rating ge 3.00} ? 'checked':''"></span>
+                                        <span class="fa fa-star" th:classappend="${review.rating ge 4.00} ? 'checked':''"></span>
+                                        <span class="fa fa-star" th:classappend="${review.rating ge 5.00} ? 'checked':''"></span>
+                                    </div>
+                                </div>
+                                <div class="card-body text-dark">
+                                    <h5 class="card-title"><span th:text="${review?.id?.user?.firstName}"></span></h5>
+                                    <p class="card-text"><span th:text="${review.reviewText}"></span></p>
+                                </div>
+                                <div class="card-footer bg-transparent w3-border-dark-gray">
+                                    <span th:text="${review.lastUpdated}"></span>
+                                </div>
+                            </div>
+<!--
                             <div class="col mb-4">
                                 <div class="card border-dark mb-3" style="max-width: 18rem;">
                                     <div class="card-header">
@@ -136,7 +155,7 @@
                                         <p class="card-text"><span th:text="${review.reviewText}"></span></p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </span>
                     </div>
                 </div>

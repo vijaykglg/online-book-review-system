@@ -10,6 +10,9 @@ import com.vijay.sfcp.obrs.book.entity.Book;
 import com.vijay.sfcp.obrs.book.service.BookSearchService;
 import com.vijay.sfcp.obrs.book.service.BookService;
 import com.vijay.sfcp.obrs.category.entity.Category;
+import com.vijay.sfcp.obrs.common.utils.LogUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +31,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/book")
 public class BookSearchController {
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final String CLASS_NAME = this.getClass().getName();
+
     private BookSearchService bookSearchService;
     private BookService bookService;
 
@@ -51,12 +57,12 @@ public class BookSearchController {
 
     @GetMapping("/search")
     public String searchBooks(@RequestParam(defaultValue = "all") String searchKey, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size,Model model) {
+        LogUtil.logDebug(LOG,CLASS_NAME,"searchBooks","searchKey = "+searchKey+" page = " + page + ", size = " + size);
 
-        System.out.println("BookSearchController.searchBooks - searchKey = "+searchKey+" page = " + page + ", size = " + size);
-        System.out.println("BookSearchController.searchBooks - ");
-        Pageable pageable = PageRequest.of(page,size, Sort.by("isbn").ascending());
-        System.out.println(" pageable.getPageNumber() = " + pageable.getPageNumber()+" pageable.getPageSize() = " + pageable.getPageSize());
         Page<Book> pages = null;
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by("isbn").ascending());
+
         if(!StringUtils.isEmpty(searchKey) && !searchKey.equalsIgnoreCase("all"))
             pages = this.bookSearchService.searchBooks(searchKey,pageable);
         else

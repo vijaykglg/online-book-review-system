@@ -1,4 +1,4 @@
-package com.vijay.sfcp.obrs.author.services;
+package com.vijay.sfcp.obrs.author.service;
 /*
 Project : online-book-review-system
 IDE     : IntelliJ IDEA

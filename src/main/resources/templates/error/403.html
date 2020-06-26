@@ -2,11 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>Access Denied</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
+    <link rel="stylesheet" href="/webjars/w3-css/w3.css" />
+    <link rel="stylesheet" href="/webjars/font-awesome/css/all.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 </head>
 <body>
-<h1>HTTP Status 403 - Access is denied</h1>
-<h2>${message}</h2>
-<a href="index.html" th:href="@{/}">Back to Home Page</a>
+    <h1>You do not have permission to access this page!</h1>
+    <form action="#" method="post" th:action="@{/logout}">
+        <input class="btn btn-primary" type="submit" value="Sign in as different user"/>
+        <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+    </form>
+    <!--<hr style="border:1px solid #f1f1f1">
+    <a class="btn btn-primary eBtn" th:href="@{/}">Back to Home Page</a>-->
 </body>
 </html>

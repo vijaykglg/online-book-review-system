@@ -31,7 +31,7 @@
                                 <span th:each="book : ${bookResult}">
                                     <div class="col mb-4">
                                         <div class="card h-100">
-                                            <img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" alt="book" class="card-img-top" style="max-width: 22rem;">
+                                            <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${book.bookImage}}" alt="book" class="card-img-top">
                                             <div class="card-body">
                                                 <h5 class="card-title"><span th:text="${book.title}"></span></h5>
                                                 <p class="card-text"><span  th:text="${book.description}"></span></p>
@@ -57,14 +57,14 @@
                                 <ul class="pagination justify-content-end font-weight-medium">
                                     <li class="page-item" th:classappend="${page.first}?'disabled':''">
                                         <span th:if='${page.first}'>← First</span>
-                                        <a class="page-link svg-icon" th:if='${not page.first}' th:href='@{/book/(page=0,size=${page.size})}'>← First</a>
+                                        <a class="page-link svg-icon" th:if='${not page.first}' th:href='@{/book/search(searchKey=${searchKey},page=0,size=${page.size})}'>← First</a>
                                     </li>
                                     <li class="page-item" th:classappend="${page.number eq 0} ? 'disabled'">
                                         <span th:if='${not page.hasPrevious()}'>Previous</span>
-                                        <a class="page-link svg-icon" th:if='${page.hasPrevious()}' th:href='@{/book/(page=${page.number-1},size=${page.size})}' aria-label="Previous" title='Go to previous page' rel="tooltip">Previous</a>
+                                        <a class="page-link svg-icon" th:if='${page.hasPrevious()}' th:href='@{/book/search(searchKey=${searchKey},page=${page.number-1},size=${page.size})}' aria-label="Previous" title='Go to previous page' rel="tooltip">Previous</a>
                                     </li>
                                     <li th:each="i : ${#numbers.sequence(page.number, page.totalPages > 6 + page.number ? page.number + 6 : page.totalPages-1, 1)}" class="page-item" th:classappend="${i eq page.number} ? 'active'" >
-                                        <a class="page-link" th:href="@{/book/(page=${i},size=${page.size})}" th:text="${i}" th:title="${'Page '+ i}" rel="tooltip"></a>
+                                        <a class="page-link" th:href="@{/book/search(searchKey=${searchKey},page=${i},size=${page.size})}" th:text="${i}" th:title="${'Page '+ i}" rel="tooltip"></a>
                                     </li>
                                     <li class="page-item disabled" th:if="${page.number + 6 < page.totalPages}">
                                         <a class="page-link svg-icon" href="#">
@@ -72,13 +72,13 @@
                                         </a>
                                     </li>
                                     <li class="page-item" th:classappend="${page.number + 1 eq page.totalPages} ? 'disabled':''">
-                                        <a class="page-link svg-icon" th:href="@{/book/(page=${page.number+1},size=${page.size})}" aria-label="Next" title="Next Page" rel="tooltip">
+                                        <a class="page-link svg-icon" th:href="@{/book/search(searchKey=${searchKey},page=${page.number+1},size=${page.size})}" aria-label="Next" title="Next Page" rel="tooltip">
                                             Next
                                         </a>
                                     </li>
                                     <li class="page-item" th:classappend="${page.last}? 'disabled' : ''">
                                         <span th:if='${page.last}'>Last →</span>
-                                        <a class="page-link svg-icon" th:if='${not page.last}' th:href='@{/book/(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
+                                        <a class="page-link svg-icon" th:if='${not page.last}' th:href='@{/book/search(searchKey=${searchKey},page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
                                     </li>
                                 </ul>
                             </nav>

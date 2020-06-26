@@ -13,6 +13,7 @@ import com.vijay.sfcp.obrs.common.entity.AbstractEntityClass;
 import com.vijay.sfcp.obrs.publisher.entity.Publisher;
 import com.vijay.sfcp.obrs.user.entity.User;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,8 +38,11 @@ public class Book extends AbstractEntityClass implements Serializable {
     @Column(name = "release_date", nullable = false, updatable = false)
     private String releaseDate;
 
-    @Column(name = "image_url")
-    private String imageURL;
+    @Transient //@Column(name = "book_image")
+    private MultipartFile image;
+
+    @Column(name = "book_image")
+    private String bookImage;
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
@@ -58,11 +62,12 @@ public class Book extends AbstractEntityClass implements Serializable {
     public Book() {
     }
 
-    public Book(String isbn, String title, String description, String releaseDate, Set<User> publishers, Author author, Category category) {
+    public Book(String isbn, String title, String description, String releaseDate, String bookImage, Set<User> publishers, Author author, Category category) {
         this.isbn = isbn;
         this.title = title;
         this.description = description;
         this.releaseDate = releaseDate;
+        this.bookImage = bookImage;
         this.publishers = publishers;
         this.author = author;
         this.category = category;
@@ -98,6 +103,22 @@ public class Book extends AbstractEntityClass implements Serializable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
+    }
+
+    public String getBookImage() {
+        return bookImage;
+    }
+
+    public void setBookImage(String bookImage) {
+        this.bookImage = bookImage;
     }
 
     public Set<User> getPublishers() {
@@ -141,10 +162,10 @@ public class Book extends AbstractEntityClass implements Serializable {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
+                ", bookImage='" + bookImage + '\'' +
                 ", publishers=" + publishers +
                 ", author=" + author +
                 ", category=" + category +
-//                ", reviews=" + reviews +
                 '}';
     }
 }

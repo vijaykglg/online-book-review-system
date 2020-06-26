@@ -1,4 +1,4 @@
-package com.vijay.sfcp.obrs.author.services;
+package com.vijay.sfcp.obrs.author.service;
 /*
 Project : online-book-review-system
 IDE     : IntelliJ IDEA
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Profile("springdatajpa")

@@ -6,6 +6,9 @@ User    : Vijay Gupta
 Date    : 11 June 2020
 */
 
+import com.vijay.sfcp.obrs.common.utils.LogUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -21,6 +24,10 @@ import java.util.List;
 
 @Service
 public class SessionServiceImpl implements SessionService {
+
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final String CLASS_NAME = this.getClass().getName();
+
     @Autowired
     private SessionRegistry sessionRegistry;
 
@@ -57,8 +64,7 @@ public class SessionServiceImpl implements SessionService {
         Authentication authentication = getSession(httpServletRequest);
         if (authentication instanceof User) {
             user = (User) authentication.getPrincipal();
-            System.out.println("SessionServiceImpl.getLoggedInUser - " + user.getUsername());
-            System.out.println("SessionServiceImpl.getLoggedInUser - " + user.toString());
+            LogUtil.logDebug(LOG, CLASS_NAME, "getLoggedInUserFromSession", "user.getUsername() = " + user.getUsername());
         }
         return user;
     }

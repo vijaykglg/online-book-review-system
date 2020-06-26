@@ -6,6 +6,7 @@ User    : Vijay Gupta
 Date    : 02 June 2020
 */
 
+import com.vijay.sfcp.obrs.common.utils.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Controller
 public class ErrorController {
-    private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final String CLASS_NAME = this.getClass().getName();
 
     @ExceptionHandler(Throwable.class)
     public String exception(final Throwable throwable, final Model model) {
-        logger.error("Exception during execution of SpringSecurity application", throwable);
+        LogUtil.logError(LOG,CLASS_NAME,"exception","Exception during execution of SpringSecurity application",throwable);
+
         String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
         model.addAttribute("errorMessage", errorMessage);
         return "error";

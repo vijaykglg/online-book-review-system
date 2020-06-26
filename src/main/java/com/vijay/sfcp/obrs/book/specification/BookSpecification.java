@@ -9,7 +9,10 @@ Date    : 15 June 2020
 import com.vijay.sfcp.obrs.author.entity.Author;
 import com.vijay.sfcp.obrs.book.entity.Book;
 import com.vijay.sfcp.obrs.category.entity.Category;
+import com.vijay.sfcp.obrs.common.utils.LogUtil;
 import com.vijay.sfcp.obrs.user.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +24,13 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 @Component
 public class BookSpecification extends BaseSpecification {
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final String CLASS_NAME = this.getClass().getName();
+
     @Override
     public Specification<Book> getFilter(String search) {
-        
+        LogUtil.logDebug(LOG,CLASS_NAME,"getFilter","search = " + search);
+
         return (root, query, cb) -> {
             query.distinct(true); //Important because of the join in the addressAttribute specifications
             return where(titleContains(search))

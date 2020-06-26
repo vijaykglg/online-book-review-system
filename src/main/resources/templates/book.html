@@ -13,12 +13,13 @@
             <button class="btn btn-success nBtn">Add Book</button>
             <div class="card">
                 <div class="card-block">
-                    <table th:if="${bookResult.size() > 0}" class="table table-striped table-responsive-md">
+                    <table th:if="${bookResult.size() > 0}" class="table table-striped table-responsive-md text-justify">
                         <thead>
                         <tr>
                             <th>ISBN</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Book Image</th>
                             <th>Release Date</th>
                             <th>Category</th>
                             <th>Author</th>
@@ -29,14 +30,10 @@
                             <td th:text="${book.isbn}"></td>
                             <td th:text="${book.title}"></td>
                             <td th:text="${book.description}"></td>
+                            <td th:text="${book.bookImage}"></td>
                             <td th:text="${book.releaseDate}"></td>
                             <td th:text="${book?.category?.name}"></td>
                             <td th:text="${book?.author?.name}"></td>
-<!--                            <td>
-                                <div th:each="publisher : ${book.publishers}">
-                                    <div th:text="${publisher.firstName + ' ' + publisher.lastName}">1</div>
-                                </div>
-                            </td>-->
                             <td>
                                 <a class="btn btn-danger delBtn" th:href="@{delete/(id=${book.id})}">Delete</a>
                                 <a class="btn btn-primary eBtn" th:href="@{findOne/(id=${book.id})}">Edit</a>
@@ -77,17 +74,13 @@
                 </div>
             </div>
             <div class="myForm">
-                <form action="#" method="post" th:action="@{/book/save}"  th:object="${book}">
-                    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
-                         id="exampleModal" role="dialog"
-                         tabindex="-1">
+                <form action="#" method="post" th:action="@{/book/save}"  th:object="${book}" enctype="multipart/form-data">
+                    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" role="dialog" tabindex="-1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Update or
-                                        Create</h5>
-                                    <button aria-label="Close" class="close" data-dismiss="modal"
-                                            type="button">
+                                    <h5 class="modal-title" id="exampleModalLabel">Update or Create</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -125,52 +118,14 @@
                                             <option th:each="author : ${authorList}" th:value="${author.id}" th:text="${author.name}"></option>
                                         </select>
                                     </div>
-<!--                                    <a data-toggle="modal" href="#myModal2" class="btn btn-primary">Upload Book Image</a>-->
-                                    <!--<div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupFileAddon01">Upload Book Image</span>
-                                        </div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="imageURL" name="imageURL" aria-describedby="inputGroupFileAddon01">
-                                            <label class="custom-file-label" for="imageURL">Choose file</label>
-                                            <a data-toggle="modal" href="#myModal2" class="btn btn-primary">Upload Book Image</a>
-                                        </div>
-                                    </div>-->
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" data-dismiss="modal"
-                                            type="button">Close
-                                    </button>
-                                    <input class="btn btn-primary" type="submit" value="save"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="uploadForm">
-                <form action="#" method="post" th:action="@{/file/uploadFile}" enctype="multipart/form-data">
-                    <div class="modal" id="myModal2" data-backdrop="static">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Upload Book Image</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                </div><div class="container"></div>
-                                <div class="modal-body">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupFileAddon01">Upload Book Image</span>
-                                        </div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file" name="file" aria-describedby="inputGroupFileAddon01">
-                                            <label class="custom-file-label" for="file">Choose file</label>
-                                        </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="image">Upload Book Image:</label>
+                                        <input class="form-control" id="image" name="image" type="file" placeholder="Upload Book Image" value=""/>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-                                    <input class="btn btn-primary" type="submit" value="Upload"/>
+                                    <input class="btn btn-primary" type="submit" value="save"/>
                                 </div>
                             </div>
                         </div>
@@ -183,8 +138,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="myModalLabel">Delete Record</h5>
-                            <button aria-label="Close" class="close" data-dismiss="modal"
-                                    type="button">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -194,8 +148,7 @@
                             </p>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" data-dismiss="modal"
-                                    type="button">Close
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close
                             </button>
                             <a class="btn btn-danger" href="" id="delRef">Delete</a>
                         </div>

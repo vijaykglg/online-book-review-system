@@ -19,7 +19,7 @@ import java.util.Collection;
 public class UserToUserDetails implements Converter<User, UserDetails> {
     @Override
     public UserDetails convert(User user) {
-        UserDetailsImpl userDetails = new UserDetailsImpl();
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
         if (user != null) {
             userDetails.setUsername(user.getUserName());
             userDetails.setPassword(user.getEncryptedPassword());

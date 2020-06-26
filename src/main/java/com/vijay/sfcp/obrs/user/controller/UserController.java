@@ -6,11 +6,14 @@ User    : Vijay Gupta
 Date    : 30 May 2020
 */
 
+import com.vijay.sfcp.obrs.common.utils.LogUtil;
 import com.vijay.sfcp.obrs.error.exceptions.AlreadyExistsException;
 import com.vijay.sfcp.obrs.error.exceptions.NotFoundException;
 import com.vijay.sfcp.obrs.user.dto.PasswordChangeRequest;
 import com.vijay.sfcp.obrs.user.entity.User;
 import com.vijay.sfcp.obrs.user.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +32,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final String CLASS_NAME = this.getClass().getName();
 
     private final UserService userService;
 
@@ -64,13 +69,15 @@ public class UserController {
         String viewNameSuccess = "home";
         String viewNameError = "register";
         String message = "Welcome, You have successfully registered with Online Book review System. Please Login to continue.";
-        System.out.println("UserWebController.saveUser - user = " + user.toString()+" role = "+role);
+        LogUtil.logDebug(LOG,CLASS_NAME,"registerNewUser","user = " + user.toString()+" role = "+role);
 
         if(!StringUtils.isEmpty(role)){
-            if(role.equalsIgnoreCase("user"))
+            if(role.equalsIgnoreCase("user")) {
+                viewNameSuccess = "redirect:/book/byCategory/?category=all&action=register";
                 role = "ROLE_USER";
+            }
             else if (role.equalsIgnoreCase("publisher")) {
-                viewNameSuccess = "redirect:/user/byRole/?role="+role;
+                viewNameSuccess = "redirect:/user/byRole/?role="+role+"&action=register";
                 viewNameError = "addPublisher";
                 message = "Publisher added successfully with temporary password which you can share it with Publisher.";
                 role = "ROLE_PUBLISHER";
@@ -84,7 +91,7 @@ public class UserController {
         }
 
         if (bindingResult.hasErrors()) {
-            System.err.println("UserWebController.saveUser -  bindingResult = " + bindingResult.getAllErrors().toString());
+            LogUtil.logError(LOG,CLASS_NAME,"registerNewUser","bindingResult = " + bindingResult.getAllErrors().toString());
             return viewNameError;
         }
 
@@ -134,7 +141,8 @@ public class UserController {
 
     @PostMapping("/updateUser")
     public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) throws AlreadyExistsException, NotFoundException {
-        System.out.println("UserWebController.updateUser - user = " + user.toString());
+        LogUtil.logDebug(LOG,CLASS_NAME,"updateUser","user = " + user.toString());
+
         /*if (bindingResult.hasErrors()) {
             System.err.println("UserWebController.updateUser -  bindingResult = " + bindingResult.getAllErrors().toString());
             //showRegistrationScreen();
@@ -155,14 +163,14 @@ public class UserController {
         modelAndView.setViewName("register");
         modelAndView.setStatus(HttpStatus.CONFLICT);
         modelAndView.addObject("user", new User());
-        System.out.println("UserController.handleError - view = register , errorMessage = "+ex.getErrorMessage());
+        LogUtil.logError(LOG,CLASS_NAME,"handleError","view = register",ex);
         return modelAndView;
     }
 
     @GetMapping("/byRole")
-    public String findUsersByRoles(@RequestParam("role") String role,Model model) {
+    public String findUsersByRoles(@RequestParam("role") String role,@RequestParam(defaultValue = "user") String action,Model model) {
         String viewName = "user";
-        System.out.println("role = " + role);
+        LogUtil.logDebug(LOG,CLASS_NAME,"findUsersByRoles","role = " + role);
         if(!StringUtils.isEmpty(role)){
             if(role.equalsIgnoreCase("user"))
                 role = "ROLE_USER";
@@ -179,12 +187,17 @@ public class UserController {
         }
         List<User> userList = (List<User>) this.userService.findUsersByRoles(role);
         model.addAttribute("userList", userList);
+
+        if(!StringUtils.isEmpty(action) && action.equalsIgnoreCase("register"))
+            model.addAttribute("message","Publisher added successfully with temporary password which you can share it with Publisher.");
+
         return viewName;
     }
 
     @PostMapping("/actDeact")
     public String actDeact(@RequestParam("role") String role,@RequestParam("actDeact") String actDeact,Integer id) throws NotFoundException {
-        System.out.println("UserController.actDeact - role = " + role + ", actDeact = " + actDeact + ", id = " + id);
+        LogUtil.logDebug(LOG,CLASS_NAME,"actDeact","role = " + role + ", actDeact = " + actDeact + ", id = " + id);
+
         if(this.userService.existsById(id)){
             User userById = this.userService.findById(id);
             if(!StringUtils.isEmpty(actDeact)){

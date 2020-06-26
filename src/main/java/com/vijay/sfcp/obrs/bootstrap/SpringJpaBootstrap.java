@@ -1,11 +1,13 @@
 package com.vijay.sfcp.obrs.bootstrap;
 
 import com.vijay.sfcp.obrs.author.entity.Author;
-import com.vijay.sfcp.obrs.author.services.AuthorService;
+import com.vijay.sfcp.obrs.author.service.AuthorService;
 import com.vijay.sfcp.obrs.book.entity.Book;
 import com.vijay.sfcp.obrs.book.service.BookService;
 import com.vijay.sfcp.obrs.category.entity.Category;
 import com.vijay.sfcp.obrs.category.service.CategoryService;
+import com.vijay.sfcp.obrs.common.service.StorageService;
+import com.vijay.sfcp.obrs.common.service.StorageServiceImpl;
 import com.vijay.sfcp.obrs.publisher.service.PublisherService;
 import com.vijay.sfcp.obrs.review.entity.Review;
 import com.vijay.sfcp.obrs.review.entity.ReviewId;
@@ -18,7 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
+import javax.annotation.Resource;
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +36,8 @@ public class SpringJpaBootstrap implements CommandLineRunner {
     private BookService bookService;
     private AuthorService authorService;
     private PublisherService publisherService;
+    @Resource
+    StorageService storageService;
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -71,6 +76,9 @@ public class SpringJpaBootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        //This line will create the folder at startup id it does not exists.
+        new File("uploads/").mkdir();
+
         loadUsers();
         loadRoles();
         loadCategory();

@@ -19,10 +19,6 @@ public interface ReviewService{
     Review saveOrUpdate(Review domainObject);
     void delete(ReviewId reviewId);
 
-    List<Review> findReviewsByBook_Isbn(String isbn);
-
-    List<Review> findReviewsByBook_Title(String tile);
-
     List<Review> findReviewsByBook(Book book);
 
     List<Review> findAllById(Book book, User user);

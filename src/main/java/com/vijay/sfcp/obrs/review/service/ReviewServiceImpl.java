@@ -47,20 +47,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> findReviewsByBook_Isbn(String isbn){
-        List<Review> reviews = new ArrayList<>();
-//        this.reviewRepository.findReviewsByBook_Isbn(isbn).forEach(reviews::add);
-        return reviews;
-    }
-
-    @Override
-    public List<Review> findReviewsByBook_Title(String tile){
-        List<Review> reviews = new ArrayList<>();
-//        this.reviewRepository.findReviewsByBook_Title(tile).forEach(reviews::add);
-        return reviews;
-    }
-
-    @Override
     public List<Review> findReviewsByBook(Book book){
         List<Review> reviews = new ArrayList<>();
         this.reviewRepository.findReviewsById_Book(book).forEach(reviews::add);

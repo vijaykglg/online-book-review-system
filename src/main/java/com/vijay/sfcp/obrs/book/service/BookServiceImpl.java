@@ -14,10 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
@@ -27,6 +29,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public List<?> findAll() {
         List<Book> books = new ArrayList<>();
         this.bookRepository.findAll().forEach(books::add); //fun with Java 8

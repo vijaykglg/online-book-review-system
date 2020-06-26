@@ -6,6 +6,8 @@ User    : Vijay Gupta
 Date    : 30 May 2020
 */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -15,6 +17,9 @@ import java.util.Map;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class DefaultRuntimeException extends RuntimeException{
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final String CLASS_NAME = this.getClass().getName();
+
     private Map<String, String> errors;
     private List<String> additionalMessages;
 
