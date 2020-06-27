@@ -10,6 +10,7 @@
 <div layout:fragment="content">
     <section class="w3-main">
         <div>
+            <h1 class="page-header">Books By Author</h1>
             <div class="card w3-light-gray position: relative; z-index: 1;">
                 <div class="card-block">
                     <p th:if="${message}" th:text="${message}" class="text-success"></p>
@@ -23,7 +24,7 @@
                                             <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${book.bookImage}}" alt="book" class="card-img-top">
                                             <div class="card-body">
                                                 <h5 class="card-title"><span th:text="${book.title}"></span></h5>
-                                                <p class="card-text"><span  th:text="${book.description}"></span></p>
+                                                <p class="card-text text-justify"><span  th:text="${book.description}"></span></p>
                                             </div>
                                             <!--<ul class="list-group list-group-flush">
                                                 <li class="list-group-item">ISBN:<span th:text="${book.isbn}"></span></li>

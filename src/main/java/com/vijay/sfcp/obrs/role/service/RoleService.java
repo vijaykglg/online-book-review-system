@@ -9,4 +9,5 @@ import com.vijay.sfcp.obrs.common.service.CRUDService;
 import com.vijay.sfcp.obrs.role.entity.Role;
 
 public interface RoleService extends CRUDService<Role> {
+    Role findByRole(String role);
 }

@@ -17,10 +17,7 @@ import java.io.Serializable;
 @Table(name = "author")
 public class Author extends AbstractEntityClass {
 
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "description")
     private String description;
 
     public Author() {

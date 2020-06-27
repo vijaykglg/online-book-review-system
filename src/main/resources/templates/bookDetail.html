@@ -11,6 +11,7 @@
 <div layout:fragment="content">
     <section class="w3-main">
         <div style="margin-top: 10px;">
+            <h1 class="page-header">Book Details</h1>
             <div class="row">
                 <div class="col-sm-6" style="padding-left: 2%">
                     <div class="card mb-3">
@@ -22,7 +23,7 @@
                             <div class="col-md-8 w3-text-black">
                                 <div class="card-body">
                                     <h5 class="card-title"><span th:text="${bookDetail.title}"></span></h5>
-                                    <p class="card-text"><span  th:text="${bookDetail.description}"></span></p>
+                                    <p class="card-text text-justify"><span  th:text="${bookDetail.description}"></span></p>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">ISBN:<span th:text="${bookDetail.isbn}"></span></li>
@@ -130,7 +131,7 @@
                                 </div>
                                 <div class="card-body text-dark">
                                     <h5 class="card-title"><span th:text="${review?.id?.user?.firstName}"></span></h5>
-                                    <p class="card-text"><span th:text="${review.reviewText}"></span></p>
+                                    <p class="card-text text-justify"><span th:text="${review.reviewText}"></span></p>
                                 </div>
                                 <div class="card-footer bg-transparent w3-border-dark-gray">
                                     <span th:text="${review.lastUpdated}"></span>

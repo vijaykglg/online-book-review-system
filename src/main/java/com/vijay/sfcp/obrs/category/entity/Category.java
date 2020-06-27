@@ -18,10 +18,7 @@ import java.io.Serializable;
 
 public class Category extends AbstractEntityClass{
 
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "description")
     private String description;
 
     public Category() {

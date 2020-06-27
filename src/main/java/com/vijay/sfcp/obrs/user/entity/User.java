@@ -9,7 +9,6 @@ Date    : 30 May 2020
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vijay.sfcp.obrs.book.entity.Book;
 import com.vijay.sfcp.obrs.common.entity.AbstractEntityClass;
-import com.vijay.sfcp.obrs.review.entity.Review;
 import com.vijay.sfcp.obrs.role.entity.Role;
 
 import javax.persistence.*;
@@ -27,20 +26,16 @@ public class User extends AbstractEntityClass implements Serializable {
 
     @NotEmpty(message = "*Please provide your first name")
     @Size(min = 1, max = 32, message = "First name must be between 1 and 32 characters")
-    @Column(name = "first_name")
     private String firstName;
 
     @NotEmpty(message = "*Please provide your last name")
     @Size(min = 1, max = 32, message = "Last name must be between 1 and 32 characters")
-    @Column(name = "last_name")
     private String lastName;
 
     @NotEmpty(message = "*Please provide your user name")
     @Size(min = 1, max = 32, message = "User name must be between 5 and 32 characters")
-    @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "description")
     private String description;
 
     @Transient
@@ -53,31 +48,18 @@ public class User extends AbstractEntityClass implements Serializable {
 
     @NotEmpty(message = "*Please provide an email")
     @Email(message = "*Please provide a valid Email")
-    @Column(name = "email")
     private String email;
 
     private Boolean active = true;
 
     private Integer failedLoginAttempts = 0;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable
-    // ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
-    //     inverseJoinColumns = @joinColumn(name = "role_id"))
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "publishers", fetch = FetchType.LAZY)
-//mappedBy = "publishers" refers to the 'publishers' property in Book Class
+    @ManyToMany(mappedBy = "publishers", fetch = FetchType.LAZY)//mappedBy = "publishers" refers to the 'publishers' property in Book Class
     private Set<Book> books = new HashSet<>();
-
-    /*//bi-directional many-to-one association to Review
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            orphanRemoval = true
-    )
-    private Set<Review> reviews = new HashSet<>();*/
 
     public String getFirstName() {
         return firstName;
@@ -151,18 +133,6 @@ public class User extends AbstractEntityClass implements Serializable {
         this.roles = roles;
     }
 
-    public void addRole(Role role) {
-        this.roles.add(role);
-        if (!role.getUsers().contains(this)) {
-            role.getUsers().add(this);
-        }
-    }
-
-    public void removeRole(Role role) {
-        this.roles.remove(role);
-        role.getUsers().remove(this);
-    }
-
     public Integer getFailedLoginAttempts() {
         return failedLoginAttempts;
     }
@@ -179,37 +149,6 @@ public class User extends AbstractEntityClass implements Serializable {
         this.books = books;
     }
 
-   /* public Set<Review> getReviews() {
-        return this.reviews;
-    }
-
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public void addReview(Review review) {
-        this.reviews.add(review);
-        if (!(review.getUser() == this)) {
-            review.setUser(this);
-        }
-        *//*
-         *//**//* getReview().add(review);
-        review.setUser(this);*//**//*
-
-        return review;*//*
-    }
-
-    public void removeReview(Review review) {
-
-        this.roles.remove(review);
-        review.setUser(null);
-
-        *//*  *//**//*getReview().remove(review);
-        review.setUser(null);*//**//*
-
-        return review;*//*
-    }*/
-
     @Override
     public String toString() {
         return "User{" +
@@ -222,8 +161,8 @@ public class User extends AbstractEntityClass implements Serializable {
                 ", email='" + email + '\'' +
                 ", active=" + active +
                 ", failedLoginAttempts=" + failedLoginAttempts +
-                ", roles=" + roles +
-//                ", review=" + reviews +
+              /*  ", roles=" + roles +
+                ", books=" + books +*/
                 '}';
     }
 }

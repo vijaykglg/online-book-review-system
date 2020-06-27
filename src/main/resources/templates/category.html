@@ -9,28 +9,36 @@
 
 <div layout:fragment="content">
     <section class="w3-main">
-        <div class="container">
+        <div>
+            <h1 class="page-header">Category</h1>
             <button class="btn btn-success nBtn">Add Category</button>
             <div class="card">
                 <div class="card-block">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Category Name</th>
-                            <th>Category Description</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="category : ${categoryList}">
-                            <td th:text="${category.name}"></td>
-                            <td th:text="${category.description}"></td>
-                            <td>
-                                <a class="btn btn-danger delBtn" th:href="@{delete/(id=${category.id})}">Delete</a>
-                                <a class="btn btn-primary eBtn" th:href="@{findOne/(id=${category.id})}">Edit</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div th:with="expr_result = ${categoryList.size() > 0}">
+                        <div th:if="${expr_result}">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Category Name</th>
+                                    <th>Category Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="category : ${categoryList}">
+                                    <td th:text="${category.name}"></td>
+                                    <td th:text="${category.description}"></td>
+                                    <td>
+                                        <a class="btn btn-danger delBtn" th:href="@{delete/(id=${category.id})}">Delete</a>
+                                        <a class="btn btn-primary eBtn" th:href="@{findOne/(id=${category.id})}">Edit</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div th:unless="${expr_result}">
+                            <h5 class="w3-text-black"><b>No Records..</b></h5>
+                        </div>
+                    </div>
                 </div>
             </div>
 

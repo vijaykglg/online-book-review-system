@@ -76,142 +76,70 @@ public class SpringJpaBootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //This line will create the folder at startup id it does not exists.
-        new File("uploads/").mkdir();
-
-        loadUsers();
         loadRoles();
+        loadUsers();
         loadCategory();
         loadAuthors();
         loadBooks();
         loadReviews();
 
-        assignUsersToUserRole();
+        /*assignUsersToUserRole();
         assignUsersToAdminRole();
-        assignUsersToPublisherRole();
+        assignUsersToPublisherRole();*/
+        assignRolesToUser();
         assignAuthorToBook();
         assignCategoryToBook();
         assignPublisherToBook();
-       /* assignReviewsToUser();
-        assignBookToReview();
-        assignUserToReview();*/
     }
 
     private void loadUsers() {
         User user1 = new User();
         user1.setUserName("user");
         user1.setPassword("user");
-        user1.setFirstName("UserFirstName");
-        user1.setLastName("UserLastname");
+        user1.setFirstName("Vihan");
+        user1.setLastName("Joshi");
         user1.setEmail("abc@test.com");
-        user1.setDescription("user");
-        userService.saveOrUpdate(user1);
-        System.out.println("Saved User1 " + user1.getUserName());
-
-        user1 = new User();
-        user1.setUserName("user1");
-        user1.setPassword("user1");
-        user1.setFirstName("UserFirstName1");
-        user1.setLastName("UserLastname1");
-        user1.setEmail("abc1@test.com");
-        user1.setDescription("user1");
-        userService.saveOrUpdate(user1);
-        System.out.println("Saved User1 " + user1.getUserName());
-
-        user1 = new User();
-        user1.setUserName("user2");
-        user1.setPassword("user2");
-        user1.setFirstName("UserFirstName2");
-        user1.setLastName("UserLastname2");
-        user1.setEmail("abc2@test.com");
-        user1.setDescription("user2");
-        userService.saveOrUpdate(user1);
-        System.out.println("Saved User1 " + user1.getUserName());
-
-        user1 = new User();
-        user1.setUserName("user3");
-        user1.setPassword("user3");
-        user1.setFirstName("UserFirstName3");
-        user1.setLastName("UserLastname3");
-        user1.setEmail("abc3@test.com");
-        user1.setDescription("user3");
-        userService.saveOrUpdate(user1);
-        System.out.println("Saved User1 " + user1.getUserName());
-
-        user1 = new User();
-        user1.setUserName("user4");
-        user1.setPassword("user4");
-        user1.setFirstName("UserFirstName4");
-        user1.setLastName("UserLastname4");
-        user1.setEmail("abc4@test.com");
-        user1.setDescription("user4");
-        userService.saveOrUpdate(user1);
-        System.out.println("Saved User1 " + user1.getUserName());
-
-        user1 = new User();
-        user1.setUserName("user5");
-        user1.setPassword("user5");
-        user1.setFirstName("UserFirstName5");
-        user1.setLastName("UserLastname5");
-        user1.setEmail("abc5@test.com");
-        user1.setDescription("user5");
-        userService.saveOrUpdate(user1);
-        System.out.println("Saved User1 " + user1.getUserName());
-
-        user1 = new User();
-        user1.setUserName("user6");
-        user1.setPassword("user6");
-        user1.setFirstName("UserFirstName6");
-        user1.setLastName("UserLastname6");
-        user1.setEmail("abc6@test.com");
-        user1.setDescription("user6");
+        user1.setDescription("Vihan have the USER role");
         userService.saveOrUpdate(user1);
         System.out.println("Saved User1 " + user1.getUserName());
 
         User user2 = new User();
         user2.setUserName("admin");
         user2.setPassword("admin");
-        user2.setFirstName("AdminFirstName");
-        user2.setLastName("AdminLastname");
+        user2.setFirstName("Vijay");
+        user2.setLastName("Gupta");
         user2.setEmail("xyz@test.com");
-        user2.setDescription("admin");
+        user2.setDescription("Vijay have the ADMIN role");
         userService.saveOrUpdate(user2);
         System.out.println("Saved User2 " + user2.getUserName());
 
         User user3 = new User();
         user3.setUserName("publisher");
         user3.setPassword("publisher");
-        user3.setFirstName("publisherFirstName");
-        user3.setLastName("PublisherLastname");
+        user3.setFirstName("Dev");
+        user3.setLastName("Kumar");
         user3.setEmail("pqr@test.com");
-        user3.setDescription("XYZ Publications");
+        user3.setDescription("XYZ Publications-Dev have the PUBLISHER role");
         userService.saveOrUpdate(user3);
         System.out.println("Saved user3 " + user3.getUserName());
-
-        User user4 = new User();
-        user4.setUserName("publisher1");
-        user4.setPassword("publisher");
-        user4.setFirstName("VK");
-        user4.setLastName("G");
-        user4.setEmail("abc@test.com");
-        user4.setDescription("ABC Publications");
-        userService.saveOrUpdate(user4);
-        System.out.println("Saved user4 " + user4.getUserName());
     }
 
     private void loadRoles() {
         Role role = new Role();
         role.setRole("ROLE_USER");
+        role.setDescription("A normal user who can search and review books");
         roleService.saveOrUpdate(role);
         System.out.println("Saved role " + role.getRole());
 
         Role adminRole = new Role();
         adminRole.setRole("ROLE_ADMIN");
+        role.setDescription("An admin who can add publisher, assign roles to users and activate or deactivate any user/publisher");
         roleService.saveOrUpdate(adminRole);
         System.out.println("Saved role " + adminRole.getRole());
 
         Role publisherRole = new Role();
         publisherRole.setRole("ROLE_PUBLISHER");
+        role.setDescription("A publisher can create new category/author and add new books");
         roleService.saveOrUpdate(publisherRole);
         System.out.println("Saved role " + publisherRole.getRole());
     }
@@ -255,23 +183,23 @@ public class SpringJpaBootstrap implements CommandLineRunner {
 
     private void loadAuthors() {
         Author author = new Author();
-        author.setName("Rakesh");
-        author.setDescription("Top Author");
+        author.setName("Munshi Premchand");
+        author.setDescription("An Indian writer famous for his modern Hindustani literature");
         authorService.saveOrUpdate(author);
 
         author = new Author();
-        author.setName("John");
-        author.setDescription("Top Author");
+        author.setName("Bhishma Sahani");
+        author.setDescription("Bhisham Sahni was an Indian writer, playwright in Hindi and an actor, most famous for his novel and television screenplay");
         authorService.saveOrUpdate(author);
 
         author = new Author();
-        author.setName("Thompson");
-        author.setDescription("Top Author");
+        author.setName("Rod Johnson");
+        author.setDescription("Roderick (Rod) Johnson is an Australian computer specialist who created the Spring Framework and co-founded SpringSource");
         authorService.saveOrUpdate(author);
 
         author = new Author();
-        author.setName("Rod");
-        author.setDescription("Top Author");
+        author.setName("Craig Walls");
+        author.setDescription("Craig Walls is a principal software engineer at Pivotal, a popular author, an enthusiastic supporter of Spring Framework and voice-first applications, and a frequent conference speaker");
         authorService.saveOrUpdate(author);
 
         System.out.println("Saved Authors");
@@ -318,7 +246,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         System.out.println("Saved Books ");
     }
 
-    private void assignUsersToUserRole() {
+   /* private void assignUsersToUserRole() {
         List<Role> roles = (List<Role>) roleService.findAll();
         List<User> users = (List<User>) userService.findAll();
         roles.forEach(role -> {
@@ -361,7 +289,7 @@ public class SpringJpaBootstrap implements CommandLineRunner {
                 });
             }
         });
-    }
+    }*/
 
     private void assignCategoryToBook() {
         List<Category> categories = (List<Category>) categoryService.findAll();
@@ -441,73 +369,37 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         });
     }
 
-    /*private void assignReviewsToUser() {
+    private void assignRolesToUser() {
         List<User> users = (List<User>) userService.findAll();
-        List<Review> reviews = reviewService.findAll();
+        List<Role> roles = (List<Role>) roleService.findAll();
 
-        reviews.forEach(review -> {
-            users.forEach(user -> {
-                if (user.getRoles().contains("ROLE_USER")) {
-                    user.addReview(review);
-                    userService.saveOrUpdate(user);
-                }
-            });
-        });
-        System.out.println("assignReviewsToUser");
-    }
-
-    private void assignBookToReview() {
-        System.out.println("SpringJpaBootstrap.assignBookToReview");
-        List<Review> reviews = (List<Review>) reviewService.findAll();
-        List<Book> books = (List<Book>) bookService.findAll();
-
-
-        reviews.forEach(review -> {
-            if (review.getRating().compareTo(BigDecimal.valueOf(3.0)) >0) {
-                books.forEach(book -> {
-                    if (book.getTitle().contains("ABC")) {
-                        book.addReview(review);
-                        bookService.saveOrUpdate(book);
-                    }
-                });
-            }
-
-            if (review.getRating().compareTo(BigDecimal.valueOf(5.0)) >0) {
-                books.forEach(book -> {
-                    if (book.getTitle().contains("XYZ")) {
-                        book.addReview(review);
-                        bookService.saveOrUpdate(book);
-                    }
-                });
-            }
-        });
-        System.out.println("Assigned Book to Review");
-    }
-
-    private void assignUserToReview() {
-        System.out.println("SpringJpaBootstrap.assignBookToReview");
-        List<Review> reviews = (List<Review>) reviewService.findAll();
-        List<User> users = (List<User>) userService.findAll();
-
-        reviews.forEach(review -> {
-            if (review.getRating().compareTo(BigDecimal.valueOf(3.0)) >0) {
+        roles.forEach(role -> {
+            if (role.getRole().contains("ROLE_USER")) {
                 users.forEach(user -> {
-                    if (user.getUserName().equalsIgnoreCase("user")) {
-                        user.addReview(review);
+                    if (user.getUserName().contains("user")) {
+                        user.setRoles(new HashSet<Role>((Arrays.asList(role))));
                         userService.saveOrUpdate(user);
                     }
                 });
             }
 
-            if (review.getRating().compareTo(BigDecimal.valueOf(5.0)) >0) {
+            if (role.getRole().contains("ROLE_PUBLISHER")) {
                 users.forEach(user -> {
-                    if (user.getUserName().equalsIgnoreCase("user")) {
-                        user.addReview(review);
+                    if (user.getUserName().contains("publisher")) {
+                        user.setRoles(new HashSet<Role>((Arrays.asList(role))));
+                        userService.saveOrUpdate(user);
+                    }
+                });
+            }
+
+            if (role.getRole().contains("ROLE_ADMIN")) {
+                users.forEach(user -> {
+                    if (user.getUserName().contains("admin")) {
+                        user.setRoles(new HashSet<Role>((Arrays.asList(role))));
                         userService.saveOrUpdate(user);
                     }
                 });
             }
         });
-        System.out.println("Assigned User to Review");
-    }*/
+    }
 }

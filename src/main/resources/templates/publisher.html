@@ -9,41 +9,49 @@
 
 <div layout:fragment="content">
     <section class="w3-main">
-        <div class="container">
+        <div>
+            <h1 class="page-header">Publishers</h1>
             <p th:if="${message}" th:text="${message}" class="text-success"></p>
             <a class="btn w3-blue nBtn" th:href="@{/user/registration/(role=publisher)}">Add Publisher</a>
             <div class="card">
                 <div class="card-block">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Publication</th>
-                                <th>Login Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Active</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="user : ${userList}">
-                                <td th:text="${user.description}"></td>
-                                <td th:text="${user.userName}"></td>
-                                <td th:text="${user.firstName + ' ' + user.lastName}"></td>
-                                <td th:text="${user.email}"></td>
-                                <td th:text="${user.active}"></td>
-                                <td>
-                                    <a class="btn btn-danger delBtn" th:href="@{/user/delete/(id=${user.id})}">Delete</a>
-                                    <span th:if='${user.active == true}'>
-                                        <a class="btn btn-primary actDeactBtn" th:href="@{/user/actDeact/(role=user,actDeact=deact,id=${user.id})}">Deactivate</a>
-                                    </span>
-                                    <span th:if='${user.active == false}'>
-                                        <a class="btn btn-primary actDeactBtn" th:href="@{/user/actDeact/(role=user,actDeact=act,id=${user.id})}">Activate</a>
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div th:with="expr_result = ${userList.size() > 0}">
+                        <div th:if="${expr_result}">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Publication</th>
+                                        <th>Login Id</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Active</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="user : ${userList}">
+                                        <td th:text="${user.description}"></td>
+                                        <td th:text="${user.userName}"></td>
+                                        <td th:text="${user.firstName + ' ' + user.lastName}"></td>
+                                        <td th:text="${user.email}"></td>
+                                        <td th:text="${user.active}"></td>
+                                        <td>
+                                            <a class="btn btn-danger delBtn" th:href="@{/user/delete/(id=${user.id})}">Delete</a>
+                                            <span th:if='${user.active == true}'>
+                                                <a class="btn btn-primary actDeactBtn" th:href="@{/user/actDeact/(role=user,actDeact=deact,id=${user.id})}">Deactivate</a>
+                                            </span>
+                                            <span th:if='${user.active == false}'>
+                                                <a class="btn btn-primary actDeactBtn" th:href="@{/user/actDeact/(role=user,actDeact=act,id=${user.id})}">Activate</a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div th:unless="${expr_result}">
+                            <h5 class="w3-text-black"><b>No Records..</b></h5>
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -26,22 +26,19 @@ import java.util.Set;
 public class Book extends AbstractEntityClass implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "isbn", unique = true, nullable = false, updatable = false)
+    @Column(unique = true, nullable = false, updatable = false)
     String isbn;
 
-    @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "release_date", nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)
     private String releaseDate;
 
     @Transient //@Column(name = "book_image")
     private MultipartFile image;
 
-    @Column(name = "book_image")
     private String bookImage;
 
     @JsonIgnore
@@ -143,16 +140,6 @@ public class Book extends AbstractEntityClass implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public void addPublisher(User publisher) {
-        this.publishers.add(publisher);
-        publisher.getBooks().add(this);
-    }
-
-    public void removePublisher(Publisher publisher) {
-        this.publishers.remove(publisher);
-        publisher.getBooks().add(null);
     }
 
     @Override

@@ -18,7 +18,7 @@
                         <a href="#"><img src="../static/images/books/book.png" th:src="@{/images/books/book.png}" style="width:10%" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"/></a>
                         <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" ><i class="fa fa-bars"></i></span>
                         <div class="w3-container">
-                            <h1><b>Books</b></h1>
+                            <h1 class="page-header">Books</h1>
                             <div class="w3-section w3-bottombar w3-padding-16">
                                 <span class="w3-margin-right">Filter Tags : <i class="fa fa-tags fa-fw w3-margin-left"></i></span>
                                 <a href="#" th:href="@{/book/}" class="w3-button w3-white">All<i class="fa fa-tag fa-fw w3-margin-left"></i></a>
@@ -39,7 +39,7 @@
                                             <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${book.bookImage}}" alt="book" class="card-img-top">
                                             <div class="card-body">
                                                 <h5 class="card-title"><span th:text="${book.title}"></span></h5>
-                                                <p class="card-text"><span th:text="${book.description}"></span></p>
+                                                <p class="card-text text-justify"><span th:text="${book.description}"></span></p>
                                             </div>
                                             <!--<ul class="list-group list-group-flush">
                                                 <li class="list-group-item">ISBN:<span th:text="${book.isbn}"></span></li>

@@ -6,7 +6,7 @@
 
 #### <ins>Problem Statement</ins>:
 
-For certification you have to build an Online Book Reviews System.
+For certification, you have to build an Online Book Reviews System.
 
 Before buying anything we see its reviews online to make sure we are buying the right thing. This application helps users to see the reviews about a book and a registered user can also submit their reviews about the book. The application should have following features:
 
@@ -22,7 +22,6 @@ And the last thing your application should have is Facebook like box on your web
 #### Advantages
 
 - Customers can review the books online and can wish to buy based on the ratings/review.
-- Customers can get their book delivered instead of actually going and buying the book. They can make payment online itself.
 - Managing of inventory in the shop for shopkeeper becomes easier as customers are not visiting and ordering online.
 - This system saves both time and travelling cost of customers.
 - User can get to know different kinds of books that they were unaware of by just searching in the system using keywords.
@@ -33,29 +32,58 @@ And the last thing your application should have is Facebook like box on your web
 
 ## Application features
 
-### Consumer features
-
-* Search for a book based on different parameters like title, author, publisher, etc.
-* Advanced search
-* Filter search results
-* Get details about a book, including its reviews and ratings.
-* Buy a book.
-* Get books similar to a particular given book.
-* Get books bought by a user who bought a given book.
-
 ### Admin features
 
+* Admin can register a new publisher or can assign publisher role to any user who wish to be a publisher.
+* Admin can activate/deactivate any user/publisher.
+* Can search books and give reviews and ratings.
+
+### User features
+
+* New users can register.
+* Filter books based on tags/category.
+* Advanced search on different parameters like title, author, publisher,category/tags etc.
+* Get all books for a particular author.
+* Get details about a book, including its reviews and ratings.
+* Review any book based on your experience and give ratings.
+* Users can like the facebook page of Online Book Review System.
+
+### Publisher features
+
 * Addition of books to database.
-* Get statistics of the book store.
-* Moderation of various activities.
+* Can create/update new category for books.
+* Can add new authors and edit/update them if needed.
+* Can search books and give reviews and ratings.
+
+## Project Modules
+
+* User Module
+  - Login with spring security
+  - Session management and role based access handling
+* Role Module
+  - Three defined roles
+    * ROLE_ADMIN
+    * ROLE_USER
+    * ROLE_PUBLISHER
+* Category/Tags Module
+  - Various categories of books can be combined as a group like EDU/TECH etc..
+* Author Module
+  - Each books can have multiple authors
+  - Publishers can add authors for books they published
+* Book Module
+   - Online book inventory for various categories.
+   - Books image can be uploaded while adding/updating the book for better clarity.
+   - Any user can search books based on interest
+* Review Module
+   - Users can view reviews online and cas see overall ratings of any book.
+   - Users can review any book and can rate any book
 
 ## Implementation
 
-* Spring is used in backend.
+* SpringBoot 2.3.0 is used in the backend.
 * H2 databases used for storing and managing data.
-* Thymeleaf used for frontend.
+* Thymeleaf used for a frontend.
 * For testing purpose, data was scraped from various online sources including Amazon Online Book Store.
-
 
 
 ## Team

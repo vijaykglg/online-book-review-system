@@ -18,10 +18,9 @@ import java.util.List;
 @Profile("springdatajpa")
 public class RoleServiceImpl implements RoleService {
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    public void setRoleRepository(RoleRepository roleRepository) {
+    public RoleServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
@@ -45,5 +44,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteById(Integer id) {
         this.roleRepository.deleteById(id);
+    }
+
+    @Override
+    public Role findByRole(String role) {
+        return this.roleRepository.findByRole(role);
     }
 }

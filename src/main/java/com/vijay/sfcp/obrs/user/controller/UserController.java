@@ -9,11 +9,14 @@ Date    : 30 May 2020
 import com.vijay.sfcp.obrs.common.utils.LogUtil;
 import com.vijay.sfcp.obrs.error.exceptions.AlreadyExistsException;
 import com.vijay.sfcp.obrs.error.exceptions.NotFoundException;
+import com.vijay.sfcp.obrs.role.entity.Role;
+import com.vijay.sfcp.obrs.role.service.RoleService;
 import com.vijay.sfcp.obrs.user.dto.PasswordChangeRequest;
 import com.vijay.sfcp.obrs.user.entity.User;
 import com.vijay.sfcp.obrs.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Controller
@@ -35,10 +40,17 @@ public class UserController {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
     private final String CLASS_NAME = this.getClass().getName();
 
-    private final UserService userService;
+    private UserService userService;
+    private RoleService roleService;
 
-    public UserController(UserService userService) {
+    @Autowired
+    public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @GetMapping("/registration")
@@ -191,6 +203,8 @@ public class UserController {
         if(!StringUtils.isEmpty(action) && action.equalsIgnoreCase("register"))
             model.addAttribute("message","Publisher added successfully with temporary password which you can share it with Publisher.");
 
+        LogUtil.logDebug(LOG,CLASS_NAME,"findUsersByRoles","redirecting to viewName = " + viewName);
+
         return viewName;
     }
 
@@ -211,6 +225,38 @@ public class UserController {
             throw new NotFoundException("User not Found");
         }
         return "redirect:/user/byRole/?role="+role;
+    }
+
+    @PostMapping("/assignRole")
+    public String assignRole(@RequestParam("role") String role,Integer id) throws NotFoundException {
+        String viewName = role;
+        LogUtil.logDebug(LOG,CLASS_NAME,"assignRole","role = " + role + ", id = " + id);
+
+        if(this.userService.existsById(id)){
+            User userById = this.userService.findById(id);
+            if(!StringUtils.isEmpty(role)){
+                if(role.equalsIgnoreCase("user"))
+                    role = "ROLE_USER";
+                else if (role.equalsIgnoreCase("publisher")) {
+                    role = "ROLE_PUBLISHER";
+                }
+                else if (role.equalsIgnoreCase("admin"))
+                    role = "ROLE_ADMIN";
+                else
+                    role = "ROLE_USER";
+            }else{
+                role = "ROLE_USER";
+            }
+
+            Role byRole = this.roleService.findByRole(role);
+            LogUtil.logDebug(LOG,CLASS_NAME,"assignRole","byRole = "+byRole);
+            userById.setRoles(new HashSet<Role>((Arrays.asList(byRole))));
+
+            this.userService.saveOrUpdate(userById);
+        }else{
+            throw new NotFoundException("User not Found");
+        }
+        return "redirect:/user/byRole/?role="+viewName;
     }
 
     /**

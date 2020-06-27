@@ -1,10 +1,15 @@
 $(document).ready(function () {
-/*    $('.table .deactBtn').on('click', function (event) {
+    $('.table .roleBtn').on('click', function (event) {
         event.preventDefault();
         const href = $(this).attr('href');
-        $('#deactivateModel #deactivateRef').attr('href', href);
-        $('#deactivateModel').modal();
-    });*/
+        const post = href.split('?');
+
+        $('#roleModal').modal();
+
+        //To make GET call as POST
+        $.post(post[0], post[1], function(i) {
+        })
+    });
 
     $('.table .actDeactBtn').on('click', function (event) {
         event.preventDefault();
@@ -26,11 +31,12 @@ $(document).ready(function () {
             alertlabel = "Deactivate User";
         }
 
-        $('#actDeactivateModel #alertMessage').text(alertMessage);
-        $('#actDeactivateModel #actDeactivateRef').text(alertBtn);
-        $('#actDeactivateModel #actDeactivateModelLabel').text(alertlabel);
-        $('#actDeactivateModel').modal();
+        $('#actDeactivateModal #alertMessage').text(alertMessage);
+        $('#actDeactivateModal #actDeactivateRef').text(alertBtn);
+        $('#actDeactivateModal #actDeactivateModalLabel').text(alertlabel);
+        $('#actDeactivateModal').modal();
 
+        //To make GET call as POST
         $.post(post[0], post[1], function(i) {
         });
     });

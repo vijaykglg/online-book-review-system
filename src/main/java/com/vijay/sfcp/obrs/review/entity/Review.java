@@ -19,10 +19,7 @@ public class Review {
 
     private Date dateCreated;
     private Date lastUpdated;
-
     private Integer rating;
-
-    @Column(name = "review_text")
     private String reviewText;
 
     public Review() {
