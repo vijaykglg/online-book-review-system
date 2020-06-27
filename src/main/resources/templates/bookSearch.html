@@ -21,7 +21,7 @@
                     </div>
                 </form>
             </div>
-            <div class="bar w3-padding-16 w3-light-gray" style="max-width:100%;"></div>
+
             <div>
                 <div class="card-block">
                     <p th:if="${message}" th:text="${message}" class="text-success"></p>
@@ -34,7 +34,7 @@
                                             <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${book.bookImage}}" alt="book" class="card-img-top">
                                             <div class="card-body">
                                                 <h5 class="card-title"><span th:text="${book.title}"></span></h5>
-                                                <p class="card-text text-justify"><span  th:text="${book.description}"></span></p>
+                                                <p class="card-text text-justify"><span th:text="${book.description}"></span></p>
                                             </div>
                                             <!--<ul class="list-group list-group-flush">
                                                 <li class="list-group-item">ISBN:<span th:text="${book.isbn}"></span></li>
@@ -89,6 +89,7 @@
                     </div>
                 </div>
             </div>
+            <button class="btn btn-primary hBack" type="button">Back</button>
         </div>
     </section>
 </div>

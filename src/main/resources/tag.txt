@@ -19,3 +19,5 @@ git tag -a 7.0.0-book-review -m "Implemented Book review feature"
 git tag -a 8.0.0-image-upload -m "Implemented Image Upload and Spring AOP Logging"
 
 git tag -a 8.0.1-clean-up -m "Clean up"
+
+git tag -a 9.0.0-sample-data -m "Added sample data for testing"

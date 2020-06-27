@@ -10,4 +10,9 @@ jQuery(document).ready(function($) {
             $('#books .w3-container .tagBtn[href*="' + location.href.split("#")[1] + '"]').click();
         }
     });
+
+    $(".hBack").on("click", function(e){
+        e.preventDefault();
+        window.history.back();
+    });
 })

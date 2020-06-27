@@ -8,6 +8,7 @@ import com.vijay.sfcp.obrs.category.entity.Category;
 import com.vijay.sfcp.obrs.category.service.CategoryService;
 import com.vijay.sfcp.obrs.common.service.StorageService;
 import com.vijay.sfcp.obrs.common.service.StorageServiceImpl;
+import com.vijay.sfcp.obrs.common.utils.EncryptionUtil;
 import com.vijay.sfcp.obrs.publisher.service.PublisherService;
 import com.vijay.sfcp.obrs.review.entity.Review;
 import com.vijay.sfcp.obrs.review.entity.ReviewId;
@@ -76,20 +77,21 @@ public class SpringJpaBootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadRoles();
+/*        loadRoles();
         loadUsers();
         loadCategory();
         loadAuthors();
         loadBooks();
         loadReviews();
 
-        /*assignUsersToUserRole();
-        assignUsersToAdminRole();
-        assignUsersToPublisherRole();*/
         assignRolesToUser();
         assignAuthorToBook();
         assignCategoryToBook();
-        assignPublisherToBook();
+        assignPublisherToBook();*/
+
+        /*System.out.println("user = "+EncryptionUtil.getEncryptedPassword("user"));
+        System.out.println("admin = "+EncryptionUtil.getEncryptedPassword("admin"));
+        System.out.println("publisher = "+EncryptionUtil.getEncryptedPassword("publisher"));*/
     }
 
     private void loadUsers() {
@@ -245,51 +247,6 @@ public class SpringJpaBootstrap implements CommandLineRunner {
         }
         System.out.println("Saved Books ");
     }
-
-   /* private void assignUsersToUserRole() {
-        List<Role> roles = (List<Role>) roleService.findAll();
-        List<User> users = (List<User>) userService.findAll();
-        roles.forEach(role -> {
-            if (role.getRole().equalsIgnoreCase("ROLE_USER")) {
-                users.forEach(user -> {
-                    if (user.getUserName().contains("user")) {
-                        user.addRole(role);
-                        userService.saveOrUpdate(user);
-                    }
-                });
-            }
-        });
-    }
-
-    private void assignUsersToAdminRole() {
-        List<Role> roles = (List<Role>) roleService.findAll();
-        List<User> users = (List<User>) userService.findAll();
-        roles.forEach(role -> {
-            if (role.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
-                users.forEach(user -> {
-                    if (user.getUserName().equals("admin")) {
-                        user.addRole(role);
-                        userService.saveOrUpdate(user);
-                    }
-                });
-            }
-        });
-    }
-
-    private void assignUsersToPublisherRole() {
-        List<Role> roles = (List<Role>) roleService.findAll();
-        List<User> users = (List<User>) userService.findAll();
-        roles.forEach(role -> {
-            if (role.getRole().equalsIgnoreCase("ROLE_PUBLISHER")) {
-                users.forEach(user -> {
-                    if (user.getUserName().equals("publisher")) {
-                        user.addRole(role);
-                        userService.saveOrUpdate(user);
-                    }
-                });
-            }
-        });
-    }*/
 
     private void assignCategoryToBook() {
         List<Category> categories = (List<Category>) categoryService.findAll();

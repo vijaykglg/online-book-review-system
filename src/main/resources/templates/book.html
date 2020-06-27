@@ -32,7 +32,7 @@
                                     <tr th:each="book : ${bookResult}">
                                         <td th:text="${book.isbn}"></td>
                                         <td th:text="${book.title}"></td>
-                                        <td th:text="${book.description}" class="text-justify">></td>
+                                        <td th:text="${book.description}" class="text-justify"></td>
                                         <td th:text="${book.bookImage}"></td>
                                         <td th:text="${book.releaseDate}"></td>
                                         <td th:text="${book?.category?.name}"></td>

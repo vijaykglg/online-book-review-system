@@ -80,6 +80,7 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests()
                 .antMatchers("/","/console/**", "/index", "/contact", "/about", "/error/**").permitAll()
                 .antMatchers("/login","/home", "/user/registration/**").permitAll()
+                .antMatchers("/book/**").permitAll()
                 .antMatchers("/book/byCategory/**").permitAll()
                 .antMatchers("/book/bookDetail/**").permitAll()
                 .antMatchers("/book/byAuthor/**").permitAll()
