@@ -1,0 +1,21 @@
+git tag -a 1.0.0-bootstrap -m "Initial Commit - bootstrap"
+
+git tag -a 2.0.0-inmemory-authentication -m "Secured Web Application with In-Memory Authentication"
+
+git tag -a 2.0.1-jdbc-authentication -m "Secured Web Application with JDBC Authentication"
+
+git tag -a 3.0.0-crud-opearations -m "CRUD operation added on Book,Publisher,Author,Category etc."
+
+git tag -a 3.0.1-crud-opearations -m "Adding Book to the H2 DB"
+
+git tag -a 4.0.0-postlogin-opearations -m "Post Login Operations"
+
+git tag -a 5.0.0-spring-session -m "Spring Session Implementation"
+
+git tag -a 6.0.0-search-jpa-specification -m "Implemented Search feature based on JPA Specifications"
+
+git tag -a 7.0.0-book-review -m "Implemented Book review feature"
+
+git tag -a 8.0.0-image-upload -m "Implemented Image Upload and Spring AOP Logging"
+
+git tag -a 8.0.1-clean-up -m "Clean up"
