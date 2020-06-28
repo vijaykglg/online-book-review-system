@@ -54,11 +54,11 @@ public class User extends AbstractEntityClass implements Serializable {
 
     private Integer failedLoginAttempts = 0;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "publishers", fetch = FetchType.LAZY)//mappedBy = "publishers" refers to the 'publishers' property in Book Class
+    @ManyToMany(mappedBy = "publishers",cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)//mappedBy = "publishers" refers to the 'publishers' property in Book Class
     private Set<Book> books = new HashSet<>();
 
     public String getFirstName() {

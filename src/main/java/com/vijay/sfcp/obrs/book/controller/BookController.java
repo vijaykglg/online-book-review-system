@@ -32,6 +32,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -106,7 +107,7 @@ public class BookController {
     }
 
     @PostMapping("/save")
-    public String save(@AuthenticationPrincipal UserDetailsImpl user,@ModelAttribute("book") Book book,@Valid String author,@Valid String category,Model model) {
+    public String save(@AuthenticationPrincipal UserDetailsImpl user, @Valid @ModelAttribute("book") Book book, @Valid String author, @Valid String category, BindingResult bindingResult, Model model) {
         LogUtil.logDebug(LOG,CLASS_NAME,"save","user.getUsername() = "+user.getUsername());
         User byUsername = this.userService.findByUsername(user.getUsername());
         LogUtil.logDebug(LOG,CLASS_NAME,"save","byUsername.toString() = "+byUsername.toString());
@@ -119,6 +120,11 @@ public class BookController {
         if(!StringUtils.isEmpty(filename))
             book.setBookImage(filename);
 
+        if (bindingResult.hasErrors()) {
+            LogUtil.logError(LOG,CLASS_NAME,"save","bindingResult = " + bindingResult.getAllErrors().toString());
+            return "book";
+        }
+
         this.bookService.saveOrUpdate(book);
         return "redirect:/book/byPublisher";
     }
@@ -126,7 +132,7 @@ public class BookController {
     @GetMapping("/delete")
     public String delete(Integer id) {
         this.bookService.deleteById(id);
-        return "redirect:/book/";
+        return "redirect:/book/byPublisher";
     }
 
     @GetMapping("/bookDetail")

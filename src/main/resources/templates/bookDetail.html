@@ -11,218 +11,221 @@
 <div layout:fragment="content">
     <section class="w3-main">
         <div style="margin-top: 10px;">
-            <h1 class="page-header">Book Details</h1>
-            <div class="row">
-                <div class="col-sm-6" style="padding-left: 2%">
-                    <div class="card mb-3">
-                        <div class="row no-gutters">
-<!--                            <h3 class="heading">Book Highlight's</h3>-->
-                            <div class="col-md-4">
-                                <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${bookDetail.bookImage}}" alt="book" class="card-img-top">
-                            </div>
-                            <div class="col-md-8 w3-text-black">
-                                <div class="card-body">
-                                    <h5 class="card-title"><span th:text="${bookDetail.title}"></span></h5>
-                                    <p class="card-text text-justify"><span  th:text="${bookDetail.description}"></span></p>
+            <h1 class="page-header">Book Highlight's</h1>
+            <div class="card w3-light-gray position: relative; z-index: 1;">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-sm-6" style="padding-left: 2%">
+                            <div class="card mb-3">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <img src="../static/images/books/book.png" th:src="@{'/file/getImage/'+${bookDetail.bookImage}}" alt="book" class="card-img-top">
+                                    </div>
+                                    <div class="col-md-8 w3-text-black">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><span th:text="${bookDetail.title}"></span></h5>
+                                            <p class="card-text text-justify"><span  th:text="${bookDetail.description}"></span></p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">ISBN:<span th:text="${bookDetail.isbn}"></span></li>
+                                            <li class="list-group-item">Release Date:<span th:text="${bookDetail.releaseDate}"></span></li>
+                                            <li class="list-group-item">Category:<span th:text="${bookDetail?.category?.name}"></span></li>
+                                            <li class="list-group-item">Author:<span th:text="${bookDetail?.author?.name}"></span></li>
+
+                                            <span th:each="publisher : ${bookDetail.publishers}">
+                                                <li class="list-group-item">Publisher:<span th:text="${publisher.firstName + ' ' + publisher.lastName}"></span></li>
+                                            </span>
+                                        </ul>
+                                    </div>
+
+                                    <div>
+                                        <hr style="border:3px solid #f1f1f1">
+                                    </div>
+
+                                    <div class="container col-md-auto w3-text-black">
+                                        <span class="heading">User Rating</span>
+                                        <span class="fa fa-star" th:classappend="${avgRating ge 1} ? 'checked':''"></span>
+                                        <span class="fa fa-star" th:classappend="${avgRating ge 2} ? 'checked':''"></span>
+                                        <span class="fa fa-star" th:classappend="${avgRating ge 3} ? 'checked':''"></span>
+                                        <span class="fa fa-star" th:classappend="${avgRating ge 4} ? 'checked':''"></span>
+                                        <span class="fa fa-star" th:classappend="${avgRating ge 5} ? 'checked':''"></span>
+
+                                        <p th:text="|${avgRating} average based on  ${totalNoOfReview} reviews.|"> </p>
+                                        <hr style="border:1px solid #f1f1f1">
+
+                                        <div class="row">
+                                            <div class="side">
+                                                <div>5 star</div>
+                                            </div>
+                                            <div class="middle">
+                                                <div class="bar-container">
+                                                    <div class="bar" th:styleappend="|width:${fiveStarPer}%|"></div>
+                                                </div>
+                                            </div>
+                                            <div class="side right">
+                                                <div><span th:text="${fiveStar}"></span></div>
+                                            </div>
+
+                                            <div class="side">
+                                                <div>4 star</div>
+                                            </div>
+                                            <div class="middle">
+                                                <div class="bar-container">
+                                                    <div class="bar" th:styleappend="|width:${fourStarPer}%|"></div>
+                                                </div>
+                                            </div>
+                                            <div class="side right">
+                                                <div><span th:text="${fourStar}"></span></div>
+                                            </div>
+                                            <div class="side">
+                                                <div>3 star</div>
+                                            </div>
+                                            <div class="middle">
+                                                <div class="bar-container">
+                                                    <div class="bar" th:styleappend="|width:${threeStarPer}%|"></div>
+                                                </div>
+                                            </div>
+                                            <div class="side right">
+                                                <div><span th:text="${threeStar}"></span></div>
+                                            </div>
+                                            <div class="side">
+                                                <div>2 star</div>
+                                            </div>
+                                            <div class="middle">
+                                                <div class="bar-container">
+                                                    <div class="bar" th:styleappend="|width:${twoStarPer}%|"></div>
+                                                </div>
+                                            </div>
+                                            <div class="side right">
+                                                <div><span th:text="${twoStar}"></span></div>
+                                            </div>
+                                            <div class="side">
+                                                <div>1 star</div>
+                                            </div>
+                                            <div class="middle">
+                                                <div class="bar-container">
+                                                    <div class="bar" th:styleappend="|width:${oneStarPer}%|"></div>
+                                                </div>
+                                            </div>
+                                            <div class="side right">
+                                                <div><span th:text="${oneStar}"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">ISBN:<span th:text="${bookDetail.isbn}"></span></li>
-                                    <li class="list-group-item">Release Date:<span th:text="${bookDetail.releaseDate}"></span></li>
-                                    <li class="list-group-item">Category:<span th:text="${bookDetail?.category?.name}"></span></li>
-                                    <li class="list-group-item">Author:<span th:text="${bookDetail?.author?.name}"></span></li>
-
-                                    <span th:each="publisher : ${bookDetail.publishers}">
-                                        <li class="list-group-item">Publisher:<span th:text="${publisher.firstName + ' ' + publisher.lastName}"></span></li>
-                                    </span>
-                                </ul>
                             </div>
-
-                            <div>
-                                <hr style="border:3px solid #f1f1f1">
+                            <button class="btn btn-primary hBack" type="button">Back</button>
+                            <button type="button" class="btn btn-danger nBtn" data-toggle="modal" data-target="#form"> Write Review </button>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row row-cols-1 row-cols-md-3">
+                                <span th:each="review : ${reviews}">
+                                    <div class="card w3-border-dark-gray mb-3" style="max-width: 18rem;">
+                                        <div class="card-header bg-transparent w3-border-dark-gray">
+                                            <div>
+                                                <span class="fa fa-star" th:classappend="${review.rating ge 1.00} ? 'checked':''"></span>
+                                                <span class="fa fa-star" th:classappend="${review.rating ge 2.00} ? 'checked':''"></span>
+                                                <span class="fa fa-star" th:classappend="${review.rating ge 3.00} ? 'checked':''"></span>
+                                                <span class="fa fa-star" th:classappend="${review.rating ge 4.00} ? 'checked':''"></span>
+                                                <span class="fa fa-star" th:classappend="${review.rating ge 5.00} ? 'checked':''"></span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body text-dark">
+                                            <h5 class="card-title"><span th:text="${review?.id?.user?.firstName}"></span></h5>
+                                            <p class="card-text text-justify"><span th:text="${review.reviewText}"></span></p>
+                                        </div>
+                                        <div class="card-footer bg-transparent w3-border-dark-gray">
+                                            <span th:text="${review.lastUpdated}"></span>
+                                        </div>
+                                    </div>
+        <!--
+                                    <div class="col mb-4">
+                                        <div class="card border-dark mb-3" style="max-width: 18rem;">
+                                            <div class="card-header">
+                                                <span th:text="${review?.id?.user?.firstName}"></span>
+                                                <p class="card-text"><span th:text="${review.lastUpdated}"></span></p>
+                                                <hr style="border:1px solid #f1f1f1">
+                                                <div>
+                                                    <span class="fa fa-star" th:classappend="${review.rating ge 1.00} ? 'checked':''"></span>
+                                                    <span class="fa fa-star" th:classappend="${review.rating ge 2.00} ? 'checked':''"></span>
+                                                    <span class="fa fa-star" th:classappend="${review.rating ge 3.00} ? 'checked':''"></span>
+                                                    <span class="fa fa-star" th:classappend="${review.rating ge 4.00} ? 'checked':''"></span>
+                                                    <span class="fa fa-star" th:classappend="${review.rating ge 5.00} ? 'checked':''"></span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body text-dark">
+                                                <p class="card-text"><span th:text="${review.reviewText}"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </span>
                             </div>
+                        </div>
+                    </div>
+                </div>
 
-                            <div class="container col-md-auto w3-text-black">
-                                <span class="heading">User Rating</span>
-                                <span class="fa fa-star" th:classappend="${avgRating ge 1} ? 'checked':''"></span>
-                                <span class="fa fa-star" th:classappend="${avgRating ge 2} ? 'checked':''"></span>
-                                <span class="fa fa-star" th:classappend="${avgRating ge 3} ? 'checked':''"></span>
-                                <span class="fa fa-star" th:classappend="${avgRating ge 4} ? 'checked':''"></span>
-                                <span class="fa fa-star" th:classappend="${avgRating ge 5} ? 'checked':''"></span>
+                <div class="myForm">
+                    <form action="#" method="post" th:action="@{/review/save(bookId=${bookDetail.id})}">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Review</h5>
+                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <img src=" https://i.imgur.com/d2dKtI7.png" height="100" width="100">
+                                        <div class="comment-box text-center">
+                                            <h4>Rate This Book</h4>
 
-                                <p th:text="|${avgRating} average based on  ${totalNoOfReview} reviews.|"> </p>
-                                <hr style="border:1px solid #f1f1f1">
-
-                                <div class="row">
-                                    <div class="side">
-                                        <div>5 star</div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="bar-container">
-                                            <div class="bar" th:styleappend="|width:${fiveStarPer}%|"></div>
+                                            <div class="rating">
+                                                <input type="radio" name="rating" value="5" id="5">
+                                                <label for="5">☆</label>
+                                                <input type="radio" name="rating" value="4" id="4">
+                                                <label for="4">☆</label>
+                                                <input type="radio" name="rating" value="3" id="3">
+                                                <label for="3">☆</label>
+                                                <input type="radio" name="rating" value="2" id="2">
+                                                <label for="2">☆</label>
+                                                <input type="radio" name="rating" value="1" id="1">
+                                                <label for="1">☆</label>
+                                            </div>
+                                            <h4>Add Comment</h4>
+                                            <div class="comment-area">
+                                                <textarea class="form-control" id="reviewText" name="reviewText" placeholder="what is your view?" rows="4"></textarea>
+                                            </div>
+                                            <div class="text-center mt-4">
+                                                <button class="btn btn-success send px-5">Review <i class="fa fa-long-arrow-right ml-1"></i></button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="side right">
-                                        <div><span th:text="${fiveStar}"></span></div>
-                                    </div>
-
-                                    <div class="side">
-                                        <div>4 star</div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="bar-container">
-                                            <div class="bar" th:styleappend="|width:${fourStarPer}%|"></div>
-                                        </div>
-                                    </div>
-                                    <div class="side right">
-                                        <div><span th:text="${fourStar}"></span></div>
-                                    </div>
-                                    <div class="side">
-                                        <div>3 star</div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="bar-container">
-                                            <div class="bar" th:styleappend="|width:${threeStarPer}%|"></div>
-                                        </div>
-                                    </div>
-                                    <div class="side right">
-                                        <div><span th:text="${threeStar}"></span></div>
-                                    </div>
-                                    <div class="side">
-                                        <div>2 star</div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="bar-container">
-                                            <div class="bar" th:styleappend="|width:${twoStarPer}%|"></div>
-                                        </div>
-                                    </div>
-                                    <div class="side right">
-                                        <div><span th:text="${twoStar}"></span></div>
-                                    </div>
-                                    <div class="side">
-                                        <div>1 star</div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="bar-container">
-                                            <div class="bar" th:styleappend="|width:${oneStarPer}%|"></div>
-                                        </div>
-                                    </div>
-                                    <div class="side right">
-                                        <div><span th:text="${oneStar}"></span></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <button class="btn btn-primary hBack" type="button">Back</button>
-                    <button type="button" class="btn btn-danger nBtn" data-toggle="modal" data-target="#form"> Write Review </button>
+                    </form>
                 </div>
-                <div class="col-sm-6">
-                    <div class="row row-cols-1 row-cols-md-3">
-                        <span th:each="review : ${reviews}">
-                            <div class="card w3-border-dark-gray mb-3" style="max-width: 18rem;">
-                                <div class="card-header bg-transparent w3-border-dark-gray">
-                                    <div>
-                                        <span class="fa fa-star" th:classappend="${review.rating ge 1.00} ? 'checked':''"></span>
-                                        <span class="fa fa-star" th:classappend="${review.rating ge 2.00} ? 'checked':''"></span>
-                                        <span class="fa fa-star" th:classappend="${review.rating ge 3.00} ? 'checked':''"></span>
-                                        <span class="fa fa-star" th:classappend="${review.rating ge 4.00} ? 'checked':''"></span>
-                                        <span class="fa fa-star" th:classappend="${review.rating ge 5.00} ? 'checked':''"></span>
-                                    </div>
-                                </div>
-                                <div class="card-body text-dark">
-                                    <h5 class="card-title"><span th:text="${review?.id?.user?.firstName}"></span></h5>
-                                    <p class="card-text text-justify"><span th:text="${review.reviewText}"></span></p>
-                                </div>
-                                <div class="card-footer bg-transparent w3-border-dark-gray">
-                                    <span th:text="${review.lastUpdated}"></span>
-                                </div>
-                            </div>
-<!--
-                            <div class="col mb-4">
-                                <div class="card border-dark mb-3" style="max-width: 18rem;">
-                                    <div class="card-header">
-                                        <span th:text="${review?.id?.user?.firstName}"></span>
-                                        <p class="card-text"><span th:text="${review.lastUpdated}"></span></p>
-                                        <hr style="border:1px solid #f1f1f1">
-                                        <div>
-                                            <span class="fa fa-star" th:classappend="${review.rating ge 1.00} ? 'checked':''"></span>
-                                            <span class="fa fa-star" th:classappend="${review.rating ge 2.00} ? 'checked':''"></span>
-                                            <span class="fa fa-star" th:classappend="${review.rating ge 3.00} ? 'checked':''"></span>
-                                            <span class="fa fa-star" th:classappend="${review.rating ge 4.00} ? 'checked':''"></span>
-                                            <span class="fa fa-star" th:classappend="${review.rating ge 5.00} ? 'checked':''"></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body text-dark">
-                                        <p class="card-text"><span th:text="${review.reviewText}"></span></p>
-                                    </div>
-                                </div>
-                            </div>-->
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="myForm">
-            <form action="#" method="post" th:action="@{/review/save(bookId=${bookDetail.id})}">
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
+                <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Review</h5>
+                                <h5 class="modal-title" id="myModalLabel">Login</h5>
                                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="card-body text-center">
-                                <img src=" https://i.imgur.com/d2dKtI7.png" height="100" width="100">
-                                <div class="comment-box text-center">
-                                    <h4>Rate This Book</h4>
-
-                                    <div class="rating">
-                                        <input type="radio" name="rating" value="5" id="5">
-                                        <label for="5">☆</label>
-                                        <input type="radio" name="rating" value="4" id="4">
-                                        <label for="4">☆</label>
-                                        <input type="radio" name="rating" value="3" id="3">
-                                        <label for="3">☆</label>
-                                        <input type="radio" name="rating" value="2" id="2">
-                                        <label for="2">☆</label>
-                                        <input type="radio" name="rating" value="1" id="1">
-                                        <label for="1">☆</label>
-                                    </div>
-                                    <h4>Add Comment</h4>
-                                    <div class="comment-area">
-                                        <textarea class="form-control" id="reviewText" name="reviewText" placeholder="what is your view?" rows="4"></textarea>
-                                    </div>
-                                    <div class="text-center mt-4">
-                                        <button class="btn btn-success send px-5">Review <i class="fa fa-long-arrow-right ml-1"></i></button>
-                                    </div>
-                                </div>
+                            <div class="modal-body">
+                                <p class="alert alert-danger">
+                                    You are not logged in. Please login to write a review.
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                                <a class="btn btn-danger" th:href="@{/login}" id="login">Login</a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog" tabindex="-1">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Login</h5>
-                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="alert alert-danger">
-                            You are not logged in. Please login to write a review.
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-                        <a class="btn btn-danger" th:href="@{/login}" id="login">Login</a>
                     </div>
                 </div>
             </div>

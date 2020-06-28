@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="myForm">
-                <form action="#" method="post" th:action="@{/book/save}"  th:object="${book}" enctype="multipart/form-data">
+                <form id="bookForm" action="#" method="post" th:action="@{/book/save}"  th:object="${book}" enctype="multipart/form-data">
                     <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" role="dialog" tabindex="-1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -95,39 +95,67 @@
                                     <div class="form-group">
                                         <input class="form-control" id="id" name="id" type="text" value="" hidden/>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('isbn')} ? 'has-error' : ''">
                                         <label class="col-form-label" for="isbn">ISBN:</label>
-                                        <input class="form-control" id="isbn" name="isbn" type="text" value=""/>
+                                        <div th:classappend="${#fields.hasErrors('isbn')} ? 'input-icon right' : ''" class="w3-text-red">
+                                            <i th:if="${#fields.hasErrors('isbn')}" class="fa fa-exclamation tooltips" data-original-title="Please provide isbn" data-container="body"></i>
+                                            <input type="number" class="form-control" id="isbn" name="isbn" maxlength="10" pattern=[0-9]{1}[0-9]{9} th:field="*{isbn}" placeholder="ISBN must be between 1 and 10 numeric" required="true"/>
+                                            <span th:if="${#fields.hasErrors('isbn')}" class="w3-text-red" th:errors="*{isbn}"></span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('title')} ? 'has-error' : ''">
                                         <label class="col-form-label" for="title">Title:</label>
-                                        <input class="form-control" id="title" name="title" type="text" value=""/>
+                                        <div th:classappend="${#fields.hasErrors('title')} ? 'input-icon right' : ''" class="w3-text-red">
+                                            <i th:if="${#fields.hasErrors('title')}" class="fa fa-exclamation tooltips" data-original-title="Please provide Title" data-container="body"></i>
+                                            <input type="text" class="form-control" id="title" name="title" maxlength="50" th:field="*{title}" placeholder="Title must be between 1 and 50 characters" required="true"/>
+                                            <span th:if="${#fields.hasErrors('title')}" class="w3-text-red" th:errors="*{title}"></span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('description')} ? 'has-error' : ''">
                                         <label class="col-form-label" for="description">Description:</label>
-                                        <input class="form-control" id="description" name="description" type="text" value=""/>
+                                        <div th:classappend="${#fields.hasErrors('description')} ? 'input-icon right' : ''" class="w3-text-red">
+                                            <i th:if="${#fields.hasErrors('description')}" class="fa fa-exclamation tooltips" data-original-title="Please provide Description" data-container="body"></i>
+                                            <input type="text" class="form-control" id="description" name="description" maxlength="255" th:field="*{description}" placeholder="Description must be between 1 and 255 characters" required="true"/>
+                                            <span th:if="${#fields.hasErrors('description')}" class="w3-text-red" th:errors="*{description}"></span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="releaseDate">Release Date:</label>
-                                        <input class="form-control" id="releaseDate" name="releaseDate" type="date" value=""/>
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('releaseDate')} ? 'has-error' : ''">
+                                        <label class="col-form-label" for="releaseDate">Title:</label>
+                                        <div th:classappend="${#fields.hasErrors('releaseDate')} ? 'input-icon right' : ''" class="w3-text-red">
+                                            <i th:if="${#fields.hasErrors('releaseDate')}" class="fa fa-exclamation tooltips" data-original-title="Please select Release Date" data-container="body"></i>
+                                            <input type="date" class="form-control" id="releaseDate" name="releaseDate" maxlength="255" th:field="*{releaseDate}" placeholder="Please select Release Date" required="true"/>
+                                            <span th:if="${#fields.hasErrors('releaseDate')}" class="w3-text-red" th:errors="*{releaseDate}"></span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('category')} ? 'has-error' : ''">
                                         <label class="col-form-label" for="category">Category:</label>
-                                        <select th:field="*{category}" id="category" name="category" class="form-control">
-                                            <option value="0" selected="selected">---Select Category---</option>
-                                            <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"/>
-                                        </select>
+                                        <div th:classappend="${#fields.hasErrors('category')} ? 'input-icon right' : ''" class="w3-text-red">
+                                            <i th:if="${#fields.hasErrors('category')}" class="fa fa-exclamation tooltips" data-original-title="Please select Category" data-container="body"></i>
+                                            <select th:field="*{category}" id="category" name="category" class="form-control"  required="required">
+                                                <option value="" selected="selected">---Select Category---</option>
+                                                <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"/>
+                                            </select>
+                                            <span th:if="${#fields.hasErrors('category')}" class="w3-text-red" th:errors="*{category}"></span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('author')} ? 'has-error' : ''">
                                         <label class="col-form-label" for="author">Author:</label>
-                                        <select th:field="*{author}" id="author" name="author" class="form-control">
-                                            <option value="0" selected="selected">---Select Author---</option>
-                                            <option th:each="author : ${authorList}" th:value="${author.id}" th:text="${author.name}"></option>
-                                        </select>
+                                        <div th:classappend="${#fields.hasErrors('author')} ? 'input-icon right' : ''" class="w3-text-red">
+                                            <i th:if="${#fields.hasErrors('author')}" class="fa fa-exclamation tooltips" data-original-title="Please select Author" data-container="body"></i>
+                                            <select th:field="*{category}" id="author" name="author" class="form-control"  required="required">
+                                                <option value="" selected="selected">---Select Author---</option>
+                                                <option th:each="author : ${authorList}" th:value="${author.id}" th:text="${author.name}"/>
+                                            </select>
+                                            <span th:if="${#fields.hasErrors('author')}" class="w3-text-red" th:errors="*{author}"></span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('image')} ? 'has-error' : ''">
                                         <label class="col-form-label" for="image">Upload Book Image:</label>
-                                        <input class="form-control" id="image" name="image" type="file" placeholder="Upload Book Image" value=""/>
+                                        <div th:classappend="${#fields.hasErrors('image')} ? 'input-icon right' : ''" class="w3-text-red">
+                                            <i th:if="${#fields.hasErrors('image')}" class="fa fa-exclamation tooltips" data-original-title="Please select image to upload" data-container="body"></i>
+                                            <input class="form-control" id="image" name="image" type="file" placeholder="Upload Book Image" value="" th:field="*{image}"  required="true"/>
+                                            <span th:if="${#fields.hasErrors('image')}" class="w3-text-red" th:errors="*{image}"></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

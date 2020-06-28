@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#authorForm').validate();
 
     $('.nBtn, .table .eBtn').on('click', function (event) {
         event.preventDefault();

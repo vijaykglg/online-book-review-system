@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#categoryForm').validate();
 
     $('.nBtn, .table .eBtn').on('click', function (event) {
         event.preventDefault();

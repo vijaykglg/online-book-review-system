@@ -1,4 +1,16 @@
 $(document).ready(function () {
+    $('#bookForm').validate({
+        rules:
+            {
+                category:{
+                    required: true
+                },
+                author:{
+                    required: true
+                }
+            }
+    });
+
     $('.nBtn, .table .eBtn').on('click', function (event) {
         event.preventDefault();
         const href = $(this).attr('href');//Get the action to be called from HTML's href tag
@@ -34,7 +46,7 @@ $(document).ready(function () {
 
     $('.table .delBtn').on('click', function (event) {
         event.preventDefault();
-        var href = $(this).attr('href');
+        const href = $(this).attr('href');
         $('#myModal #delRef').attr('href', href);
         $('#myModal').modal();
     });

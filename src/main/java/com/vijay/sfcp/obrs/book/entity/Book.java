@@ -16,6 +16,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,27 +31,25 @@ public class Book extends AbstractEntityClass implements Serializable {
 
     @Column(unique = true, nullable = false, updatable = false)
     String isbn;
-
     private String title;
-
     private String description;
 
     @Column(nullable = false, updatable = false)
     private String releaseDate;
 
-    @Transient //@Column(name = "book_image")
+    @Transient
     private MultipartFile image;
 
     private String bookImage;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "published_by", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "id"))
     private Set<User> publishers = new HashSet<User>();
 
     @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", referencedColumnName = "id"/*, updatable = false*/)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", referencedColumnName = "id", updatable = false)
     private Author author;
 
     @JsonIgnore
@@ -140,6 +141,21 @@ public class Book extends AbstractEntityClass implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+
+        Book book = (Book) o;
+
+        return getIsbn() != null ? getIsbn().equals(book.getIsbn()) : book.getIsbn() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getIsbn() != null ? getIsbn().hashCode() : 0;
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Role extends AbstractEntityClass  implements Serializable {
     private String role;
     private String description;
 
-    @ManyToMany(mappedBy = "roles")//mappedBy = "roles" refers to the 'roles' property in User Class
+    @ManyToMany(mappedBy = "roles",cascade = {CascadeType.PERSIST, CascadeType.MERGE})//mappedBy = "roles" refers to the 'roles' property in User Class
     private Set<User> users = new HashSet<>();
 
     public String getRole() {
